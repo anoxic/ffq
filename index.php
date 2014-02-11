@@ -1,7 +1,9 @@
 <?php
 require 'vendor/bento.php';
+require 'vendor/Michelf/MarkdownExtra.inc.php';
+use \Michelf\MarkdownExtra;
+
 # TODO
-# 0 make the edit page more easier to use
 # 0 actually parse markdown
 # 0 add some pretty default CSS
 
@@ -73,8 +75,10 @@ get('/~<*:page>', function($_) {
 	$file = name($_);
 
 	if (file_exists($file)) {
-		header("Content-type: text/plain");
-		echo file_get_contents($file);
+		$md = file_get_contents($file);
+
+		$parser = new MarkdownExtra;
+		echo $parser->transform($md);
 	} else {
 		halt(404);
 	}
