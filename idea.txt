@@ -6,7 +6,7 @@ different prefixes for different options
 
 normal pages   ~/
 editing pages  @/
-deleting pages -/
+deleting pages %/
 
 when ~/test~page is accessed, it will try these pages
 pages/test~page.md

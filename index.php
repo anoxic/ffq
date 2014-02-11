@@ -45,7 +45,7 @@ form('/@<*:page>', function($_) {
             .csrf_field()."<button>&gt;</button></form>";
 });
 
-form('/-<*:page>', function($_) {
+form('/%<*:page>', function($_) {
 	$file = name($_);
 
 	if ( !file_exists($file)) {
@@ -54,6 +54,7 @@ form('/-<*:page>', function($_) {
 
 	if (request_method('POST')) {
 		unlink($file);
+		redirect();
 	}
 
 	echo "<form method=post>".csrf_field()
