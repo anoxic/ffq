@@ -1,0 +1,22 @@
+an easier-than-easy, lighter-than-light "wiki"
+
+== urls 
+
+different prefixes for different options
+
+normal pages   ~/
+editing pages  @/
+deleting pages -/
+
+when ~/test~page is accessed, it will try these pages
+pages/test~page.md
+pages/test~page/index.md
+
+page titles are automatically capitalized -- test~page is Test Page
+any charactars but alphanum are converted to ~
+
+== access, editing
+
+user names are kept in a file called passwd
+before being allowed to edit, users are prompted for a password
+edit pages are just a textarea and submit button
