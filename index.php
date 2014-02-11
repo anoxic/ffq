@@ -4,11 +4,10 @@ require 'vendor/Michelf/MarkdownExtra.inc.php';
 use \Michelf\MarkdownExtra;
 
 # TODO
-# 0 actually parse markdown
 # 0 add some pretty default CSS
 
 function name_filter($_) {
-	return preg_replace("/[^a-zA-Z0-9]/", "~", $_);
+	return strtolower(preg_replace("/[^a-zA-Z0-9]/", "~", $_));
 }
 
 function name($_) {
