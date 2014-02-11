@@ -29,14 +29,6 @@ function auth() {
 	}
 }
 
-before(function() {
-	$type = substr(request_path(), 1,1);
-
-	if ($type == '%' || $type == '@') {
-		auth();
-	}
-});
-
 get('/-', function() { session_start(); $_SESSION = []; session_destroy(); });
 
 get('/~<*:page>', function($_) {
@@ -72,6 +64,7 @@ form('/=<*:page>', function($_) {
 });
 
 form('/@<*:page>', function($_) {
+	auth();
 	$name = name($_);
 
 	if (request_method('POST')) {
@@ -103,6 +96,8 @@ form('/%<*:page>', function($_) {
 	if ( !file_exists($file)) {
 		halt(404);
 	}
+
+	auth();
 
 	if (request_method('POST')) {
 		unlink($file);
