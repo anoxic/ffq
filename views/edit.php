@@ -1,5 +1,6 @@
 <?= $error ?>
 <?= $alert ?>
+<?= $notice ?>
 
 <form method=post>
 	<?= csrf_field() ?>

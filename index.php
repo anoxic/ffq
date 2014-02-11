@@ -1,5 +1,10 @@
 <?php
 require 'vendor/bento.php';
+# TODO
+# 0 use a password file
+# 0 make the edit page more easier to use
+# 0 actually parse markdown
+# 0 add some pretty default CSS
 
 function name($_) {
 	return "pages/".preg_replace("/[^a-zA-Z0-9]/", "~", $_).".md";
@@ -23,6 +28,7 @@ function render($file, $data = array()) {
     display_template(__DIR__ . "/views/$file", $data + array(
         'error' => flash('error'),
         'alert' => flash('alert'),
+        'notice' => flash('notice'),
     ));
 }
 
@@ -46,7 +52,7 @@ get('/~<*:page>', function($_) {
 });
 
 form('/=<*:page>', function($_) {
-	$users = ["brian test", "jim pass"];
+	$users = file("passwords");
 
 	if (request_method('POST')) {
 		foreach ($users as $u) {
