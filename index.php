@@ -10,7 +10,7 @@ function g($prop) {
 	if (isset($_GET[$prop])) return $_GET[$prop];
 }
 
-function s($prop, $val = false) {
+function session($prop, $val = false) {
 	session_start();
 
 	if ($val != false)           $_SESSION[$prop] = $val;
@@ -19,16 +19,15 @@ function s($prop, $val = false) {
 	session_write_close();
 }
 
-function render($data, $template) {
-	foreach ($data as $k=>$v) {
-		$template = preg_replace("/<<$k>>/", $v, $template);
-	}
-
-	echo $template;
+function render($file, $data = array()) {
+    display_template(__DIR__ . "/views/$file", $data + array(
+        'error' => flash('error'),
+        'alert' => flash('alert'),
+    ));
 }
 
 function auth() {
-	if (s('user') == null) {
+	if (session('user') == null) {
 		redirect(substr_replace(request_path(), '=', 1,0));
 	}
 }
@@ -52,7 +51,7 @@ form('/=<*:page>', function($_) {
 	if (request_method('POST')) {
 		foreach ($users as $u) {
 			if ($u == g('user')." ".g('pass')) {
-				s('user', g('user'));
+				session('user', g('user'));
 				redirect($_);
 			}
 		}
@@ -62,18 +61,7 @@ form('/=<*:page>', function($_) {
 		redirect();
 	}
 
-	$data = ['error'=>flash('error'), 'csrf_field'=>csrf_field(), 'user'=>flash('user')];
-
-	$tpl = "<<error>>
-	        <form method=post>
-	        <<csrf_field>>
-	        <input autofocus name=user value=\"<<user>>\">
-	        <input name=pass type=password>
-	        <button>&gt;</button>
-	        </form>";
-
-	render($data, $tpl);
-
+	render('login.php', ['csrf_field'=>csrf_field(), 'user'=>flash('user')]);
 });
 
 form('/@<*:page>', function($_) {
@@ -99,8 +87,7 @@ form('/@<*:page>', function($_) {
 		$file = "";
 	}
 
-	echo "<form method=post><textarea name=content>$file</textarea>"
-            .csrf_field()."<button>&gt;</button></form>";
+	render('edit.php', ['csrf_field'=>csrf_field(), 'file'=>$file]);
 });
 
 form('/%<*:page>', function($_) {
@@ -117,8 +104,7 @@ form('/%<*:page>', function($_) {
 		redirect();
 	}
 
-	echo "<form method=post>".csrf_field()
-            ."Are you sure you want to delete this page?<button>Yes</button></form>";
+	render('delete.php', ['csrf_field'=>csrf_field(), 'file'=>$file]);
 });
 
 return run(__FILE__);
