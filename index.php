@@ -1,13 +1,16 @@
 <?php
 require 'vendor/bento.php';
 # TODO
-# 0 use a password file
 # 0 make the edit page more easier to use
 # 0 actually parse markdown
 # 0 add some pretty default CSS
 
+function name_filter($_) {
+	return preg_replace("/[^a-zA-Z0-9]/", "~", $_);
+}
+
 function name($_) {
-	return "pages/".preg_replace("/[^a-zA-Z0-9]/", "~", $_).".md";
+	return "pages/".name_filter($_).".md";
 }
 
 function g($prop) {
@@ -35,6 +38,32 @@ function render($file, $data = array()) {
 function auth() {
 	if (session('user') == null) {
 		redirect(substr_replace(request_path(), '=', 1,0));
+	}
+}
+
+function rtime($time) {
+	define("SECOND", 1);
+	define("MINUTE", 60 * SECOND);
+	define("HOUR", 60 * MINUTE);
+	define("DAY", 24 * HOUR);
+	define("MONTH", 30 * DAY);
+
+	$delta = time() - $time;
+
+	if ($delta < 1 * MINUTE)  return $delta == 1 ? "one second ago" : $delta . " seconds ago";
+	if ($delta < 2 * MINUTE)  return "a minute ago";
+	if ($delta < 45 * MINUTE) return floor($delta / MINUTE) . " minutes ago";
+	if ($delta < 90 * MINUTE) return "an hour ago";
+	if ($delta < 24 * HOUR)   return floor($delta / HOUR) . " hours ago";
+	if ($delta < 48 * HOUR)   return "yesterday";
+	if ($delta < 30 * DAY)    return floor($delta / DAY) . " days ago";
+
+	if ($delta < 12 * MONTH) {
+		$months = floor($delta / DAY / 30);
+		return $months <= 1 ? "one month ago" : $months . " months ago";
+	} else {
+		$years = floor($delta / DAY / 365);
+		return $years <= 1 ? "one year ago" : $years . " years ago";
 	}
 }
 
@@ -89,11 +118,13 @@ form('/@<*:page>', function($_) {
 
 	if (file_exists($name)) {
 		$file = e(file_get_contents($name));
+		$time = rtime(filemtime($name));
 	} else {
 		$file = "";
+		$time = "never";
 	}
 
-	render('edit.php', ['csrf_field'=>csrf_field(), 'file'=>$file]);
+	render('edit.php', ['csrf_field'=>csrf_field(), 'file'=>$file, 'name'=>e($_), 'time'=>$time]);
 });
 
 form('/%<*:page>', function($_) {
