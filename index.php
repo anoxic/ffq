@@ -56,7 +56,7 @@ form('/=<*:page>', function($_) {
 
 	if (request_method('POST')) {
 		foreach ($users as $u) {
-			if ($u == g('user')." ".g('pass')) {
+			if (trim($u) == g('user')." ".g('pass')) {
 				session('user', g('user'));
 				redirect($_);
 			}
