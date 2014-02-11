@@ -42,7 +42,22 @@ form('/@<*:page>', function($_) {
 	}
 
 	echo "<form method=post><textarea name=content>$file</textarea>"
-           . csrf_field()."<button>&gt;</button></form>";
+            .csrf_field()."<button>&gt;</button></form>";
+});
+
+form('/-<*:page>', function($_) {
+	$file = name($_);
+
+	if ( !file_exists($file)) {
+		halt(404);
+	}
+
+	if (request_method('POST')) {
+		unlink($file);
+	}
+
+	echo "<form method=post>".csrf_field()
+            ."Are you sure you want to delete this page?<button>Yes</button></form>";
 });
 
 return run(__FILE__);
