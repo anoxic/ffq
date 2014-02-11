@@ -20,7 +20,11 @@ function s($prop, $val = false) {
 }
 
 function render($data, $template) {
+	foreach ($data as $k=>$v) {
+		$template = preg_replace("/<<$k>>/", $v, $template);
+	}
 
+	echo $template;
 }
 
 function auth() {
@@ -58,9 +62,18 @@ form('/=<*:page>', function($_) {
 		redirect();
 	}
 
-	echo flash('error')."<form method=post>".csrf_field()
-	    ."<input autofocus name=user value=\"".flash('user')."\"><input name=pass type=password>"
-	    ."<button>&gt;</button></form>";
+	$data = ['error'=>flash('error'), 'csrf_field'=>csrf_field(), 'user'=>flash('user')];
+
+	$tpl = "<<error>>
+	        <form method=post>
+	        <<csrf_field>>
+	        <input autofocus name=user value=\"<<user>>\">
+	        <input name=pass type=password>
+	        <button>&gt;</button>
+	        </form>";
+
+	render($data, $tpl);
+
 });
 
 form('/@<*:page>', function($_) {
