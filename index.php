@@ -2,7 +2,7 @@
 require 'vendor/bento.php';
 
 function name($_) {
-	return preg_replace("/[^a-zA-Z0-9]/", "~", $_).".md";
+	return "pages/".preg_replace("/[^a-zA-Z0-9]/", "~", $_).".md";
 }
 
 function render($data, $template) {
@@ -23,6 +23,10 @@ form('/@<*:page>', function($_) {
 	$name = name($_);
 
 	if (request_method('POST')) {
+		if ( !file_exists("pages/")) {
+			mkdir("pages/");
+		}
+
 		if (file_put_contents($name, $_POST['content'])) {
 			flash('notice', 'Post successfully saved. Yay!');
 		} else {
