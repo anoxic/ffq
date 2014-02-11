@@ -7,10 +7,10 @@ different prefixes for different options
 normal pages   ~/
 editing pages  @/
 deleting pages %/
+login          =...
 
 when ~/test~page is accessed, it will try these pages
 pages/test~page.md
-pages/test~page/index.md
 
 page titles are automatically capitalized -- test~page is Test Page
 any charactars but alphanum are converted to ~
