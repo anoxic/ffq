@@ -73,7 +73,7 @@
 
 <hgroup>
 	<h1>
-	<a href=/~<?=$name?>><?=$name?></a>
+	<a href="/~<?=$name?>"><?=$name?></a>
 	<?php echo $time == "never" ? "creating..." : "editing now"; ?>
 	</h1>
 	<?php if ($time !== "never"):?>
