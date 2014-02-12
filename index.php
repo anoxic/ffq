@@ -75,6 +75,7 @@ get('/~<*:page>', function($_) {
 
 	if (file_exists($file)) {
 		$md = file_get_contents($file);
+		$md = preg_replace("/(<~([^>]+)>)/", '<a href="/~$2">$2</a>', $md);
 
 		$parser = new MarkdownExtra;
 		echo $parser->transform($md);
