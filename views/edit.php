@@ -7,6 +7,7 @@
 		height: 100%;
 		min-height: 100%;
 		margin: 0;
+		font-family: Georgia, serif;
 	}
 	hgroup {
 		border-bottom: 2px solid #A7B7CC;
@@ -58,6 +59,7 @@
 		width: 100%;
 		margin: 0;
 		line-height: 3.6em;
+		z-index: -1;
 	}
 	</style>
 </head>
@@ -70,8 +72,15 @@
 </p>
 
 <hgroup>
-	<h1>Now editing <a href=/~<?=$name?>><?=$name?></a></h1>
-	<h2>Last modified <?=$time?></h2>
+	<h1>
+	<a href=/~<?=$name?>><?=$name?></a>
+	<?php echo $time == "never" ? "creating..." : "editing now"; ?>
+	</h1>
+	<?php if ($time !== "never"):?>
+		<h2>Last modified <?=$time?></h2>
+	<?php else: ?>
+		<h2>Not yet modified</h2>
+	<?php endif; ?>
 </hgroup>
 
 <form method=post>
