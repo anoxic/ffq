@@ -74,7 +74,7 @@
 <hgroup>
 	<h1>
 	<a href="/~<?=$name?>"><?=$name?></a>
-	<?php echo $time == "never" ? "creating..." : "editing now"; ?>
+	<?php echo $time == "never" ? "new post" : "editing now"; ?>
 	</h1>
 	<?php if ($time !== "never"):?>
 		<h2>Last modified <?=$time?></h2>
@@ -86,7 +86,9 @@
 <form method=post>
 	<?= csrf_field() ?>
 	<textarea name=content><?=$file?></textarea>
-	<button>Update</button>
+	<button>
+		<?php echo $time == "never" ? "Create" : "Update"; ?>
+	</button>
 </form>
 
 </body>
