@@ -70,6 +70,18 @@ function rtime($time) {
 
 get('/-', function() { session_start(); $_SESSION = []; session_destroy(); });
 
+get('/~', function() {
+	if ($handle = opendir('pages')) {
+		while (false !== ($entry = readdir($handle))) {
+			if ($entry != "." && $entry != "..") {
+				$name = substr($entry, 0, -3);
+				echo "<li><a href=\"/~$name\">" . $name . "</a></li>";
+			}
+		}
+		closedir($handle);
+	}
+});
+
 get('/~<*:page>', function($_) {
 	$file = name($_);
 
