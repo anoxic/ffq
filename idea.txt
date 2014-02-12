@@ -5,6 +5,7 @@ an easier-than-easy, lighter-than-light "wiki"
 different prefixes for different options
 
 normal pages   ~/
+"listing"      ~/...*
 editing pages  @/
 deleting pages %/
 login          =...
