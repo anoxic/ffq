@@ -91,6 +91,7 @@ get('/~<*:page>', function($_) {
 
 		$parser = new MarkdownExtra;
 		echo $parser->transform($md);
+		echo "<a style=color:#aaa href=\"/@$_\">Edit</a>";
 	} else {
 		halt(404);
 	}
