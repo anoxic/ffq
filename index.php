@@ -3,9 +3,6 @@ require 'vendor/bento.php';
 require 'vendor/Michelf/MarkdownExtra.inc.php';
 use \Michelf\MarkdownExtra;
 
-# TODO
-# 0 add some pretty default CSS
-
 function name_filter($_) {
 	return strtolower(preg_replace("/[^a-zA-Z0-9]/", "~", $_));
 }
@@ -72,6 +69,9 @@ get('/-', function() { session_start(); $_SESSION = []; session_destroy(); });
 
 get('/~', function() {
 	if ($handle = opendir('pages')) {
+		echo "<link rel=stylesheet href=src/wiki.css>";
+		echo "<hgroup><h1>All Pages</h1></hgroup>";
+
 		while (false !== ($entry = readdir($handle))) {
 			if ($entry != "." && $entry != "..") {
 				$name = substr($entry, 0, -3);
