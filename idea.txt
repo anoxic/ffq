@@ -4,15 +4,15 @@ an easier-than-easy, lighter-than-light "wiki"
 
 different prefixes for different options
 
-normal pages   ~/
-"listing"      ~/...*
-editing pages  @/
-deleting pages %/
+normal pages   ~<>
+"listing"      ~<>*
+list all       ~
+editing pages  @<>
+deleting pages !<>
 login          =...
 logout         -
 
-when ~/test~page is accessed, it will try these pages
-pages/test~page.md
+when ~/test~page is accessed, it will try pages/test~page.md or 404
 
 page titles are automatically capitalized -- test~page is Test Page
 any charactars but alphanum are converted to ~
