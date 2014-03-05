@@ -2,8 +2,8 @@ html, body {
 	height: 100%;
 	min-height: 100%;
 	width: 800px;
-	margin: 0 auto;
-	padding: 5% 20px 20px;
+	margin: 0 auto 5%;
+	padding: 5% 20px;
 	color: #274A69;
 }
 @media all and (max-width:1024px){ body, pre a{width:60%;} }
