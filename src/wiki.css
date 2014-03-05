@@ -28,11 +28,13 @@ h1, h1 a, h1 a:visited {
 	font-weight: normal;
 	color: inherit;
 }
+.modified, .edit:link, .edit:visited {
+	color: #8CA6B3;
+	font-family: sans-serif;
+}
 .modified {
 	margin: 0 0 .3em;
-	font-family: sans-serif;
 	font-size: 88%;
-	color: #8CA6B3;
 }
 button {
 	position: absolute;

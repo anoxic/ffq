@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+	<meta charset=utf-8>
 	<title><?=$name?> * Edit</title>
 	<link rel="stylesheet" href="src/pen.css">
 	<link rel="stylesheet" href="src/wiki.css">

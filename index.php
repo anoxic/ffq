@@ -86,14 +86,15 @@ get('/~<*:page>', function($_) {
 	$file = name($_);
 
 	if (file_exists($file)) {
-		$md = file_get_contents($file);
-		$md = preg_replace("/(<~([^>]+)>)/", '<a href="/~$2">$2</a>', $md);
-		$md = preg_replace("/- +\[ ?\]/", '- <input type=checkbox disabled>', $md);
-		$md = preg_replace("/- +\[x\]/", '- <input type=checkbox checked disabled>', $md);
-
 		$parser = new MarkdownExtra;
-		echo $parser->transform($md);
-		echo "<a style=color:#aaa href=\"/@$_\">Edit</a>";
+
+		$f = file_get_contents($file);
+		$f = preg_replace("/(<~([^>]+)>)/", '<a href="/~$2">$2</a>', $f);
+		$f = preg_replace("/- +\[ ?\]/", '- <input type=checkbox disabled>', $f);
+		$f = preg_replace("/- +\[x\]/", '- <input type=checkbox checked disabled>', $f);
+		$f = $parser->transform($f);
+
+		render('view.php', ['file'=>$f, 'name'=>e($_), 'time'=>$time]);
 	} else {
 		halt(404);
 	}
