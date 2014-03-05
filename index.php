@@ -136,14 +136,22 @@ form('/@<*:page>', function($_) {
 	}
 
 	if (file_exists($name)) {
-		$file = e(file_get_contents($name));
+		$file = file_get_contents($name);
+		$parser = new MarkdownExtra;
+
+		$md = $file;
+		$md = preg_replace("/(<~([^>]+)>)/", '<a href="/~$2">$2</a>', $md);
+		$md = preg_replace("/- +\[ ?\]/", '- <input type=checkbox disabled>', $md);
+		$md = preg_replace("/- +\[x\]/", '- <input type=checkbox checked disabled>', $md);
+
+		$md = $parser->transform($md);
 		$time = rtime(filemtime($name));
 	} else {
 		$file = "";
 		$time = "never";
 	}
 
-	render('edit.php', ['csrf_field'=>csrf_field(), 'file'=>$file, 'name'=>e($_), 'time'=>$time]);
+	render('edit.php', ['csrf_field'=>csrf_field(), 'file'=>$file, 'formatted'=>$md, 'name'=>e($_), 'time'=>$time]);
 });
 
 form('/%<*:page>', function($_) {

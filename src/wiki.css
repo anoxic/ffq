@@ -1,0 +1,54 @@
+html, body {
+	height: 100%;
+	min-height: 100%;
+	width: 800px;
+	margin: 0 auto;
+	padding: 5% 20px 20px;
+	color: #274A69;
+}
+@media all and (max-width:1024px){ body, pre a{width:60%;} }
+a {
+	text-decoration: none;
+	color: #3969C0;
+	margin: 0 .1em;
+}
+a:hover {
+	border-bottom: 1px dotted;
+}
+a:visited {
+	color: #6F3AA0;
+}
+hgroup {
+	padding: 2% 0 0;
+	position: absolute;
+	top: 0;
+}
+h1, h1 a, h1 a:visited {
+	margin: 0;
+	font-weight: normal;
+	color: inherit;
+}
+.modified {
+	margin: 0 0 .3em;
+	font-family: sans-serif;
+	font-size: 88%;
+	color: #8CA6B3;
+}
+button {
+	position: absolute;
+	top: 0.3em;
+	right: 0.5em;
+}
+.msg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	text-align: center;
+	width: 100%;
+	margin: 0;
+	line-height: 3.6em;
+	z-index: -1;
+}
+#editor {
+	min-height: 400px;
+}
