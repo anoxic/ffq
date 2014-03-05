@@ -155,7 +155,7 @@ form('/@<*:page>', function($_) {
 	render('edit.php', ['csrf_field'=>csrf_field(), 'file'=>$file, 'formatted'=>$md, 'name'=>e($_), 'time'=>$time]);
 });
 
-form('/%<*:page>', function($_) {
+form('/!<*:page>', function($_) {
 	$file = name($_);
 
 	if ( !file_exists($file)) {
