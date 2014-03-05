@@ -12,6 +12,7 @@
 <?= $alert ?>
 <?= $notice ?>
 </p>
+<a href=/~ class="edit back">&larr; all pages</a>
 
 <hgroup>
 	<h1> <?=$name?> </h1>

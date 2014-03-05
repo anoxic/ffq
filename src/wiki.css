@@ -51,6 +51,11 @@ button {
 	line-height: 3.6em;
 	z-index: -1;
 }
+.back {
+	position: absolute;
+	left: .5em;
+	top: .5em;
+}
 #editor {
 	min-height: 400px;
 }
