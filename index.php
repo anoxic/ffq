@@ -71,14 +71,17 @@ get('/~', function() {
 	if ($handle = opendir('pages')) {
 		echo "<link rel=stylesheet href=src/wiki.css>";
 		echo "<hgroup><h1>All Pages</h1><a class=edit href=javascript:window.location='/@'+prompt()>new</a></hgroup>";
+		echo "<ul class=list>";
 
 		while (false !== ($entry = readdir($handle))) {
 			if ($entry != "." && $entry != "..") {
 				$name = substr($entry, 0, -3);
-				echo "<li><a href=\"/~$name\">" . $name . "</a></li>";
+				echo "<li><a href=\"/~$name\">" . ucwords(str_replace("~", " ", $name)) . "</a></li>";
 			}
 		}
 		closedir($handle);
+
+		echo "</ul>";
 	}
 });
 
