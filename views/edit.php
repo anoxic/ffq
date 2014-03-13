@@ -57,7 +57,8 @@ function up() {
 	content.innerHTML = toMarkdown(editor.innerHTML);
 }
 
-content.style.display = "none";
+//content.style.display = "none";
+editor.style.display = "none";
 editor.onkeyup = up;
 editor.onclick = up;
 editor.onmouseover = up;
