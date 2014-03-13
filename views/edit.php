@@ -26,7 +26,7 @@
 <form method=post>
 	<?= csrf_field() ?>
 	<div id=editor><?=$formatted?></div>
-	<textarea name=content id=content style=display:none><?=$file?></textarea>
+	<textarea name=content id=content><?=$file?></textarea>
 	<button>
 		<?php echo $time == "never" ? "Create" : "Update"; ?>
 	</button>
@@ -57,6 +57,7 @@ function up() {
 	content.innerHTML = toMarkdown(editor.innerHTML);
 }
 
+content.style.display = "none";
 editor.onkeyup = up;
 editor.onclick = up;
 editor.onmouseover = up;
