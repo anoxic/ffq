@@ -17,26 +17,27 @@ function g($prop) {
 }
 
 function session($prop, $val = false) {
-	session_start();
+	if (!session_id()) session_start();
 
-	if ($val != false)           $_SESSION[$prop] = $val;
-	if (isset($_SESSION[$prop])) return $_SESSION[$prop];
+	if ($val)
+		return $_SESSION[$prop] = $val;
+	else
+		if (isset($_SESSION[$prop])) return $_SESSION[$prop];
 
 	session_write_close();
 }
 
-function render($file, $data = array()) {
-    display_template(__DIR__ . "/views/$file", $data + array(
-        'error' => flash('error'),
-        'alert' => flash('alert'),
-        'notice' => flash('notice'),
-    ));
+function render($file, $data = []) {
+	display_template(__DIR__ . "/views/$file", $data + [
+		'error'  => flash('error'),
+		'alert'  => flash('alert'),
+		'notice' => flash('notice'),
+	]);
 }
 
 function auth() {
-	if (session('user') == null) {
+	if (session('user') == null)
 		redirect(substr_replace(request_path(), '=', 1,0));
-	}
 }
 
 function rtime($time) {
@@ -124,18 +125,18 @@ form('/=<*:page>', function($_) {
 
 form('/@<*:page>', function($_) {
 	auth();
+
 	$name = name($_);
 
 	if (request_method('POST')) {
-		if ( !file_exists("pages/")) {
+		if (!file_exists("pages/"))
 			mkdir("pages/");
-		}
 
-		if (file_put_contents($name, $_POST['content'])) {
+		if (file_put_contents($name, $_POST['content']))
 			flash('notice', 'Post successfully saved. Yay!');
-		} else {
+		else
 			flash('error', 'Something went horribly wrong :(');
-		}
+
 		redirect();
 	}
 
@@ -159,13 +160,12 @@ form('/@<*:page>', function($_) {
 });
 
 form('/!<*:page>', function($_) {
+	auth();
+
 	$file = name($_);
 
-	if ( !file_exists($file)) {
+	if ( !file_exists($file))
 		halt(404);
-	}
-
-	auth();
 
 	if (request_method('POST')) {
 		unlink($file);
