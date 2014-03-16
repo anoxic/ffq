@@ -74,7 +74,7 @@ function rtime($time) {
 
 get('/-', function() { session_start(); $_SESSION = []; session_destroy(); });
 
-get('/~', function() {
+get('/', function() {
 	if ($handle = opendir('pages')) {
 		echo "<link rel=stylesheet href=src/wiki.css>";
 		echo "<hgroup><h1>All Pages</h1><a class=edit href=javascript:window.location='/@'+prompt()>new</a></hgroup>";
