@@ -5,13 +5,6 @@ require 'vendor/Michelf/MarkdownExtra.inc.php';
 if (!file_exists("pages")) mkdir("pages");
 if (!file_exists("pages/v")) mkdir("pages/v");
 
-function name_filter($_) {
-	return strtolower(preg_replace("/[^a-zA-Z0-9]/", "~", $_));
-}
-
-function name($_) {
-	return "pages/".name_filter($_).".md";
-}
 
 function g($prop) {
     if (!$prop)
@@ -72,18 +65,77 @@ function rtime($time) {
 	}
 }
 
+function filename($n = "", $prefix = "pages/") {
+    if ($n < 0) $prefix = "";
+    if (empty($n) || $n < 0) $n = substr(request_method(), 1);
+
+    $n = preg_replace("; +;", " ", $n);
+    $n = preg_replace(";/;", ".", $n);
+    $n = preg_replace(";[^a-z.];", "-", strtolower($n));
+
+    return $prefix . $n;
+}
+
+function page_fetch($_ = null) {
+    $page = filename($_);
+
+    if (is_link($page))
+        return file_get_contents(readlink($page));
+
+    return false;
+}
+
+function page_store($name, $contents) {
+    $link = filename($name);
+
+    if (file_exists($link)) unlink($link);
+    
+    if (is_link($link)) {
+        $last = readlink($link);
+        preg_match("/~\d+/", $last, $next);
+        $next = filename($name, "pages/v/")
+              . "~" . (substr(reset($next), 1) + 1);
+        unlink($link);
+    }
+
+    if (empty($next)) 
+        $next = filename($name, "pages/v/") . "~0";
+
+    if (@file_put_contents($next, $contents))
+        return symlink($next, $link);
+
+    return false;
+}
+
+function markdown($_) {
+		$parser = new \Michelf\MarkdownExtra;
+
+        $_ = preg_replace(
+            "/(<~([^>]+)>)/", '<a href="/~$2">$2</a>', $_);
+        $_ = preg_replace(
+            "/- +\[ ?\]/", '- <input type=checkbox disabled>', $_);
+        $_ = preg_replace(
+            "/- +\[x\]/", '- <input type=checkbox checked disabled>', $_);
+
+		return $parser->transform($_);
+}
+
 get('/-', function() { session_start(); $_SESSION = []; session_destroy(); });
 
 get('/', function() {
 	if ($handle = opendir('pages')) {
 		echo "<link rel=stylesheet href=src/wiki.css>";
-		echo "<hgroup><h1>All Pages</h1><a class=edit href=javascript:window.location='/@'+prompt()>new</a></hgroup>";
+        echo "<hgroup>"
+           . "<h1>All Pages</h1>"
+           . "<a class=edit href=javascript:window.location='/@'+prompt()>"
+           . "new</a>"
+           . "</hgroup>";
 		echo "<ul class=list>";
 
 		while (false !== ($entry = readdir($handle))) {
-			if ($entry != "." && $entry != "..") {
-				$name = substr($entry, 0, -3);
-				echo "<li><a href=\"/~$name\">" . ucwords(str_replace("~", " ", $name)) . "</a></li>";
+			if (!is_dir("pages/$entry")) {
+				$name = ucwords(str_replace("~", " ", $entry));
+				echo "<li><a href=\"/$name\">" . $name . "</a></li>";
 			}
 		}
 		closedir($handle);
@@ -92,29 +144,9 @@ get('/', function() {
 	}
 });
 
-get('/~<*:page>', function($_) {
-	$file = name($_);
-
-	if (file_exists($file)) {
-		$parser = new \Michelf\MarkdownExtra;
-
-		$f = file_get_contents($file);
-		$f = preg_replace("/(<~([^>]+)>)/", '<a href="/~$2">$2</a>', $f);
-		$f = preg_replace("/- +\[ ?\]/", '- <input type=checkbox disabled>', $f);
-		$f = preg_replace("/- +\[x\]/", '- <input type=checkbox checked disabled>', $f);
-		$f = $parser->transform($f);
-
-		render('view.php', ['file'=>$f, 'name'=>e($_), 'time'=>$time]);
-	} else {
-		halt(404);
-	}
-});
-
 form('/=<*:page>', function($_) {
-	$users = file("passwords");
-
 	if (request_method('POST')) {
-		foreach ($users as $u) {
+		foreach (file("passwords") as $u) {
 			if (trim($u) == g('user')." ".g('pass')) {
 				session('user', g('user'));
 				redirect($_);
@@ -132,37 +164,30 @@ form('/=<*:page>', function($_) {
 form('/@<*:page>', function($_) {
 	auth();
 
-	$name = name($_);
-
 	if (request_method('POST')) {
-		if (!file_exists("pages/"))
-			mkdir("pages/");
+        if (page_store($_, g("content")))
+            flash("alert", "Nice update!");
+        else {
+            flash("alert", "Something went wrong here... :-(");
+            flash("text", g("content"));
+        }
 
-		if (file_put_contents($name, $_POST['content']))
-			flash('notice', 'Post successfully saved. Yay!');
-		else
-			flash('error', 'Something went horribly wrong :(');
-
-		redirect();
+        redirect();
 	}
 
-	if (file_exists($name)) {
-		$file = file_get_contents($name);
-		$parser = new \Michelf\MarkdownExtra;
+    if  ($file = g("text"));
+    else $file = page_fetch($_);
 
-		$md = $file;
-		$md = preg_replace("/(<~([^>]+)>)/", '<a href="/~$2">$2</a>', $md);
-		$md = preg_replace("/- +\[ ?\]/", '- <input type=checkbox disabled>', $md);
-		$md = preg_replace("/- +\[x\]/", '- <input type=checkbox checked disabled>', $md);
+    $time = "never";
 
-		$md = $parser->transform($md);
+	if ($file) {
+        $md = markdown($file);
 		$time = rtime(filemtime($name));
-	} else {
-		$file = "";
-		$time = "never";
 	}
 
-	render('edit.php', ['csrf_field'=>csrf_field(), 'file'=>$file, 'formatted'=>$md, 'name'=>e($_), 'time'=>$time]);
+    render('edit.php', 
+        ['csrf_field'=>csrf_field(), 'file'=>$file,
+        'formatted'=>$md, 'name'=>e($_), 'time'=>$time]);
 });
 
 form('/!<*:page>', function($_) {
@@ -179,6 +204,14 @@ form('/!<*:page>', function($_) {
 	}
 
 	render('delete.php', ['csrf_field'=>csrf_field(), 'file'=>$file]);
+});
+
+get('/<*:page>', function($_) {
+	if ($f = page_fetch($_)) 
+        render('view.php', 
+            ['file'=>markdown($f), 'name'=>e($_), 'time'=>$time]);
+	else
+		halt(404);
 });
 
 return run(__FILE__);

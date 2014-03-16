@@ -15,11 +15,11 @@
 </p>
 
 <hgroup>
-	<h1> <a href="/~<?=$name?>"><?=$name?></a> </h1>
+	<h1> <a href="/<?=$name?>"><?=$name?></a> </h1>
 	<?php if ($time !== "never"):?>
 		<h2 class=modified>Last modified <?=$time?></h2>
 	<?php else: ?>
-		<h2>Not yet modified</h2>
+		<h2 class=modified>Not yet modified</h2>
 	<?php endif; ?>
 </hgroup>
 
