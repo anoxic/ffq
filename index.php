@@ -1,7 +1,9 @@
 <?php
 require 'vendor/bento.php';
 require 'vendor/Michelf/MarkdownExtra.inc.php';
-use \Michelf\MarkdownExtra;
+
+if (!file_exists("pages")) mkdir("pages");
+if (!file_exists("pages/v")) mkdir("pages/v");
 
 function name_filter($_) {
 	return strtolower(preg_replace("/[^a-zA-Z0-9]/", "~", $_));
@@ -12,8 +14,12 @@ function name($_) {
 }
 
 function g($prop) {
-	if (isset($_POST[$prop])) return $_POST[$prop];
-	if (isset($_GET[$prop])) return $_GET[$prop];
+    if (!$prop)
+        return array_merge($_GET, $_POST);
+    if (isset($_POST[$prop]))
+        return $_POST[$prop];
+    if (isset($_GET[$prop]))
+        return $_POST[$prop];
 }
 
 function session($prop, $val = false) {
@@ -90,7 +96,7 @@ get('/~<*:page>', function($_) {
 	$file = name($_);
 
 	if (file_exists($file)) {
-		$parser = new MarkdownExtra;
+		$parser = new \Michelf\MarkdownExtra;
 
 		$f = file_get_contents($file);
 		$f = preg_replace("/(<~([^>]+)>)/", '<a href="/~$2">$2</a>', $f);
@@ -142,7 +148,7 @@ form('/@<*:page>', function($_) {
 
 	if (file_exists($name)) {
 		$file = file_get_contents($name);
-		$parser = new MarkdownExtra;
+		$parser = new \Michelf\MarkdownExtra;
 
 		$md = $file;
 		$md = preg_replace("/(<~([^>]+)>)/", '<a href="/~$2">$2</a>', $md);
