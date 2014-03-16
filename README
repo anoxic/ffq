@@ -1,8 +1,12 @@
-an easier-than-easy, lighter-than-light "wiki"
+Maybe a wiki-ecosystem,
+focusing on trust to determine abilities.
+
 
 == urls 
 
 different prefixes for different options
+
+at present:
 
 normal pages   ~<>
 "listing"      ~<>*
@@ -12,13 +16,63 @@ deleting pages !<>
 login          =...
 logout         -
 
-when ~/test~page is accessed, it will try pages/test~page.md or 404
+but ultimately:
+
+normal pages   /<page-name>
+versions       /<page-name>~<version-number>
+user pages     /~<user-name>(/<pagename)
+
+listing        /<blob>/
+list all       /
+
+editing        /@<page-name>
+deleting       /!<page-name>
+admin          //
+
+login          /=<redirect-url>
+logout         /-
+
+when /test-page is accessed, it will try pages/test-page or 404
 
 page titles are automatically capitalized -- test~page is Test Page
 any charactars but alphanum are converted to ~
+
 
 == access, editing
 
 user names are kept in a file called passwd
 before being allowed to edit, users are prompted for a password
 edit pages are just a textarea and submit button
+
+
+== points
+
+10 - starting
+100 - can make changes autonamously (but can be undone if downvoted)
+1000 - admin, can ice users and lock pages
+
+each user can vote, up or down, up to a tenth of their score,
+on articles, users, and changes, or yield any number of their score to another user
+
+users gain points by getting upvotes on any action they perform
+
+
+== changes
+
+current versions of files are linked to from the main folder, where versions are held in versions/<name>~<ver>
+
+versions are iterated up from 0
+pending changes are kept in pending/
+failed changes are kept in a folder for the user
+
+
+== files
+
+keep a header in each file that summarizes the modification time, user, title, score of modification, and up/down voters
+
+
+== users
+
+get a profile of their own that stores some personal data,
+and their score, as well as all changes and updates they have made
+
