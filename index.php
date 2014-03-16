@@ -67,7 +67,7 @@ function rtime($time) {
 
 function filename($n = "", $prefix = "pages/") {
     if ($n < 0) $prefix = "";
-    if (empty($n) || $n < 0) $n = substr(request_method(), 1);
+    if (empty($n) || $n < 0) $n = substr(request_path(), 1);
 
     $n = preg_replace("; +;", " ", $n);
     $n = preg_replace(";/;", ".", $n);
@@ -182,7 +182,7 @@ form('/@<*:page>', function($_) {
 
 	if ($file) {
         $md = markdown($file);
-		$time = rtime(filemtime($name));
+		$time = rtime(filemtime(readlink(filename($_))));
 	}
 
     render('edit.php', 
