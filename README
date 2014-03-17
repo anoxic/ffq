@@ -18,14 +18,14 @@ logout         -
 
 but ultimately:
 
-normal pages   /<page-name>
-versions       /<page-name>~<version-number>
+*normal pages   /<page-name>
+*versions       /<page-name>~<version-number>
 user pages     /~<user-name>(/<pagename)
 
 listing        /<blob>/
-list all       /
+*list all       /
 
-editing        /@<page-name>
+*editing        /@<page-name>
 deleting       /!<page-name>
 admin          //
 
