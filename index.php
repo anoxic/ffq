@@ -76,11 +76,13 @@ function filename($n = "", $prefix = "pages/") {
     return $prefix . $n;
 }
 
-function page_fetch($_ = null) {
+function page_fetch($_ = null, $v = null) {
     $page = filename($_);
 
+    if ($v != null)
+        return file_get_contents(filename($_, "pages/v/")."~".$v);
     if (is_link($page))
-        return file_get_contents(readlink($page));
+        return file_get_contents(readlink($filename($_)));
 
     return false;
 }
@@ -122,45 +124,6 @@ function markdown($_) {
 
 get('/-', function() { session_start(); $_SESSION = []; session_destroy(); });
 
-get('/', function() {
-	if ($handle = opendir('pages')) {
-		echo "<link rel=stylesheet href=src/wiki.css>";
-        echo "<hgroup>"
-           . "<h1>All Pages</h1>"
-           . "<a class=edit href=javascript:window.location='/@'+prompt()>"
-           . "new</a>"
-           . "</hgroup>";
-		echo "<ul class=list>";
-
-		while (false !== ($entry = readdir($handle))) {
-			if (!is_dir("pages/$entry")) {
-				$name = ucwords(str_replace("~", " ", $entry));
-				echo "<li><a href=\"/$name\">" . $name . "</a></li>";
-			}
-		}
-		closedir($handle);
-
-		echo "</ul>";
-	}
-});
-
-form('/=<*:page>', function($_) {
-	if (request_method('POST')) {
-		foreach (file("passwords") as $u) {
-			if (trim($u) == g('user')." ".g('pass')) {
-				session('user', g('user'));
-				redirect($_);
-			}
-		}
-
-		flash('error', 'Username or password does not match :(');
-		flash('user', g('user'));
-		redirect();
-	}
-
-	render('login.php', ['csrf_field'=>csrf_field(), 'user'=>flash('user')]);
-});
-
 form('/@<*:page>', function($_) {
 	auth();
 
@@ -178,12 +141,13 @@ form('/@<*:page>', function($_) {
     if  ($file = g("text"));
     else $file = page_fetch($_);
 
-    $time = "never";
-
 	if ($file) {
         $md = markdown($file);
 		$time = rtime(filemtime(readlink(filename($_))));
-	}
+	} else {
+        $md = "";
+        $time = "never";
+    }
 
     render('edit.php', 
         ['csrf_field'=>csrf_field(), 'file'=>$file,
@@ -206,6 +170,31 @@ form('/!<*:page>', function($_) {
 	render('delete.php', ['csrf_field'=>csrf_field(), 'file'=>$file]);
 });
 
+form('/=<*:page>', function($_) {
+	if (request_method('POST')) {
+		foreach (file("passwords") as $u) {
+			if (trim($u) == g('user')." ".g('pass')) {
+				session('user', g('user'));
+				redirect($_);
+			}
+		}
+
+		flash('error', 'Username or password does not match :(');
+		flash('user', g('user'));
+		redirect();
+	}
+
+	render('login.php', ['csrf_field'=>csrf_field(), 'user'=>flash('user')]);
+});
+
+get('/<*:page>~<#:version>', function($_, $v) {
+	if ($f = page_fetch($_, $v)) 
+        render('view.php', 
+            ['file'=>markdown($f), 'name'=>e($_), 'time'=>$time]);
+	else
+		halt(404);
+});
+
 get('/<*:page>', function($_) {
 	if ($f = page_fetch($_)) 
         render('view.php', 
@@ -214,4 +203,28 @@ get('/<*:page>', function($_) {
 		halt(404);
 });
 
+get('/', function() {
+	if ($handle = opendir('pages')) {
+		echo "<link rel=stylesheet href=src/wiki.css>";
+        echo "<hgroup>"
+           . "<h1>All Pages</h1>"
+           . "<a class=edit href=javascript:window.location='/@'+prompt()>"
+           . "new</a>"
+           . "</hgroup>";
+		echo "<ul class=list>";
+
+		while (false !== ($entry = readdir($handle))) {
+			if (!is_dir("pages/$entry")) {
+				$name = ucwords(str_replace("~", " ", $entry));
+				echo "<li><a href=\"/$name\">" . $name . "</a></li>";
+			}
+		}
+		closedir($handle);
+
+		echo "</ul>";
+	}
+});
+
+
 return run(__FILE__);
+
