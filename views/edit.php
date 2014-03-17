@@ -3,8 +3,8 @@
 <head>
 	<meta charset=utf-8>
 	<title><?=$name?> * Edit</title>
-	<link rel="stylesheet" href="src/pen.css">
-	<link rel="stylesheet" href="src/wiki.css">
+	<link rel="stylesheet" href="/src/pen.css">
+	<link rel="stylesheet" href="/src/wiki.css">
 </head>
 
 <body>
@@ -32,9 +32,9 @@
 	</button>
 </form>
 
-<script src="src/pen.js"></script>
-<script src="src/markdown.js"></script>
-<script src="src/to-markdown.js"></script>
+<script src="/src/pen.js"></script>
+<script src="/src/markdown.js"></script>
+<script src="/src/to-markdown.js"></script>
 <script>
 function $(i){return document.getElementById(i)};
 

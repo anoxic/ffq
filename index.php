@@ -77,12 +77,10 @@ function filename($n = "", $prefix = "pages/") {
 }
 
 function page_fetch($_ = null, $v = null) {
-    $page = filename($_);
-
     if ($v != null)
         return file_get_contents(filename($_, "pages/v/")."~".$v);
-    if (is_link($page))
-        return file_get_contents(readlink($filename($_)));
+    if (is_link(filename($_)))
+        return file_get_contents(readlink(filename($_)));
 
     return false;
 }
@@ -196,9 +194,10 @@ get('/<*:page>~<#:version>', function($_, $v) {
 });
 
 get('/<*:page>', function($_) {
-	if ($f = page_fetch($_)) 
+	if ($f = page_fetch($_)) {
         render('view.php', 
             ['file'=>markdown($f), 'name'=>e($_), 'time'=>$time]);
+    }
 	else
 		halt(404);
 });
