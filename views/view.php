@@ -3,7 +3,7 @@
 <head>
 	<meta charset=utf-8>
 	<title><?=$name?> * wiki.zick.io</title>
-	<link rel="stylesheet" href="src/wiki.css">
+	<link rel="stylesheet" href="/src/wiki.css">
 </head>
 
 <body>
