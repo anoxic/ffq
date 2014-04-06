@@ -76,6 +76,28 @@ function filename($n = "", $prefix = "pages/") {
     return $prefix . $n;
 }
 
+function list_pages($dir = "/") {
+    $list = [];
+
+    if ($handle = opendir('pages')) {
+        $regex = "|".filename($dir,'')."*|";
+
+        while (false !== ($entry = readdir($handle))) {
+            if (!is_dir("pages/$entry") && preg_match($regex, $entry)) {
+                $name = ucwords(str_replace("-", " ",
+                    str_replace(".", "/", $entry)));
+                $list[] = $name;
+            }
+        }
+        closedir($handle);
+    }
+
+    if (count($list) < 1)
+    return false;
+
+    return $list;
+}
+
 function page_fetch($_ = null, $v = null) {
     if ($v != null)
         return file_get_contents(filename($_, "pages/v/")."~".$v);
@@ -185,7 +207,7 @@ form('/=<*:page>', function($_) {
 	render('login.php', ['csrf_field'=>csrf_field(), 'user'=>flash('user')]);
 });
 
-get('/<*:page>~<#:version>', function($_, $v) {
+get('/<$:page>~<#:version>', function($_, $v) {
 	if ($f = page_fetch($_, $v)) 
         render('view.php', 
             ['file'=>markdown($f), 'name'=>e($_), 'time'=>$time]);
@@ -194,10 +216,13 @@ get('/<*:page>~<#:version>', function($_, $v) {
 });
 
 get('/<*:page>', function($_) {
-	if ($f = page_fetch($_)) {
+    if (substr($_, -1) == "/") {
+        if ($list = list_pages($_))
+            render('list.php', ['name'=>$_,'list'=>$list]);
+    }
+    elseif ($f = page_fetch($_))
         render('view.php', 
             ['file'=>markdown($f), 'name'=>e($_), 'time'=>$time]);
-    }
 	else
 		halt(404);
 });
@@ -214,7 +239,7 @@ get('/', function() {
 
 		while (false !== ($entry = readdir($handle))) {
 			if (!is_dir("pages/$entry")) {
-				$name = ucwords(str_replace("~", " ", $entry));
+				$name = ucwords(str_replace("-", " ", $entry));
 				echo "<li><a href=\"/$name\">" . $name . "</a></li>";
 			}
 		}
