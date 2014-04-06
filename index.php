@@ -228,27 +228,9 @@ get('/<*:page>', function($_) {
 });
 
 get('/', function() {
-	if ($handle = opendir('pages')) {
-		echo "<link rel=stylesheet href=src/wiki.css>";
-        echo "<hgroup>"
-           . "<h1>All Pages</h1>"
-           . "<a class=edit href=javascript:window.location='/@'+prompt()>"
-           . "new</a>"
-           . "</hgroup>";
-		echo "<ul class=list>";
-
-		while (false !== ($entry = readdir($handle))) {
-			if (!is_dir("pages/$entry")) {
-				$name = ucwords(str_replace("-", " ", $entry));
-				echo "<li><a href=\"/$name\">" . $name . "</a></li>";
-			}
-		}
-		closedir($handle);
-
-		echo "</ul>";
-	}
+    render('list.php',
+        ['name'=>"All Pages",'list'=>list_pages(),'all'=>true]);
 });
-
 
 return run(__FILE__);
 

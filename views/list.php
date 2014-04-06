@@ -13,9 +13,12 @@
         <?= $notice ?>
     </p>
 
-    <a href=/ class=back>&larr; all pages</a>
+    <?php if (!$all): ?> 
+        <a href=/ class=back>&larr; all pages</a>
+    <?php endif; ?>
+
     <hgroup>
-    <h1><?=$name?></h1>
+        <h1><?=$name?></h1>
         <a class=edit href=javascript:window.location='/@'+prompt()> new</a>
     </hgroup>
 
