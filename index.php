@@ -195,7 +195,7 @@ form('/=<*:page>', function($_) {
 		foreach (file("passwords") as $u) {
 			if (trim($u) == g('user')." ".g('pass')) {
 				session('user', g('user'));
-				redirect($_);
+				redirect("/".$_);
 			}
 		}
 
@@ -204,7 +204,8 @@ form('/=<*:page>', function($_) {
 		redirect();
 	}
 
-	render('login.php', ['csrf_field'=>csrf_field(), 'user'=>flash('user')]);
+    render('login.php',
+        ['csrf_field'=>csrf_field(), 'user'=>flash('user')]);
 });
 
 get('/<$:page>~<#:version>', function($_, $v) {
