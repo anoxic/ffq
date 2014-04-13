@@ -109,20 +109,19 @@ class Page {
     public function fetch($_ = null, $v = null) {
         $page = new self;
 
-        if ($v != null) {
-            if (file_exists(filename($_, "pages/v/")."~".$v)) {
-                $page->version = $v;
-                $page->text = file_get_contents(filename($_, "pages/v/")."~".$v);
-            }
-        } elseif (is_link(filename($_))) {
-            $page->version = explode("~", readlink(filename($_)))[1];
-            $page->text = file_get_contents(readlink(filename($_)));
+        if ($v != null)
+            $v = filename($_, "pages/v/")."~".$v;
+        elseif (is_link(filename($_)))
+            $v = readlink(filename($_));
+
+        if (file_exists($v)) {
+            $page->version = explode("~", $v)[1];
+            $page->text = file_get_contents($v);
+
+            return $page;
         }
 
-        if ($page->version != null)
-            return $page;
-        else
-            return false;
+        return false;
     }
 
     public function store($name, $contents) {
