@@ -38,9 +38,22 @@
 <script>
 function $(i){return document.getElementById(i)};
 
-
 var editor  = $("editor"),
     content = $("content");
+
+
+// textarea resize
+
+function resizeTextarea (e) {
+    e.style.height = 'auto';
+    e.style.height = e.scrollHeight+'px';
+}
+resizeTextarea(content);
+//content.onkeyup = function(){resizeTextarea(this)};
+//http://www.impressivewebs.com/textarea-auto-resize/
+
+
+// pen editor
 
 var options = {
   editor: editor,
