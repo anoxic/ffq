@@ -148,14 +148,14 @@ form('/@<*:page>', function($_) {
 	auth();
 
 	if (request_method('POST')) {
-        if (page_store($_, g("content")))
+        if (page_store($_, g("content"))) {
             flash("alert", "Nice update!");
-        else {
+            redirect("/".$_);
+        } else {
             flash("alert", "Something went wrong here... :-(");
             flash("text", g("content"));
+            redirect();
         }
-
-        redirect();
 	}
 
     if  ($file = g("text"));
