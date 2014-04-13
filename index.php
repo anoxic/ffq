@@ -200,8 +200,12 @@ form('/!<*:page>', function($_) {
 		halt(404);
 
 	if (request_method('POST')) {
-		unlink($file);
-		redirect();
+		if (unlink($file))
+            flash("notice", "Successfully deleted $_");
+        else
+            flash("error", "Could not delete $_");
+
+        redirect("/");
 	}
 
 	render('delete.php', ['csrf_field'=>csrf_field(), 'file'=>$file]);
