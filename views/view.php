@@ -16,6 +16,7 @@
 
 <hgroup>
 	<h1> <?=$name?> </h1>
+    v<?=$version?>
 	<a class=edit href="/:<?=$name?>">Edit</a>
 </hgroup>
 
