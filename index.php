@@ -110,16 +110,19 @@ class Page {
         $page = new self;
 
         if ($v != null) {
-            $page->version = $v;
-            $page->text = file_get_contents(filename($_, "pages/v/")."~".$v);
+            if (file_exists(filename($_, "pages/v/")."~".$v)) {
+                $page->version = $v;
+                $page->text = file_get_contents(filename($_, "pages/v/")."~".$v);
+            }
         } elseif (is_link(filename($_))) {
             $page->version = explode("~", readlink(filename($_)))[1];
             $page->text = file_get_contents(readlink(filename($_)));
-        } else {
-            return false;
         }
 
-        return $page;
+        if ($page->version != null)
+            return $page;
+        else
+            return false;
     }
 
     public function store($name, $contents) {
