@@ -98,36 +98,53 @@ function list_pages($dir = "/") {
     return $list;
 }
 
-function page_fetch($_ = null, $v = null) {
-    if ($v != null)
-        return file_get_contents(filename($_, "pages/v/")."~".$v);
-    if (is_link(filename($_)))
-        return file_get_contents(readlink(filename($_)));
-
-    return false;
-}
-
-function page_store($name, $contents) {
-    $link = filename($name);
-
-    if (file_exists($link)) unlink($link);
+class Page {
+    public $version;
+    public $text;
+    public $mod_time;
+    //public $change_summary;
+    //public $authors;
+    //public $title;
     
-    if (is_link($link)) {
-        $last = readlink($link);
-        preg_match("/~\d+/", $last, $next);
-        $next = filename($name, "pages/v/")
-              . "~" . (substr(reset($next), 1) + 1);
-        unlink($link);
+    public function fetch($_ = null, $v = null) {
+        $page = new self;
+
+        if ($v != null) {
+            $page->version = $v;
+            $page->text = file_get_contents(filename($_, "pages/v/")."~".$v);
+        } elseif (is_link(filename($_))) {
+            $page->version = explode("~", readlink(filename($_)))[1];
+            $page->text = file_get_contents(readlink(filename($_)));
+        } else {
+            return false;
+        }
+
+        return $page;
     }
 
-    if (empty($next)) 
-        $next = filename($name, "pages/v/") . "~0";
+    public function store($name, $contents) {
+        $link = filename($name);
 
-    if (@file_put_contents($next, $contents))
-        return symlink($next, $link);
+        if (file_exists($link)) unlink($link);
+        
+        if (is_link($link)) {
+            $last = readlink($link);
+            preg_match("/~\d+/", $last, $next);
+            $next = filename($name, "pages/v/")
+                  . "~" . (substr(reset($next), 1) + 1);
+            unlink($link);
+        }
 
-    return false;
+        if (empty($next)) 
+            $next = filename($name, "pages/v/") . "~0";
+
+        if (@file_put_contents($next, $contents))
+            return symlink($next, $link);
+
+        return false;
+    }
 }
+
 
 function markdown($_) {
 		$parser = new \Michelf\MarkdownExtra;
@@ -148,7 +165,7 @@ form('/@<*:page>', function($_) {
 	auth();
 
 	if (request_method('POST')) {
-        if (page_store($_, g("content"))) {
+        if (Page::store($_, g("content"))) {
             flash("alert", "Nice update!");
             redirect("/".$_);
         } else {
@@ -159,7 +176,7 @@ form('/@<*:page>', function($_) {
 	}
 
     if  ($file = g("text"));
-    else $file = page_fetch($_);
+    else $file = Page::fetch($_)->text;
 
 	if ($file) {
         $md = markdown($file);
@@ -208,10 +225,10 @@ form('/=<*:page>', function($_) {
         ['csrf_field'=>csrf_field(), 'user'=>flash('user')]);
 });
 
-get('/<$:page>~<#:version>', function($_, $v) {
-	if ($f = page_fetch($_, $v)) 
+get('/<*:page>~<#:version>', function($_, $v) {
+	if ($f = Page::fetch($_, $v)) 
         render('view.php', 
-            ['file'=>markdown($f), 'name'=>e($_), 'time'=>$time]);
+            ['file'=>markdown($f->text), 'name'=>e($_), 'time'=>$time]);
 	else
 		halt(404);
 });
@@ -221,9 +238,9 @@ get('/<*:page>', function($_) {
         if ($list = list_pages($_))
             render('list.php', ['name'=>$_,'list'=>$list]);
     }
-    elseif ($f = page_fetch($_))
+    elseif ($f = Page::fetch($_))
         render('view.php', 
-            ['file'=>markdown($f), 'name'=>e($_), 'time'=>$time]);
+            ['file'=>markdown($f->text), 'name'=>e($_), 'time'=>$time]);
 	else
 		halt(404);
 });
