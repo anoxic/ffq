@@ -23,6 +23,7 @@
     <?php if ($newer): ?>
         <a href="/<?=$name?>~<?=$version+1?>">&gt;</a>
     <?php endif; ?>
+    | <?=rtime($time)?>
     | <a class=edit href="/:<?=$name?>">Edit</a>
 </hgroup>
 
