@@ -171,7 +171,7 @@ form('/@<*:page>', function($_) {
 
     render('edit.php', 
         ['csrf_field'=>csrf_field(), 'file'=>$file,
-        'formatted'=>$md, 'name'=>e($_), 'time'=>$time]);
+         'formatted'=>$md, 'name'=>e($_), 'time'=>$time]);
 });
 
 form('/!<*:page>', function($_) {
