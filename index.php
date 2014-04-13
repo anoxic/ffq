@@ -80,7 +80,7 @@ function list_pages($dir = "/") {
     $list = [];
 
     if ($handle = opendir('pages')) {
-        $regex = "|".filename($dir,'')."*|";
+        $regex = "|^".filename($dir,'')."*|";
 
         while (false !== ($entry = readdir($handle))) {
             if (!is_dir("pages/$entry") && preg_match($regex, $entry)) {
