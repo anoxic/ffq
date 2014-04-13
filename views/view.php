@@ -16,8 +16,14 @@
 
 <hgroup>
 	<h1> <?=$name?> </h1>
+    <?php if ($version > 0): ?>
+        <a href="/<?=$name?>~<?=$version-1?>">&lt;</a>
+    <?php endif; ?>
     v<?=$version?>
-	<a class=edit href="/:<?=$name?>">Edit</a>
+    <?php if ($newer): ?>
+        <a href="/<?=$name?>~<?=$version+1?>">&gt;</a>
+    <?php endif; ?>
+    | <a class=edit href="/:<?=$name?>">Edit</a>
 </hgroup>
 
 <?php echo $file; ?>

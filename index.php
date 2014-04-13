@@ -228,7 +228,8 @@ form('/=<*:page>', function($_) {
 get('/<*:page>~<#:version>', function($_, $v) {
 	if ($f = Page::fetch($_, $v)) 
         render('view.php', 
-            ['file'=>markdown($f->text), 'name'=>e($_), 'time'=>$time]);
+            ['file'=>markdown($f->text), 'name'=>e($_), 'time'=>$time,
+             'version'=>$v, 'fname'=>filename($_,''), 'newer'=>true]);
 	else
 		halt(404);
 });
@@ -240,7 +241,7 @@ get('/<*:page>', function($_) {
     }
     elseif ($f = Page::fetch($_))
         render('view.php', 
-            ['file'=>markdown($f->text), 'name'=>e($_),
+            ['file'=>markdown($f->text), 'name'=>e($_), 'fname'=>filename($_,''),
              'time'=>$time, 'version'=>$f->version]);
 	else
 		halt(404);
