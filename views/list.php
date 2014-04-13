@@ -19,7 +19,7 @@
 
     <hgroup>
         <h1><?=$name?></h1>
-        <a class=edit href=javascript:window.location='/@'+prompt()> new</a>
+        <a class=edit href=javascript:window.location='/:'+prompt()> new</a>
     </hgroup>
 
     <ul class=list>

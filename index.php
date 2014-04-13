@@ -161,7 +161,7 @@ function markdown($_) {
 
 get('/-', function() { session_start(); $_SESSION = []; session_destroy(); });
 
-form('/@<*:page>', function($_) {
+form('/:<*:page>', function($_) {
 	auth();
 
 	if (request_method('POST')) {

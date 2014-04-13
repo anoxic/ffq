@@ -16,7 +16,7 @@
 
 <hgroup>
 	<h1> <?=$name?> </h1>
-	<a class=edit href="/@<?=$name?>">Edit</a>
+	<a class=edit href="/:<?=$name?>">Edit</a>
 </hgroup>
 
 <?php echo $file; ?>
