@@ -194,9 +194,9 @@ form('/:<*:page>', function($_) {
 form('/!<*:page>', function($_) {
 	auth();
 
-	$file = name($_);
+	$file = filename($_);
 
-	if ( !file_exists($file))
+	if ( !is_link($file))
 		halt(404);
 
 	if (request_method('POST')) {
