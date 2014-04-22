@@ -23,6 +23,9 @@
     <?php if ($newer): ?>
         <a href="/<?=$name?>~<?=$version+1?>">&gt;</a>
     <?php endif; ?>
+    <?php if (!empty($head['author'])): ?>
+        | ~<?=$head['author']?><?php if (!empty($head['summary'])): ?>: <?=$head['summary']?> <?php endif; ?>
+    <?php endif; ?>
     | <?=rtime($time)?>
     | <a class=edit href="/:<?=$name?>">Edit</a>
 </hgroup>

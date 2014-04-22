@@ -119,13 +119,20 @@ class Page {
             $page->text = file_get_contents($v);
             $page->time = filemtime($v);
 
+            # get the header
+            if (substr($page->text, 0, 2) == "\0:") {
+                $t = explode("\n", $page->text);
+                parse_str(substr(array_shift($t), 2), $page->header);
+                $page->text = join("\n", $t);
+            }
+
             return $page;
         }
 
         return false;
     }
 
-    public function store($name, $contents) {
+    public function store($name, $contents, $header) {
         $link = filename($name);
 
         if (file_exists($link)) unlink($link);
@@ -140,6 +147,8 @@ class Page {
 
         if (empty($next)) 
             $next = filename($name, "pages/v/") . "~0";
+
+        $contents = "\0:" . http_build_query($header) . "\n" . $contents;
 
         if (@file_put_contents($next, $contents))
             return symlink($next, $link);
@@ -168,7 +177,7 @@ form('/:<*:page>', function($_) {
 	auth();
 
 	if (request_method('POST')) {
-        if (Page::store($_, g("content"))) {
+        if (Page::store($_, g("content"), ['summary'=>g('summary'), 'author'=>session('user')])) {
             flash("alert", "Nice update!");
             redirect("/".$_);
         } else {
@@ -183,15 +192,13 @@ form('/:<*:page>', function($_) {
 
 	if ($file) {
         $md = markdown($file);
-		$time = rtime(filemtime(readlink(filename($_))));
 	} else {
         $md = "";
-        $time = "never";
     }
 
     render('edit.php', 
         ['csrf_field'=>csrf_field(), 'file'=>$file,
-         'formatted'=>$md, 'name'=>e($_), 'time'=>$time]);
+         'formatted'=>$md, 'name'=>e($_)]);
 });
 
 form('/!<*:page>', function($_) {
@@ -246,10 +253,11 @@ get('/<*:page>', function($_) {
         if ($list = list_pages($_))
             render('list.php', ['name'=>$_,'list'=>$list]);
     }
-    elseif ($f = Page::fetch($_))
+    elseif ($f = Page::fetch($_)) {
         render('view.php', 
             ['file'=>markdown($f->text), 'name'=>e($_), 'fname'=>filename($_,''),
-             'time'=>$f->time, 'version'=>$f->version]);
+             'time'=>$f->time, 'version'=>$f->version, 'head'=>$f->header]);
+    }
 	else
 		halt(404);
 });

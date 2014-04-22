@@ -14,16 +14,12 @@
 <?= $notice ?>
 </p>
 
-<hgroup>
-	<h1> <a href="/<?=$name?>"><?=$name?></a> </h1>
-	<?php if ($time !== "never"):?>
-		<h2 class=modified>Last modified <?=$time?></h2>
-	<?php else: ?>
-		<h2 class=modified>Not yet modified</h2>
-	<?php endif; ?>
-</hgroup>
-
 <form method=post>
+    <hgroup>
+        <h1> <a href="/<?=$name?>"><?=$name?></a> </h1>
+        <label>Update Summary <input name=summary size=50 length=50></label>
+    </hgroup>
+
 	<?= csrf_field() ?>
 	<div id=editor><?=$formatted?></div>
 	<textarea name=content id=content><?=$file?></textarea>
