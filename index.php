@@ -5,6 +5,28 @@ require 'vendor/Michelf/MarkdownExtra.inc.php';
 if (!file_exists("pages")) mkdir("pages");
 if (!file_exists("pages/v")) mkdir("pages/v");
 
+/**
+ *.*. TABLE of CONTENTS .*.*
+ *
+ * http ~*
+ *   g - fetch get/post variables
+ *   session - get and set session variables
+ *
+ * templates ~*
+ *   markdown - compile an extended markdown to html
+ *   render - render a php template
+ *   rtime - filter unix time into a relative format
+ *
+ * objects ~*
+ *   filename - generate the relative path of a wiki page
+ *   list_pages - list all pages in the wiki
+ *   Page - store and fetch wiki pages
+ *
+ * route helpers ~*
+ *   auth - verify a user is logged in, or log them in
+ *
+ * routes ~*
+ */
 
 function g($prop) {
     if (!$prop)
@@ -26,17 +48,25 @@ function session($prop, $val = false) {
 	session_write_close();
 }
 
+function markdown($_) {
+		$parser = new \Michelf\MarkdownExtra;
+
+        $_ = preg_replace(
+            "/(<~([^>]+)>)/", '<a href="/~$2">$2</a>', $_);
+        $_ = preg_replace(
+            "/- +\[ ?\]/", '- <input type=checkbox disabled>', $_);
+        $_ = preg_replace(
+            "/- +\[x\]/", '- <input type=checkbox checked disabled>', $_);
+
+		return $parser->transform($_);
+}
+
 function render($file, $data = []) {
 	display_template(__DIR__ . "/views/$file", $data + [
 		'error'  => flash('error'),
 		'alert'  => flash('alert'),
 		'notice' => flash('notice'),
 	]);
-}
-
-function auth() {
-	if (session('user') == null)
-		redirect(substr_replace(request_path(), '=', 1,0));
 }
 
 function rtime($time) {
@@ -157,19 +187,11 @@ class Page {
     }
 }
 
-
-function markdown($_) {
-		$parser = new \Michelf\MarkdownExtra;
-
-        $_ = preg_replace(
-            "/(<~([^>]+)>)/", '<a href="/~$2">$2</a>', $_);
-        $_ = preg_replace(
-            "/- +\[ ?\]/", '- <input type=checkbox disabled>', $_);
-        $_ = preg_replace(
-            "/- +\[x\]/", '- <input type=checkbox checked disabled>', $_);
-
-		return $parser->transform($_);
+function auth() {
+	if (session('user') == null)
+		redirect(substr_replace(request_path(), '=', 1,0));
 }
+
 
 get('/-', function() { session_start(); $_SESSION = []; session_destroy(); });
 
