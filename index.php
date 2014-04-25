@@ -6,7 +6,7 @@ if (!file_exists("pages")) mkdir("pages");
 if (!file_exists("pages/v")) mkdir("pages/v");
 
 /**
- *.*. TABLE of CONTENTS .*.*
+ *           *.*. TABLE of CONTENTS .*.*
  *
  * http ~*
  *   g - fetch get/post variables
@@ -193,7 +193,38 @@ function auth() {
 }
 
 
-get('/-', function() { session_start(); $_SESSION = []; session_destroy(); });
+/*. *.*.*.* *.*.*.* *.*.*.* *.*.*.* .*/
+
+
+get('/', function() {
+    render('list.php',
+        ['name'=>"All Pages",'list'=>list_pages(),'all'=>true]);
+});
+
+get('/-', function() {
+    session_start();
+    $_SESSION = [];
+    session_destroy();
+});
+
+form('/=<*:page>', function($_) {
+	if (request_method('POST')) {
+		foreach (file("passwords") as $u) {
+			if (trim($u) == g('user')." ".g('pass')) {
+				session('user', g('user'));
+				redirect("/".$_);
+			}
+		}
+
+		flash('error', 'Username or password does not match :(');
+		flash('user', g('user'));
+		redirect();
+	}
+
+    render('login.php',
+        ['csrf_field'=>csrf_field(), 'user'=>flash('user')]);
+});
+
 
 form('/:<*:page>', function($_) {
 	auth();
@@ -243,24 +274,6 @@ form('/!<*:page>', function($_) {
 	render('delete.php', ['csrf_field'=>csrf_field(), 'file'=>$file]);
 });
 
-form('/=<*:page>', function($_) {
-	if (request_method('POST')) {
-		foreach (file("passwords") as $u) {
-			if (trim($u) == g('user')." ".g('pass')) {
-				session('user', g('user'));
-				redirect("/".$_);
-			}
-		}
-
-		flash('error', 'Username or password does not match :(');
-		flash('user', g('user'));
-		redirect();
-	}
-
-    render('login.php',
-        ['csrf_field'=>csrf_field(), 'user'=>flash('user')]);
-});
-
 get('/<*:page>~<#:version>', function($_, $v) {
 	if ($f = Page::fetch($_, $v)) 
         render('view.php', 
@@ -282,11 +295,6 @@ get('/<*:page>', function($_) {
     }
 	else
 		halt(404);
-});
-
-get('/', function() {
-    render('list.php',
-        ['name'=>"All Pages",'list'=>list_pages(),'all'=>true]);
 });
 
 return run(__FILE__);
