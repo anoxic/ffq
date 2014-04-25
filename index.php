@@ -26,6 +26,13 @@ if (!file_exists("pages/v")) mkdir("pages/v");
  *   auth - verify a user is logged in, or log them in
  *
  * routes ~*
+ *   index   /
+ *   login   /=
+ *   logout  /-
+ *   edit    /:page
+ *   delete  /!page
+ *   page v. /page~x
+ *   page    /page
  */
 
 function g($prop) {
@@ -132,9 +139,7 @@ class Page {
     public $version;
     public $text;
     public $time;
-    //public $change_summary;
-    //public $authors;
-    //public $title;
+    public $header;
     
     public function fetch($_ = null, $v = null) {
         $page = new self;
