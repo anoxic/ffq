@@ -130,7 +130,9 @@ function list_pages($dir = "/") {
     }
 
     if (count($list) < 1)
-    return false;
+        return false;
+
+    natcasesort($list);
 
     return $list;
 }
