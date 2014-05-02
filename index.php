@@ -195,12 +195,15 @@ class Page {
 }
 
 function auth() {
-	if (session('user') == null)
-		redirect(substr_replace(request_path(), '=', 1,0));
+    if (session('user') == null)
+        redirect(substr_replace(request_path(), '=', 1,0));
 }
 
 
 /*. *.*.*.* *.*.*.* *.*.*.* *.*.*.* .*/
+
+if (file_exists('private') && !in_array(request_path(), ['/=','/-']))
+    auth();
 
 
 get('/', function() {
@@ -214,7 +217,7 @@ get('/-', function() {
     session_destroy();
 });
 
-form('/=<*:page>', function($_) {
+function login_page($_) {
 	if (request_method('POST')) {
 		foreach (file("passwords") as $u) {
 			if (trim($u) == g('user')." ".g('pass')) {
@@ -230,7 +233,9 @@ form('/=<*:page>', function($_) {
 
     render('login.php',
         ['csrf_field'=>csrf_field(), 'user'=>flash('user')]);
-});
+}
+form('/=', 'login_page');
+form('/=<*:page>', 'login_page');
 
 
 form('/:<*:page>', function($_) {
