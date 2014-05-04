@@ -59,7 +59,7 @@ function markdown($_) {
 		$parser = new \Michelf\MarkdownExtra;
 
         $_ = preg_replace(
-            "/(<~([^>]+)>)/", '<a href="/~$2">$2</a>', $_);
+            "/(<~([^>]+)>)/", '<a href="/$2">$2</a>', $_);
         $_ = preg_replace(
             "/- +\[ ?\]/", '- <input type=checkbox disabled>', $_);
         $_ = preg_replace(
