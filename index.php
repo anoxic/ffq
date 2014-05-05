@@ -152,6 +152,11 @@ function list_pages($dir = "/") {
 
     natcasesort($list);
 
+    foreach ($list as $k=>$v) {
+        if (substr($v, 0,1) == ' ')
+            $list[$k] = substr_replace($v, '~', 0,1);
+    }
+
     return $list;
 }
 
