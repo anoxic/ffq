@@ -202,7 +202,7 @@ function auth() {
 
 /*. *.*.*.* *.*.*.* *.*.*.* *.*.*.* .*/
 
-if (file_exists('private') && !in_array(request_path(), ['/=','/-']))
+if (file_exists('private') && !in_array(substr(request_path(),1,1), ['=','-']))
     auth();
 
 
