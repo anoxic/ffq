@@ -17,3 +17,4 @@ button { background: white; border: 1px solid #8CA6B3; border-radius: 3px;
 .back { position: absolute; left: .5em; top: .5em; }
 .msg { line-height: 3.6em; margin: 0; text-align: center; position: absolute;
        top: 0; left: 0; width: 100%; z-index: -1; }
+.redlink { color: #C44545; }

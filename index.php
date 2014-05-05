@@ -65,6 +65,24 @@ function markdown($_) {
         $_ = preg_replace(
             "/- +\[x\]/", '- <input type=checkbox checked disabled>', $_);
 
+        # Redlinks
+        #
+        preg_match_all("/<a href=\"\/[^'\">]+\">/", $_, $m);
+        $replacements = [];
+
+        foreach ($m[0] as $mat) {
+            if (!isset($replacements[$mat])) {
+                preg_match("/(href=\"\/)([^\"]+)(\")/", $mat, $e);
+
+                if (!is_link(filename($e[2])))
+                    $replacements[$mat] = preg_replace("/<a/", "<a class=redlink", $mat);
+            }
+        }
+
+        foreach ($replacements as $a=>$b) {
+            $_ = preg_replace("|".$a."|", $b, $_);
+        }
+
 		return $parser->transform($_);
 }
 
