@@ -51,8 +51,6 @@ function session($prop, $val = false) {
 		return $_SESSION[$prop] = $val;
 	else
 		if (isset($_SESSION[$prop])) return $_SESSION[$prop];
-
-	session_write_close();
 }
 
 function markdown($_) {
@@ -324,9 +322,17 @@ get('/<*:page>', function($_) {
             render('list.php', ['name'=>$_,'list'=>$list]);
     }
     elseif ($f = Page::fetch($_)) {
+        if (! $stack = session('view_stack'))
+            $stack = [];
+
+        if ($stack[0] != $_) {
+            array_unshift($stack, $_);
+            session('view_stack', $stack);
+        }
+
         render('view.php', 
             ['file'=>markdown($f->text), 'name'=>e($_), 'fname'=>filename($_,''),
-             'time'=>$f->time, 'version'=>$f->version, 'head'=>$f->header]);
+             'time'=>$f->time, 'version'=>$f->version, 'head'=>$f->header, 'stack'=>$stack]);
     }
 	else
 		halt(404);

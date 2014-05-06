@@ -12,7 +12,18 @@
 <?= $alert ?>
 <?= $notice ?>
 </p>
-<a href=/ class=back>&larr; all pages</a>
+<aside class=back>
+    <a href=/>&larr; all pages</a>
+
+    <section class=recent>
+        <h1>Recently Visited</h1>
+        <ul>
+            <?php foreach ($stack as $s): ?>
+                <li><a href="/<?=$s?>"><?=$s?></a></li>
+            <?php endforeach; ?>
+        </ul>
+    </section>
+</aside>
 
 <hgroup>
 	<h1> <?=$name?> </h1>
