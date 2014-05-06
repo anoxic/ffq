@@ -5,6 +5,8 @@ require 'vendor/Michelf/MarkdownExtra.inc.php';
 if (!file_exists("pages")) mkdir("pages");
 if (!file_exists("pages/v")) mkdir("pages/v");
 
+define('RECENT_VISITS', 10);
+
 /**
  *           *.*. TABLE of CONTENTS .*.*
  *
@@ -41,7 +43,7 @@ function g($prop) {
     if (isset($_POST[$prop]))
         return $_POST[$prop];
     if (isset($_GET[$prop]))
-        return $_POST[$prop];
+        return $_GET[$prop];
 }
 
 function session($prop, $val = false) {
@@ -322,17 +324,25 @@ get('/<*:page>', function($_) {
             render('list.php', ['name'=>$_,'list'=>$list]);
     }
     elseif ($f = Page::fetch($_)) {
-        if (! $stack = session('view_stack'))
-            $stack = [];
+        if ($pos = g('pos'))
+            $stack = session('view_stack');
+        else {
+            $pos = 0;
 
-        if ($stack[0] != $_) {
-            array_unshift($stack, $_);
-            session('view_stack', $stack);
+            if (! $stack = session('view_stack'))
+                $stack = [];
+
+            if ($stack[0] != $_) {
+                array_unshift($stack, $_);
+                $stack = array_slice($stack, 0,RECENT_VISITS);
+                session('view_stack', $stack);
+            }
         }
 
         render('view.php', 
-            ['file'=>markdown($f->text), 'name'=>e($_), 'fname'=>filename($_,''),
-             'time'=>$f->time, 'version'=>$f->version, 'head'=>$f->header, 'stack'=>$stack]);
+            ['file'=>markdown($f->text), 'name'=>e($_),
+             'pos'=>$pos, 'fname'=>filename($_,''), 'time'=>$f->time,
+             'version'=>$f->version, 'head'=>$f->header, 'stack'=>$stack]);
     }
 	else
 		halt(404);

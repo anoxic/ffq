@@ -18,8 +18,12 @@
     <section class=recent>
         <h1>Recently Visited</h1>
         <ul>
-            <?php foreach ($stack as $s): ?>
-                <li><a href="/<?=$s?>"><?=$s?></a></li>
+            <?php foreach ($stack as $i=>$s): ?>
+                <li>
+                    <?php if ($i == $pos): ?> <strong> <?php endif; ?>
+                    <a href="/<?=$s?>?pos=<?=$i?>"><?=$s?></a>
+                    <?php if ($i == $pos): ?> </strong> <?php endif; ?>
+                </li>
             <?php endforeach; ?>
         </ul>
     </section>
