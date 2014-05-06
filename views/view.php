@@ -26,17 +26,39 @@
     <?php if (!empty($head['author'])): ?>
         | ~<?=$head['author']?><?php if (!empty($head['summary'])): ?>: <?=$head['summary']?> <?php endif; ?>
     <?php endif; ?>
-    | <time title="<?=date("j M Y g:ma", $time)?>"><?=rtime($time)?></time>
+    | <time datetime="<?=$time?>" type="relative"><?=rtime($time)?></time>
     | <a class=edit href="/:<?=$name?>">Edit</a>
 </hgroup>
 
 <?php echo $file; ?>
 
+<script src="/src/moment.min.js"></script>
 <script>
-document.getElementsByTagName('time')[0].onclick = function() {
-    var x = this.innerHTML;
-    this.innerHTML = this.getAttribute('title');
-    this.setAttribute('title',x);
+var x = document.getElementsByTagName('time')[0],
+    d = moment.unix(x.getAttribute('datetime'));
+
+function setTime() {
+    var stime = d.format("D MMM YYYY h:mma");
+        rtime = d.fromNow();
+
+    if (x.getAttribute('type') == 'relative') {
+        x.setAttribute('title', stime);
+        x.innerHTML = rtime;
+    } else {
+        x.setAttribute('title', rtime);
+        x.innerHTML = stime;
+    }
+}
+setTime();
+setInterval(setTime, 2000);
+
+x.onclick = function() {
+    if (this.getAttribute('type') == 'relative')
+        this.setAttribute('type', 'static');
+    else
+        this.setAttribute('type', 'relative');
+
+    setTime();
 }
 </script>
 
