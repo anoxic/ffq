@@ -249,7 +249,7 @@ function login_page($_) {
 			}
 		}
 
-		flash('error', 'Username or password does not match :(');
+		flash('error', 'Access denied! Please try again.');
 		flash('user', g('user'));
 		redirect();
 	}
