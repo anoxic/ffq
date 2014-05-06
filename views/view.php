@@ -26,14 +26,14 @@
     <?php if (!empty($head['author'])): ?>
         | ~<?=$head['author']?><?php if (!empty($head['summary'])): ?>: <?=$head['summary']?> <?php endif; ?>
     <?php endif; ?>
-    | <span title="Switch formats" class=time data-static="<?=date("j M Y g:ma", $time)?>" data-relative="<?=rtime($time)?>" data-stamp="<?=$time?>"><?=rtime($time)?></span>
+    | <time title="Switch formats" data-static="<?=date("j M Y g:ma", $time)?>" data-relative="<?=rtime($time)?>" data-stamp="<?=$time?>"><?=rtime($time)?></time>
     | <a class=edit href="/:<?=$name?>">Edit</a>
 </hgroup>
 
 <?php echo $file; ?>
 
 <script>
-document.getElementsByClassName('time')[0].onclick = function() {
+document.getElementsByTagName('time')[0].onclick = function() {
     if (this.getAttribute('data-relative') == this.innerHTML) {
         this.innerHTML = this.getAttribute('data-static');
     } else if (this.getAttribute('data-static') == this.innerHTML) {
