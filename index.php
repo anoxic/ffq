@@ -131,33 +131,21 @@ function filename($n = "", $prefix = "pages/") {
     return $prefix . $n;
 }
 
+function pagename($n) {
+    $n = preg_replace(";^ ;", "~", str_replace("-", " ", str_replace(".", "/", $n)));
+    return ucwords($n);
+}
+
 function list_pages($dir = "/") {
+    $dir  = "|^".filename($dir,'')."*|";
     $list = [];
 
-    if ($handle = opendir('pages')) {
-        $regex = "|^".filename($dir,'')."*|";
-
-        while (false !== ($entry = readdir($handle))) {
-            if (!is_dir("pages/$entry") && preg_match($regex, $entry)) {
-                $name = ucwords(str_replace("-", " ",
-                    str_replace(".", "/", $entry)));
-                $list[] = $name;
-            }
-        }
-        closedir($handle);
+    foreach (scandir('pages') as $entry) {
+        if (!is_dir("pages/$entry") && preg_match($dir, $entry))
+            $list[] = pagename($entry);
     }
 
-    if (count($list) < 1)
-        return false;
-
-    natcasesort($list);
-
-    foreach ($list as $k=>$v) {
-        if (substr($v, 0,1) == ' ')
-            $list[$k] = substr_replace($v, '~', 0,1);
-    }
-
-    return $list;
+    return count($list)>0 ? $list : false;
 }
 
 class Page {
