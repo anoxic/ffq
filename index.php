@@ -230,7 +230,9 @@ form('/:<*:page>', function($_) {
     auth();
 
     if (request_method('POST')) {
-        if (Page::store($_, g("content"), ['summary'=>g('summary'), 'author'=>session('user')])) {
+        if (Page::store($_, g("content"),
+           ['summary'=>g('summary'), 'author'=>session('user')])) 
+        {
             flash("alert", "Nice update!");
             redirect("/".$_);
         } else {
@@ -240,18 +242,10 @@ form('/:<*:page>', function($_) {
         }
     }
 
-    if  ($file = g("text"));
-    else $file = Page::fetch($_)->text;
-
-    if ($file) {
-        $md = markdown($file);
-    } else {
-        $md = "";
-    }
+    $file = g("text") ? g("text") : Page::fetch($_)->text;
 
     render('edit.php', 
-        ['csrf_field'=>csrf_field(), 'file'=>$file,
-         'formatted'=>$md, 'name'=>e($_)]);
+        ['csrf_field'=>csrf_field(), 'file'=>$file, 'formatted'=>markdown(file), 'name'=>e($_)]);
 });
 
 form('/!<*:page>', function($_) {
