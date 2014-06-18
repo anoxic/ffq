@@ -31,21 +31,21 @@
 
 <hgroup>
 	<h1> <?=$name?> </h1>
-    <?php if ($version > 0): ?>
-        <a href="/<?=$name?>~<?=$version-1?>">&lt;</a>
+    <?php if ($file->version > 0): ?>
+        <a href="/<?=$name?>~<?=$file->version-1?>">&lt;</a>
     <?php endif; ?>
-    v<?=$version?>
+    v<?=$file->version?>
     <?php if ($newer): ?>
-        <a href="/<?=$name?>~<?=$version+1?>">&gt;</a>
+        <a href="/<?=$name?>~<?=$file->version+1?>">&gt;</a>
     <?php endif; ?>
-    <?php if (!empty($head['author'])): ?>
-        | ~<?=$head['author']?><?php if (!empty($head['summary'])): ?>: <?=$head['summary']?> <?php endif; ?>
+    <?php if (!empty($file->header['author'])): ?>
+        | ~<?=$file->header['author']?><?php if (!empty($file->header['summary'])): ?>: <?=$file->header['summary']?> <?php endif; ?>
     <?php endif; ?>
-    | <time datetime="<?=$time?>" type="relative"><?=rtime($time)?></time>
+    | <time datetime="<?=$file->time?>" type="relative"><?=rtime($file->time)?></time>
     | <a class=edit href="/:<?=$name?>">Edit</a>
 </hgroup>
 
-<?php echo $file; ?>
+<?php echo markdown($file->text); ?>
 
 <script src="/src/moment.min.js"></script>
 <script>
