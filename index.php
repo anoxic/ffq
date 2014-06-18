@@ -15,12 +15,14 @@ define('RECENT_VISITS', 10);
  *   session - get and set session variables
  *
  * templates ~*
+ *   redlinks - check for internal broken links
  *   markdown - compile an extended markdown to html
  *   render - render a php template
  *   rtime - filter unix time into a relative format
  *
  * objects ~*
  *   filename - generate the relative path of a wiki page
+ *   pagename - format a pretty page name
  *   list_pages - list all pages in the wiki
  *   Page - store and fetch wiki pages
  *
