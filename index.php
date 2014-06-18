@@ -37,13 +37,8 @@ define('RECENT_VISITS', 10);
  *   page    /page
  */
 
-function g($prop) {
-    if (!$prop)
-        return array_merge($_GET, $_POST);
-    if (isset($_POST[$prop]))
-        return $_POST[$prop];
-    if (isset($_GET[$prop]))
-        return $_GET[$prop];
+function g($prop = "") {
+    return (isset($_REQUEST[$prop])) ? $_REQUEST[$prop] : $_REQUEST;
 }
 
 function session($prop, $val = false) {
