@@ -42,12 +42,12 @@ function g($prop = "") {
 }
 
 function session($prop, $val = false) {
-	if (!session_id()) session_start();
+    if (!session_id()) session_start();
 
-	if ($val)
-		return $_SESSION[$prop] = $val;
-	else
-		if (isset($_SESSION[$prop])) return $_SESSION[$prop];
+    if ($val)
+        return $_SESSION[$prop] = $val;
+    else
+        if (isset($_SESSION[$prop])) return $_SESSION[$prop];
 }
 
 function redlinks($_) {
@@ -79,37 +79,37 @@ function markdown($_) {
 }
 
 function render($file, $data = []) {
-	display_template(__DIR__ . "/views/$file", $data + [
-		'error'  => flash('error'),
-		'alert'  => flash('alert'),
-		'notice' => flash('notice'),
-	]);
+    display_template(__DIR__ . "/views/$file", $data + [
+        'error'  => flash('error'),
+        'alert'  => flash('alert'),
+        'notice' => flash('notice'),
+    ]);
 }
 
 function rtime($time) {
-	define("SECOND", 1);
-	define("MINUTE", 60 * SECOND);
-	define("HOUR", 60 * MINUTE);
-	define("DAY", 24 * HOUR);
-	define("MONTH", 30 * DAY);
+    define("SECOND", 1);
+    define("MINUTE", 60 * SECOND);
+    define("HOUR", 60 * MINUTE);
+    define("DAY", 24 * HOUR);
+    define("MONTH", 30 * DAY);
 
-	$delta = time() - $time;
+    $delta = time() - $time;
 
-	if ($delta < 1 * MINUTE)  return $delta == 1 ? "one second ago" : $delta . " seconds ago";
-	if ($delta < 2 * MINUTE)  return "a minute ago";
-	if ($delta < 45 * MINUTE) return floor($delta / MINUTE) . " minutes ago";
-	if ($delta < 90 * MINUTE) return "an hour ago";
-	if ($delta < 24 * HOUR)   return floor($delta / HOUR) . " hours ago";
-	if ($delta < 48 * HOUR)   return "yesterday";
-	if ($delta < 30 * DAY)    return floor($delta / DAY) . " days ago";
+    if ($delta < 1 * MINUTE)  return $delta == 1 ? "one second ago" : $delta . " seconds ago";
+    if ($delta < 2 * MINUTE)  return "a minute ago";
+    if ($delta < 45 * MINUTE) return floor($delta / MINUTE) . " minutes ago";
+    if ($delta < 90 * MINUTE) return "an hour ago";
+    if ($delta < 24 * HOUR)   return floor($delta / HOUR) . " hours ago";
+    if ($delta < 48 * HOUR)   return "yesterday";
+    if ($delta < 30 * DAY)    return floor($delta / DAY) . " days ago";
 
-	if ($delta < 12 * MONTH) {
-		$months = floor($delta / DAY / 30);
-		return $months <= 1 ? "one month ago" : $months . " months ago";
-	} else {
-		$years = floor($delta / DAY / 365);
-		return $years <= 1 ? "one year ago" : $years . " years ago";
-	}
+    if ($delta < 12 * MONTH) {
+        $months = floor($delta / DAY / 30);
+        return $months <= 1 ? "one month ago" : $months . " months ago";
+    } else {
+        $years = floor($delta / DAY / 365);
+        return $years <= 1 ? "one year ago" : $years . " years ago";
+    }
 }
 
 function filename($n = "", $prefix = "pages/") {
@@ -221,18 +221,18 @@ get('/-', function() {
 });
 
 function login_page($_) {
-	if (request_method('POST')) {
-		foreach (file("passwords") as $u) {
-			if (trim($u) == g('user')." ".g('pass')) {
-				session('user', g('user'));
-				redirect("/".$_);
-			}
-		}
+    if (request_method('POST')) {
+        foreach (file("passwords") as $u) {
+            if (trim($u) == g('user')." ".g('pass')) {
+                session('user', g('user'));
+                redirect("/".$_);
+            }
+        }
 
-		flash('error', 'Access denied! Please try again.');
-		flash('user', g('user'));
-		redirect();
-	}
+        flash('error', 'Access denied! Please try again.');
+        flash('user', g('user'));
+        redirect();
+    }
 
     render('login.php',
         ['csrf_field'=>csrf_field(), 'user'=>flash('user')]);
@@ -242,9 +242,9 @@ form('/=<*:page>', 'login_page');
 
 
 form('/:<*:page>', function($_) {
-	auth();
+    auth();
 
-	if (request_method('POST')) {
+    if (request_method('POST')) {
         if (Page::store($_, g("content"), ['summary'=>g('summary'), 'author'=>session('user')])) {
             flash("alert", "Nice update!");
             redirect("/".$_);
@@ -253,14 +253,14 @@ form('/:<*:page>', function($_) {
             flash("text", g("content"));
             redirect();
         }
-	}
+    }
 
     if  ($file = g("text"));
     else $file = Page::fetch($_)->text;
 
-	if ($file) {
+    if ($file) {
         $md = markdown($file);
-	} else {
+    } else {
         $md = "";
     }
 
@@ -270,32 +270,32 @@ form('/:<*:page>', function($_) {
 });
 
 form('/!<*:page>', function($_) {
-	auth();
+    auth();
 
-	$file = filename($_);
+    $file = filename($_);
 
-	if ( !is_link($file))
-		halt(404);
+    if ( !is_link($file))
+        halt(404);
 
-	if (request_method('POST')) {
-		if (unlink($file))
+    if (request_method('POST')) {
+        if (unlink($file))
             flash("notice", "Successfully deleted $_");
         else
             flash("error", "Could not delete $_");
 
         redirect("/");
-	}
+    }
 
-	render('delete.php', ['csrf_field'=>csrf_field(), 'file'=>$file]);
+    render('delete.php', ['csrf_field'=>csrf_field(), 'file'=>$file]);
 });
 
 get('/<*:page>~<#:version>', function($_, $v) {
-	if ($f = Page::fetch($_, $v)) 
+    if ($f = Page::fetch($_, $v)) 
         render('view.php', 
             ['file'=>markdown($f->text), 'name'=>e($_), 'time'=>$f->time,
              'version'=>$v, 'fname'=>filename($_,''), 'newer'=>true]);
-	else
-		halt(404);
+    else
+        halt(404);
 });
 
 get('/<*:page>', function($_) {
@@ -324,8 +324,8 @@ get('/<*:page>', function($_) {
              'pos'=>$pos, 'fname'=>filename($_,''), 'time'=>$f->time,
              'version'=>$f->version, 'head'=>$f->header, 'stack'=>$stack]);
     }
-	else
-		halt(404);
+    else
+        halt(404);
 });
 
 return run(__FILE__);
