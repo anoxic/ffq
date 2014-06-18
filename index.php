@@ -50,35 +50,32 @@ function session($prop, $val = false) {
 		if (isset($_SESSION[$prop])) return $_SESSION[$prop];
 }
 
+function redlinks($_) {
+    preg_match_all("/<a href=\"\/[^'\">]+\">/", $_, $links);
+
+    foreach ($links[0] as $link) {
+        preg_match("/(?<=href=\"\/)[^\"]+(?=\")/", $link, $file);
+
+        if (!is_link(filename($file[0])))
+            $replacements[$link] = preg_replace("/<a/", "<a class=redlink", $link);
+    }
+
+    foreach ($replacements as $a=>$b)
+        $_ = preg_replace("|".$a."|", $b, $_);
+
+    return $_;
+}
+
 function markdown($_) {
-		$parser = new \Michelf\MarkdownExtra;
+    $_ = preg_replace(
+        "/(<~([^>]+)>)/", '<a href="/$2">$2</a>', $_);
+    $_ = preg_replace(
+        "/- +\[ ?\]/", '- <input type=checkbox disabled>', $_);
+    $_ = preg_replace(
+        "/- +\[x\]/", '- <input type=checkbox checked disabled>', $_);
+    $_ = redlinks($_);
 
-        $_ = preg_replace(
-            "/(<~([^>]+)>)/", '<a href="/$2">$2</a>', $_);
-        $_ = preg_replace(
-            "/- +\[ ?\]/", '- <input type=checkbox disabled>', $_);
-        $_ = preg_replace(
-            "/- +\[x\]/", '- <input type=checkbox checked disabled>', $_);
-
-        # Redlinks
-        #
-        preg_match_all("/<a href=\"\/[^'\">]+\">/", $_, $m);
-        $replacements = [];
-
-        foreach ($m[0] as $mat) {
-            if (!isset($replacements[$mat])) {
-                preg_match("/(href=\"\/)([^\"]+)(\")/", $mat, $e);
-
-                if (!is_link(filename($e[2])))
-                    $replacements[$mat] = preg_replace("/<a/", "<a class=redlink", $mat);
-            }
-        }
-
-        foreach ($replacements as $a=>$b) {
-            $_ = preg_replace("|".$a."|", $b, $_);
-        }
-
-		return $parser->transform($_);
+    return (new \Michelf\MarkdownExtra)->transform($_);
 }
 
 function render($file, $data = []) {
