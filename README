@@ -2,68 +2,71 @@ Maybe a wiki-ecosystem,
 focusing on trust to determine abilities.
 
 
-== urls 
+== URLs 
 
-different prefixes for different options
+URL patterns are made to be fairly easy to type,
+for power users to be able to quickly perform any of the operations.
+In this way the address acts as a simplified command language.
 
-at present:
+Instead of the usual "RESTful" urls, we prefix little "sigils".
+This might make the urls less easy to remember or see what's going on if you're unfamiliar,
+but I think it might be refreshingly different.
 
-normal pages   ~<>
-"listing"      ~<>*
-list all       ~
-editing pages  @<>
-deleting pages !<>
-login          =...
-logout         -
+Here is the planned URL structure, where implemented segments
+are marked with an asterisk.
 
-but ultimately:
+*normal pages  /<page-name>
+*versions      /<page-name>~<version-number>
+*user pages    /~<user-name>(/<pagename>)
 
-*normal pages   /<page-name>
-*versions       /<page-name>~<version-number>
-user pages     /~<user-name>(/<pagename)
+*listing       /<blob>/
+*list all      //
+*user pages    /~/
 
-listing        /<blob>/
-*list all       /
+*editing       /:<page-name>
+*deleting      /!<page-name>
+reverting      /@<page-name>~<version-number>
+moving         /@<page-name>@<new-name>
 
-*editing        /@<page-name>
-deleting       /!<page-name>
-admin          //
+icing          /!!<page-name|~user-name>
 
-login          /=<redirect-url>
-logout         /-
+*login         /=<redirect-url>
+*logout        /-
+signup         /+
+settings       /:
 
-when /test-page is accessed, it will try pages/test-page or 404
+stats/admin    /::
+    
 
-page titles are automatically capitalized -- test~page is Test Page
-any charactars but alphanum are converted to ~
+Internally, pages are stores in a simple data structure.
 
+pages  
+pages/v
 
-== access, editing
+When /test-page is accessed, we will look for a soft link under pages/test-page.
+This link should point to the latest revision, which may look like pages/v/test-page~1.
+If no page is found in this way a 404 Not Found is returned.
+We know only about ascii letters, others are replaced with `-`, and for directory structures, we use "." internally to represent hierarchy, and "/" externally.
 
-user names are kept in a file called passwd
-before being allowed to edit, users are prompted for a password
-edit pages are just a textarea and submit button
+versions are iterated up from 0  
 
+user pages are kept as pages/~username.pagename  
+nothing is designed to keep someone else from editing a user's page,  
+or from creating a page for a nonexistent user.
+user pages are simply named like this for convention
 
-== points
-
-10 - starting
-100 - can make changes autonamously (but can be undone if downvoted)
-1000 - admin, can ice users and lock pages
-
-each user can vote, up or down, up to a tenth of their score,
-on articles, users, and changes, or yield any number of their score to another user
-
-users gain points by getting upvotes on any action they perform
+locks or "ices" are kept in pages/i/<page-name> as empty files
 
 
-== changes
+== Access, editing
 
-current versions of files are linked to from the main folder, where versions are held in versions/<name>~<ver>
+user names are kept in a file called passwd  
+before being allowed to edit, users are prompted for a password  
 
-versions are iterated up from 0
-pending changes are kept in pending/
-failed changes are kept in a folder for the user
+alternatively, if a file called "private" exists, access is disallowed until the user authenticates
+
+edit pages are just a textarea and submit button  
+admins are users with a score of 1000 or more and can edit locked pages or create locks
 
 
 == files
@@ -75,4 +78,3 @@ keep a header in each file that summarizes the modification time, user, title, s
 
 get a profile of their own that stores some personal data,
 and their score, as well as all changes and updates they have made
-
