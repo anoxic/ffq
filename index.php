@@ -42,13 +42,13 @@ function g($prop = "") {
     return (isset($_REQUEST[$prop])) ? $_REQUEST[$prop] : $_REQUEST;
 }
 
-function session($prop, $val = false) {
+function session($prop, $val = null) {
     if (!session_id()) session_start();
 
-    if ($val)
-        return $_SESSION[$prop] = $val;
-    else
-        if (isset($_SESSION[$prop])) return $_SESSION[$prop];
+    if (isset($_SESSION[$prop]) && !$val)
+        return $_SESSION[$prop];
+
+    $_SESSION[$prop] = $val;
 }
 
 function redlinks($_) {
@@ -58,10 +58,10 @@ function redlinks($_) {
         preg_match("/(?<=href=\"\/)[^\"]+(?=\")/", $link, $file);
 
         if (!is_link(filename($file[0])))
-            $replacements[$link] = preg_replace("/<a/", "<a class=redlink", $link);
+            $reps[$link] = preg_replace("/<a/", "<a class=redlink", $link);
     }
 
-    foreach ($replacements as $a=>$b)
+    foreach ($reps as $a=>$b)
         $_ = preg_replace("|".$a."|", $b, $_);
 
     return $_;
@@ -117,16 +117,13 @@ function filename($n = "", $prefix = "pages/") {
     if ($n < 0) $prefix = "";
     if (empty($n) || $n < 0) $n = substr(request_path(), 1);
 
-    $n = preg_replace("; +;", " ", $n);
-    $n = preg_replace(";/;", ".", $n);
-    $n = preg_replace(";[^a-z.];", "-", strtolower($n));
-
-    return $prefix . $n;
+    return $prefix . preg_replace("; +;", " ", preg_replace(";/;", ".", 
+        preg_replace(";[^a-z.];", "-", strtolower($n))));
 }
 
 function pagename($n) {
-    $n = preg_replace(";^ ;", "~", str_replace("-", " ", str_replace(".", "/", $n)));
-    return ucwords($n);
+    return ucwords($n = preg_replace(";^ ;", "~",
+        str_replace("-", " ", str_replace(".", "/", $n))));
 }
 
 class Page {
