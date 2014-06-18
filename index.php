@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+
+
 require 'vendor/bento.php';
 require 'vendor/Michelf/MarkdownExtra.inc.php';
 
@@ -7,27 +10,23 @@ if (!file_exists("pages/v")) mkdir("pages/v");
 
 define('RECENT_VISITS', 10);
 
+
+require 'lib/http/g.php';            // fetch get/post variables
+require 'lib/http/session.php';      // get and set session variables
+
+require 'lib/page/filename.php';     // generate the relative path of a wiki page
+require 'lib/page/pagename.php';     // format a pretty page name
+require 'lib/page/page.php';         // ::store, ::fetch, and ::listall wiki pages
+
+require 'lib/template/redlinks.php'; // highlight broken links
+require 'lib/template/markdown.php'; // compile an extended markdown to html
+require 'lib/template/render.php';   // render a php template
+require 'lib/template/rtime.php';    // filter unix time into a relative format
+
+require 'lib/user/auth.php';         // verify a user is logged in, or log them in
+
+
 /**
- *           *.*. TABLE of CONTENTS .*.*
- *
- * http ~*
- *   g - fetch get/post variables
- *   session - get and set session variables
- *
- * templates ~*
- *   redlinks - check for internal broken links
- *   markdown - compile an extended markdown to html
- *   render - render a php template
- *   rtime - filter unix time into a relative format
- *
- * objects ~*
- *   filename - generate the relative path of a wiki page
- *   pagename - format a pretty page name
- *   Page - ::store, ::fetch, and ::listall wiki pages
- *
- * route helpers ~*
- *   auth - verify a user is logged in, or log them in
- *
  * routes ~*
  *   index   /
  *   login   /=
@@ -38,155 +37,6 @@ define('RECENT_VISITS', 10);
  *   page    /page
  */
 
-function g($prop = "") {
-    return (isset($_REQUEST[$prop])) ? $_REQUEST[$prop] : $_REQUEST;
-}
-
-function session($prop, $val = null) {
-    if (!session_id()) session_start();
-
-    if (isset($_SESSION[$prop]) && !$val)
-        return $_SESSION[$prop];
-
-    $_SESSION[$prop] = $val;
-}
-
-function redlinks($_) {
-    preg_match_all("/<a href=\"\/[^'\">]+\">/", $_, $links);
-
-    foreach ($links[0] as $link) {
-        preg_match("/(?<=href=\"\/)[^\"]+(?=\")/", $link, $file);
-
-        if (!is_link(filename($file[0])))
-            $reps[$link] = preg_replace("/<a/", "<a class=redlink", $link);
-    }
-
-    foreach ($reps as $a=>$b)
-        $_ = preg_replace("|".$a."|", $b, $_);
-
-    return $_;
-}
-
-function markdown($_) {
-    $_ = preg_replace(
-        "/(<~([^>]+)>)/", '<a href="/$2">$2</a>', $_);
-    $_ = preg_replace(
-        "/- +\[ ?\]/", '- <input type=checkbox disabled>', $_);
-    $_ = preg_replace(
-        "/- +\[x\]/", '- <input type=checkbox checked disabled>', $_);
-    $_ = redlinks($_);
-
-    return (new \Michelf\MarkdownExtra)->transform($_);
-}
-
-function render($file, $data = []) {
-    display_template(__DIR__ . "/views/$file", $data + [
-        'error'  => flash('error'),
-        'alert'  => flash('alert'),
-        'notice' => flash('notice'),
-    ]);
-}
-
-function rtime($time) {
-    define("SECOND", 1);
-    define("MINUTE", 60 * SECOND);
-    define("HOUR", 60 * MINUTE);
-    define("DAY", 24 * HOUR);
-    define("MONTH", 30 * DAY);
-
-    $delta = time() - $time;
-
-    if ($delta < 1 * MINUTE)  return $delta == 1 ? "one second ago" : $delta . " seconds ago";
-    if ($delta < 2 * MINUTE)  return "a minute ago";
-    if ($delta < 45 * MINUTE) return floor($delta / MINUTE) . " minutes ago";
-    if ($delta < 90 * MINUTE) return "an hour ago";
-    if ($delta < 24 * HOUR)   return floor($delta / HOUR) . " hours ago";
-    if ($delta < 48 * HOUR)   return "yesterday";
-    if ($delta < 30 * DAY)    return floor($delta / DAY) . " days ago";
-
-    if ($delta < 12 * MONTH) {
-        $months = floor($delta / DAY / 30);
-        return $months <= 1 ? "one month ago" : $months . " months ago";
-    } else {
-        $years = floor($delta / DAY / 365);
-        return $years <= 1 ? "one year ago" : $years . " years ago";
-    }
-}
-
-function filename($n = "", $prefix = "pages/") {
-    if ($n < 0) $prefix = "";
-    if (empty($n) || $n < 0) $n = substr(request_path(), 1);
-
-    return $prefix . preg_replace("; +;", " ", preg_replace(";/;", ".", 
-        preg_replace(";[^a-z.];", "-", strtolower($n))));
-}
-
-function pagename($n) {
-    return ucwords($n = preg_replace(";^ ;", "~",
-        str_replace("-", " ", str_replace(".", "/", $n))));
-}
-
-class Page {
-    public function listall($dir = "/") {
-        $dir  = "|^".filename($dir,'')."*|";
-        $list = [];
-
-        foreach (scandir('pages') as $entry) {
-            if (!is_dir("pages/$entry") && preg_match($dir, $entry))
-                $list[] = pagename($entry);
-        }
-
-        return count($list)>0 ? $list : null;
-    }
-
-    public function fetch($_, $v = null) {
-        if     ($v !== null)           $v = filename($_, "pages/v/")."~".$v;
-        elseif (is_link(filename($_))) $v = readlink(filename($_));
-
-        if (file_exists($v)) {
-            $page = new self;
-            $page->version = explode("~", $v)[1];
-            $page->text = file_get_contents($v);
-            $page->time = filemtime($v);
-
-            if (substr($page->text, 0, 2) == "\0:") { # get the header, if it exists
-                $t = explode("\n", $page->text);
-                parse_str(substr(array_shift($t), 2), $page->header);
-                $page->text = join("\n", $t);
-            }
-            return $page;
-        }
-    }
-
-    public function store($name, $contents, $header) {
-        $link = filename($name);
-
-        if (file_exists($link)) unlink($link);
-        
-        if (is_link($link) && $last = readlink($link)) {
-            preg_match("/~\d+/", $last, $next);
-            $next = filename($name, "pages/v/")
-                  ."~". (substr(reset($next), 1) + 1);
-            unlink($link);
-        }
-
-        if (empty($next)) 
-            $next = filename($name, "pages/v/") ."~0";
-
-        $contents = "\0:". http_build_query($header) ."\n". $contents;
-
-        if (@file_put_contents($next, $contents))
-            return symlink($next, $link);
-    }
-}
-
-function auth() {
-    if (session('user') == null)
-        redirect(substr_replace(request_path(), '=', 1,0));
-}
-
-
-/*. *.*.*.* *.*.*.* *.*.*.* *.*.*.* .*/
 
 if (file_exists('private') && !in_array(substr(request_path(),1,1), ['=','-']))
     auth();
@@ -203,7 +53,7 @@ get('/-', function() {
     session_destroy();
 });
 
-function login_page($_) {
+function login_page($_ = "") {
     if (request_method('POST')) {
         foreach (file("passwords") as $u) {
             if (trim($u) == g('user')." ".g('pass')) {
@@ -289,7 +139,7 @@ get('/<*:page>', function($_) {
         }
 
         render('view.php', 
-            ['file'=>$f, 'name'=>e($_), 'pos'=>$pos, 'stack'=>$stack]);
+            ['file'=>$f, 'name'=>e($_), 'pos'=>$pos, 'stack'=>$stack, 'newer'=>false]);
     } else
         halt(404);
 });
