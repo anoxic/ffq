@@ -23,8 +23,7 @@ define('RECENT_VISITS', 10);
  * objects ~*
  *   filename - generate the relative path of a wiki page
  *   pagename - format a pretty page name
- *   list_pages - list all pages in the wiki
- *   Page - store and fetch wiki pages
+ *   Page - ::store, ::fetch, and ::listall wiki pages
  *
  * route helpers ~*
  *   auth - verify a user is logged in, or log them in
@@ -130,19 +129,19 @@ function pagename($n) {
     return ucwords($n);
 }
 
-function list_pages($dir = "/") {
-    $dir  = "|^".filename($dir,'')."*|";
-    $list = [];
+class Page {
+    public function listall($dir = "/") {
+        $dir  = "|^".filename($dir,'')."*|";
+        $list = [];
 
-    foreach (scandir('pages') as $entry) {
-        if (!is_dir("pages/$entry") && preg_match($dir, $entry))
-            $list[] = pagename($entry);
+        foreach (scandir('pages') as $entry) {
+            if (!is_dir("pages/$entry") && preg_match($dir, $entry))
+                $list[] = pagename($entry);
+        }
+
+        return count($list)>0 ? $list : null;
     }
 
-    return count($list)>0 ? $list : null;
-}
-
-class Page {
     public function fetch($_, $v = null) {
         if     ($v !== null)           $v = filename($_, "pages/v/")."~".$v;
         elseif (is_link(filename($_))) $v = readlink(filename($_));
@@ -198,7 +197,7 @@ if (file_exists('private') && !in_array(substr(request_path(),1,1), ['=','-']))
 
 get('/', function() {
     render('list.php',
-        ['name'=>"All Pages",'list'=>list_pages(),'all'=>true]);
+        ['name'=>"All Pages",'list'=>Page::listall(),'all'=>true]);
 });
 
 get('/-', function() {
@@ -279,7 +278,7 @@ get('/<*:page>~<#:version>', function($_, $v) {
 });
 
 get('/<*:page>', function($_) {
-    if (substr($_, -1) == "/" && $list = list_pages($_))
+    if (substr($_, -1) == "/" && $list = Page::listall($_))
         render('list.php', ['name'=>$_,'list'=>$list]);
 
     elseif ($f = Page::fetch($_)) {
