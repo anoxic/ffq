@@ -126,7 +126,7 @@ get('/<*:page>~<#:version>', function($_, $v) {
 
 get('/<*:page>', function($_) {
     if (substr($_, -1) == "/" && $list = Page::listall($_))
-        render('list.php', ['name'=>$_,'list'=>$list]);
+        render('list.php', ['name'=>$_,'list'=>$list,'all'=>$_=='/']);
 
     elseif ($f = Page::fetch($_)) {
         if (! $stack = session('view_stack')) $stack = [];

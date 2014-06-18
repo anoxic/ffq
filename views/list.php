@@ -13,7 +13,7 @@
         <?= $notice ?>
     </p>
 
-    <?php if (!$all): ?> 
+    <?php if (empty($all)): ?> 
         <a href=/ class=back>&larr; all pages</a>
     <?php endif; ?>
 
