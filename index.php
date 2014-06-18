@@ -284,24 +284,17 @@ get('/<*:page>~<#:version>', function($_, $v) {
 });
 
 get('/<*:page>', function($_) {
-    if (substr($_, -1) == "/") {
-        if ($list = list_pages($_))
-            render('list.php', ['name'=>$_,'list'=>$list]);
-    }
+    if (substr($_, -1) == "/" && $list = list_pages($_))
+        render('list.php', ['name'=>$_,'list'=>$list]);
+
     elseif ($f = Page::fetch($_)) {
-        if ($pos = g('pos'))
-            $stack = session('view_stack');
-        else {
-            $pos = 0;
+        if (! $stack = session('view_stack')) $stack = [];
+        if (! $pos = g('pos'))                $pos = 0;
 
-            if (! $stack = session('view_stack'))
-                $stack = [];
-
-            if ($stack[0] != $_) {
-                array_unshift($stack, $_);
-                $stack = array_slice($stack, 0,RECENT_VISITS);
-                session('view_stack', $stack);
-            }
+        if ($stack[0] != $_) {
+            array_unshift($stack, $_);
+            $stack = array_slice($stack, 0,RECENT_VISITS);
+            session('view_stack', $stack);
         }
 
         render('view.php', 
