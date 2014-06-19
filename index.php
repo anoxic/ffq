@@ -90,13 +90,8 @@ form('/:<*:page>', function($_) {
         }
     }
 
-    $text = g("text") ? g("text") : "";
     $page = Page::fetch($_);
-
-    if (!empty($page))
-        if (empty($text)) $text = $page->text;
-    else
-        $page = null;
+    $text = g("text")? g("text") : ($page)? $page->text : "";
 
     render('edit.php', 
         ['csrf_field'=>csrf_field(), 'text'=>$text, 'page'=>$page, 'name'=>e($_)]);
