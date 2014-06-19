@@ -90,10 +90,16 @@ form('/:<*:page>', function($_) {
         }
     }
 
-    $file = g("text") ? g("text") : Page::fetch($_)->text;
+    $text = g("text") ? g("text") : "";
+    $page = Page::fetch($_);
+
+    if (!empty($page))
+        if (empty($text)) $text = $page->text;
+    else
+        $page = null;
 
     render('edit.php', 
-        ['csrf_field'=>csrf_field(), 'file'=>$file, 'formatted'=>markdown(file), 'name'=>e($_)]);
+        ['csrf_field'=>csrf_field(), 'text'=>$text, 'page'=>$page, 'name'=>e($_)]);
 });
 
 form('/!<*:page>', function($_) {
@@ -132,7 +138,7 @@ get('/<*:page>', function($_) {
         if (! $stack = session('view_stack')) $stack = [];
         if (! $pos = g('pos'))                $pos = 0;
 
-        if ($stack[0] != $_) {
+        if (reset($stack) != $_) {
             array_unshift($stack, $_);
             $stack = array_slice($stack, 0,RECENT_VISITS);
             session('view_stack', $stack);

@@ -21,16 +21,12 @@
     </hgroup>
 
 	<?= csrf_field() ?>
-	<div id=editor><?=$formatted?></div>
-	<textarea name=content id=content><?=$file?></textarea>
+	<textarea name=content id=content><?=$text?></textarea>
 	<button>
-		<?php echo $time == "never" ? "Create" : "Update"; ?>
+		<?php echo $page ? "Update" : "Create"; ?>
 	</button>
 </form>
 
-<script src="/src/pen.js"></script>
-<script src="/src/markdown.js"></script>
-<script src="/src/to-markdown.js"></script>
 <script>
 function $(i){return document.getElementById(i)};
 
@@ -47,30 +43,6 @@ function resizeTextarea (e) {
 resizeTextarea(content);
 //content.onkeyup = function(){resizeTextarea(this)};
 //http://www.impressivewebs.com/textarea-auto-resize/
-
-
-// pen editor
-
-var options = {
-  editor: editor,
-  class: 'pen',
-  debug: false,
-  textarea: '<textarea name="content"></textarea>',
-  list: ['h1', 'h2', 'h3', 'p', 'createlink', 'bold', 'italic', 'insertorderedlist', 'insertunorderedlist'],
-  stay: false
-}
-
-pen     = new Pen(options);
-
-function up() {
-	content.innerHTML = toMarkdown(editor.innerHTML);
-}
-
-//content.style.display = "none";
-editor.style.display = "none";
-editor.onkeyup = up;
-editor.onclick = up;
-editor.onmouseover = up;
 </script>
 </body>
 </html>
