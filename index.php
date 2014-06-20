@@ -2,14 +2,12 @@
 ini_set('display_errors', 1);
 
 
+/**
+ * You can call all of these "requires" a table of contents
+ */
+
 require 'vendor/bento.php';
 require 'vendor/Michelf/MarkdownExtra.inc.php';
-
-if (!file_exists("pages")) mkdir("pages");
-if (!file_exists("pages/v")) mkdir("pages/v");
-
-define('RECENT_VISITS', 10);
-
 
 require 'lib/http/g.php';            // fetch get/post variables
 require 'lib/http/session.php';      // get and set session variables
@@ -27,20 +25,21 @@ require 'lib/user/auth.php';         // verify a user is logged in, or log them 
 
 
 /**
- * routes ~*
- *   index   /
- *   login   /=
- *   logout  /-
- *   edit    /:page
- *   delete  /!page
- *   page v. /page~x
- *   page    /page
+ * General logic
  */
 
+define('RECENT_VISITS', 10);
+
+if (!file_exists("pages")) mkdir("pages");
+if (!file_exists("pages/v")) mkdir("pages/v");
 
 if (file_exists('private') && !in_array(substr(request_path(),1,1), ['=','-']))
     auth();
 
+
+/**
+ * Routes
+ */
 
 get('/', function() {
     render('list.php',
