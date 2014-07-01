@@ -1,6 +1,6 @@
 <style>
 body {
-    margin: 7em;
+    margin: 0;
     text-align: center;
 }
 button {
@@ -8,14 +8,12 @@ button {
 	line-height: 1.6em;
 	padding: 0 1em;
 }
+.wrapper {
+     margin: 7%;
+}
 .msg {
-	text-align: center;
-	width: 100%;
-	margin: 0;
-	line-height: 3.6em;
-    position: absolute;
-    top: 0;
-    left: 0;
+    line-height: 3.6em;
+    background: #F8D6C3;
 }
 </style>
 
@@ -25,10 +23,10 @@ button {
 <?= $notice ?>
 </p>
 
-<form method=post>
+<form method=post class=wrapper>
 	<?= $csrf_field ?>
 	<input class=u placeholder=Username autofocus name=user value="<?=$user?>">
 	<input class=g placeholder=Password name=pass type=password>
-	<button>Login</button>
+	<button type=submit>Login</button>
 </form>
 
