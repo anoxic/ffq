@@ -1,11 +1,11 @@
-body { width: 800px; margin: 8% auto; padding: 0 20px; color: #737A79; line-height: 1.4; }
-@media all and (max-width:1024px){ body { width:60%; margin: 6em auto; } }
+body { width: 40em; margin: 10% auto; padding: 0 20px; color: #737A79; line-height: 1.4; }
+@media all and (max-width: 46em){ body { width: auto; margin: 3% auto; padding: 3em 3%;  } }
 a { text-decoration: none; color: #419CB9; }
 a:hover { border-bottom: 1px dotted; }
 em { color: #B2B4B4; }
 strong { color: #1D374E; }
 section { margin: 1em 0; }
-hgroup { padding: 2% 0 0; position: absolute; top: 0; }
+hgroup { padding: 1% 0 0; position: absolute; top: 0; }
 h1, h1 a, h1 a:visited, h2, h3, h4, h5, h6 { margin: 0; font-weight: normal; color: #1D374E; }
 .recent h1 { font-weight: bold; font-size: inherit; }
 ul, ol { padding: 0; }
