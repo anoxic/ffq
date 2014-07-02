@@ -12,10 +12,10 @@
 <?= $alert ?>
 <?= $notice ?>
 </p>
-<aside class=back>
+<nav>
     <a href=/>&larr; all pages</a>
 
-    <section class=recent>
+    <aside class=recent>
         <h1>Recently Visited</h1>
         <ul>
             <?php if (isset($stack)) foreach ($stack as $i=>$s): ?>
@@ -26,8 +26,8 @@
                 </li>
             <?php endforeach; ?>
         </ul>
-    </section>
-</aside>
+    </aside>
+</nav>
 
 <hgroup>
 	<h1> <?=$name?> </h1>
