@@ -3,25 +3,23 @@ body {
     margin: 0;
     text-align: center;
 }
-button {
-	height: 2em;
-	line-height: 1.6em;
-	padding: 0 1em;
+input, button {
+    border: 1px solid;
+    padding: 1.5% 2%;
+}
+.msg {
+    background: #F8D6C3;
+    font-style: italic;
+    padding: 2.5%;
 }
 .wrapper {
      margin: 7%;
 }
-.msg {
-    line-height: 3.6em;
-    background: #F8D6C3;
-}
 </style>
 
-<p class=msg>
-<?= $error ?>
-<?= $alert ?>
-<?= $notice ?>
-</p>
+<?php if ($error || $alert || $notice): ?>
+<p class=msg> <?= $error ?> <?= $alert ?> <?= $notice ?> </p>
+<? endif; ?>
 
 <form method=post class=wrapper>
 	<?= $csrf_field ?>
