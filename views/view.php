@@ -11,6 +11,23 @@
 <p class=msg> <?= $error ?> <?= $alert ?> <?= $notice ?> </p>
 <? endif; ?>
 
+<nav>
+    <a href=/>&larr; all pages</a>
+
+    <aside class=recent>
+        <h1>Recently Visited</h1>
+        <ul>
+            <?php if (isset($stack)) foreach ($stack as $i=>$s): ?>
+                <li>
+                    <?php if ($i == $pos): ?> <strong> <?php endif; ?>
+                    <a href="/<?=$s?>?pos=<?=$i?>"><?=$s?></a>
+                    <?php if ($i == $pos): ?> </strong> <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </aside>
+</nav>
+
 <div class=wrapper>
     <header>
         <h1> <?=$name?> </h1>
@@ -36,23 +53,6 @@
         | <a class=edit href="/:<?=$name?>">Edit</a>
     </div>
 </footer>
-
-<nav>
-    <a href=/>&larr; all pages</a>
-
-    <aside class=recent>
-        <h1>Recently Visited</h1>
-        <ul>
-            <?php if (isset($stack)) foreach ($stack as $i=>$s): ?>
-                <li>
-                    <?php if ($i == $pos): ?> <strong> <?php endif; ?>
-                    <a href="/<?=$s?>?pos=<?=$i?>"><?=$s?></a>
-                    <?php if ($i == $pos): ?> </strong> <?php endif; ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </aside>
-</nav>
 
 <script src="/src/moment.min.js"></script>
 <script>
