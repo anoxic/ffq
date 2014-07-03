@@ -8,24 +8,27 @@
 </head>
 
 <body>
-<p class=msg>
-<?= $error ?>
-<?= $alert ?>
-<?= $notice ?>
-</p>
+<?php if ($error || $alert || $notice): ?>
+    <p class=msg> <?= $error ?> <?= $alert ?> <?= $notice ?> </p>
+<? endif; ?>
 
+<div class=wrapper>
 <form method=post>
-    <hgroup>
+    <header>
         <h1> <a href="/<?=$name?>"><?=$name?></a> </h1>
         <label>Update Summary <input name=summary size=50 length=50></label>
-    </hgroup>
+    </header>
 
 	<?= csrf_field() ?>
 	<textarea name=content id=content><?=$text?></textarea>
-	<button>
+	<button class=update>
 		<?php echo $page ? "Update" : "Create"; ?>
 	</button>
 </form>
+</div>
+
+<nav>
+</nav>
 
 <script>
 function $(i){return document.getElementById(i)};

@@ -7,25 +7,27 @@
 </head>
 
 <body>
-    <p class=msg>
-        <?= $error ?>
-        <?= $alert ?>
-        <?= $notice ?>
-    </p>
+    <?php if ($error || $alert || $notice): ?>
+        <p class=msg> <?= $error ?> <?= $alert ?> <?= $notice ?> </p>
+    <? endif; ?>
 
-    <?php if (empty($all)): ?> 
-        <a href=/ class=back>&larr; all pages</a>
-    <?php endif; ?>
+    <nav>
+        <?php if (empty($all)): ?> 
+            <a href=/ class=back>&larr; all pages</a>
+        <?php endif; ?>
+    </nav>
 
-    <hgroup>
-        <h1><?=$name?></h1>
-        <a class=edit href=javascript:window.location='/:'+prompt()> new</a>
-    </hgroup>
+    <div class=wrapper>
+        <header>
+            <h1> <?=$name?> </h1>
+            <a href=javascript:window.location='/:'+prompt()> new</a>
+        </header>
 
-    <ul class=list>
-    <?php foreach ($list as $i): ?>
-        <li><a href="/<?=$i?>"><?=$i?></a></li>
-    <?php endforeach; ?>
-    </ul>
+        <ul class=list>
+        <?php foreach ($list as $i): ?>
+            <li><a href="/<?=$i?>"><?=$i?></a></li>
+        <?php endforeach; ?>
+        </ul>
+    </div>
 </body>
 </html>

@@ -4,11 +4,16 @@ body {
     text-align: center;
 }
 input, button {
-    border: 1px solid;
-    padding: 1.5% 2%;
+    border: 1px solid #419CB9;
+    padding: 1.5% 3%;
+    outline: 0;
+}
+button {
+    background: #419CB9;
+    color: #fff;
 }
 .msg {
-    background: #F8D6C3;
+    background: #E2E2E2;
     font-style: italic;
     padding: 2.5%;
 }

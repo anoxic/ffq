@@ -7,11 +7,36 @@
 </head>
 
 <body>
-<p class=msg>
-<?= $error ?>
-<?= $alert ?>
-<?= $notice ?>
-</p>
+<?php if ($error || $alert || $notice): ?>
+<p class=msg> <?= $error ?> <?= $alert ?> <?= $notice ?> </p>
+<? endif; ?>
+
+<div class=wrapper>
+    <header>
+        <h1> <?=$name?> </h1>
+        <a href="/:<?=$name?>">Edit</a>
+    </header>
+
+    <?php echo markdown($file->text); ?>
+</div>
+
+<footer>
+    <div class=wrapper>
+        <?php if ($file->version > 0): ?>
+            <a href="/<?=$name?>~<?=$file->version-1?>">&lt;</a>
+        <?php endif; ?>
+        v<?=$file->version?>
+        <?php if ($newer): ?>
+            <a href="/<?=$name?>~<?=$file->version+1?>">&gt;</a>
+        <?php endif; ?>
+        <?php if (!empty($file->header['author'])): ?>
+            | ~<?=$file->header['author']?><?php if (!empty($file->header['summary'])): ?>: <?=$file->header['summary']?> <?php endif; ?>
+        <?php endif; ?>
+        | <time datetime="<?=$file->time?>" type="relative"><?=rtime($file->time)?></time>
+        | <a class=edit href="/:<?=$name?>">Edit</a>
+    </div>
+</footer>
+
 <nav>
     <a href=/>&larr; all pages</a>
 
@@ -28,24 +53,6 @@
         </ul>
     </aside>
 </nav>
-
-<hgroup>
-	<h1> <?=$name?> </h1>
-    <?php if ($file->version > 0): ?>
-        <a href="/<?=$name?>~<?=$file->version-1?>">&lt;</a>
-    <?php endif; ?>
-    v<?=$file->version?>
-    <?php if ($newer): ?>
-        <a href="/<?=$name?>~<?=$file->version+1?>">&gt;</a>
-    <?php endif; ?>
-    <?php if (!empty($file->header['author'])): ?>
-        | ~<?=$file->header['author']?><?php if (!empty($file->header['summary'])): ?>: <?=$file->header['summary']?> <?php endif; ?>
-    <?php endif; ?>
-    | <time datetime="<?=$file->time?>" type="relative"><?=rtime($file->time)?></time>
-    | <a class=edit href="/:<?=$name?>">Edit</a>
-</hgroup>
-
-<?php echo markdown($file->text); ?>
 
 <script src="/src/moment.min.js"></script>
 <script>
