@@ -3,7 +3,7 @@
 <head>
 	<meta charset=utf-8>
 	<title><?=$name?> * Edit</title>
-	<link rel="stylesheet" href="/src/wiki.css">
+    <style><?php require("src/wiki.css"); ?></style>
 </head>
 
 <body>
