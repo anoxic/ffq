@@ -44,7 +44,7 @@ footer    { border-top: 1px dotted #D4DEE2;
 @media all and (max-width: 50em){
   .wrapper { padding: 0 10%; width: auto; }
 }
-@media all and (max-width: 25em){
+@media all and (max-width: 15em){
   .wrapper { padding: 0 3%; }
 }
 
