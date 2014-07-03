@@ -24,7 +24,7 @@ button.update     { position: absolute; right: .5em; top: .5em; }
 
 body      { line-height: 1.4; margin: 0; padding-left: 12%; }  
 nav       { font-family: sans-serif; font-size: 80%; line-height: 1.3em;
-            width: 12%; padding: 2%; 
+            width: 12%; padding: 2%; overflow: auto; 
             position: fixed; left: 0; top: 0; bottom: 0; }
 header    { margin: 5% 0 4%; }
 header h1 { display: inline; margin-right: .1em; }
@@ -36,12 +36,15 @@ footer    { border-top: 1px dotted #D4DEE2;
 .list li  { display: block; border-bottom: 1px dotted #D4DEE2;
             padding: 5px 0 6px; }
 
-@media all and (max-width: 46em){
-  .wrapper { padding: 0 3%; width: auto; }
-}
 @media all and (max-width: 60em){
   body { padding-left: 0; }
-  nav { position: static; width: auto; padding: 0; }
-  .recent { display: none; }
+  nav { position: static; width: auto; }
+  .recent { display: none; visibility: hidden; }
+}
+@media all and (max-width: 50em){
+  .wrapper { padding: 0 10%; width: auto; }
+}
+@media all and (max-width: 25em){
+  .wrapper { padding: 0 3%; }
 }
 
