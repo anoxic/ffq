@@ -7,7 +7,7 @@ strong            { color: #1D374E; }
 .nav              { background: #F7F7F7; }
 .msg              { background: #E2E2E2; }
 
-h1,h2,h3,h4,h5,h6 { margin: 0; font-weight: normal; }
+h1,h2,h3,h4,h5,h6 { margin: 0; font-weight: normal; line-height: 1em; }
 ul, ol            { padding: 0 0 0 1.5em; }
 .nav ul, ul.list  { list-style: none; padding: 0; }
 a                 { text-decoration: none; }
@@ -37,7 +37,7 @@ body      { line-height: 1.4; margin: 0; padding-left: 12%; }
 .msg      { font-style: italic; text-align: center;
             padding: 2.5%; margin: 0; }
 .wrapper  { width: 40em; margin: auto; }
-.list li  { border-bottom: 1px dotted #D4DEE2; padding: 2% 0; }
+.list li  { border-bottom: 1px dotted #D4DEE2; padding: 1.5% 0; }
 
 @media all and (max-width: 60em){
   body { padding-left: 0; }
@@ -49,5 +49,7 @@ body      { line-height: 1.4; margin: 0; padding-left: 12%; }
 }
 @media all and (max-width: 15em){
   .wrapper { padding: 0 3%; }
+  ul, ol, p { margin: .75em 0; }
+  h1,h2,h3,h4,h5,h6  { margin: 6% 0; }
 }
 
