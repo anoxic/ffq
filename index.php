@@ -80,6 +80,9 @@ form('/:<*:page>', function($_) {
         if (Page::store(g("title"), g("content"),
            ['summary'=>g('summary'), 'author'=>session('user')])) 
         {
+            if (g("title") != $_)
+                unlink(filename($_));
+
             flash("alert", "Nice update!");
             redirect("/".g("title"));
         } else {
