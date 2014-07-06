@@ -4,12 +4,12 @@ body {
     margin: 0;
     text-align: center;
 }
-input, button {
+input {
     border: 1px solid #419CB9;
     padding: 1.5% 3%;
     outline: 0;
 }
-button {
+input[type=submit] {
     background: #419CB9;
     color: #fff;
 }
@@ -31,6 +31,6 @@ button {
 	<?= $csrf_field ?>
 	<input class=u placeholder=Username autofocus name=user value="<?=$user?>">
 	<input class=g placeholder=Password name=pass type=password>
-	<button type=submit>Login</button>
+	<input type=submit value=Login>
 </form>
 
