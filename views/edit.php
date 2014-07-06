@@ -16,25 +16,25 @@
     <form method=post>
         <?= csrf_field() ?>
 
-        <header>
+        <div class=header>
             <label>Title <input name=title size=50 length=50 value="<?=$name?>"></label>
-        </header>
+        </div>
 
         <label>Body <textarea name=content id=content><?=$text?></textarea></label>
 
         <label>Update Summary <input name=summary size=50 length=50></label>
 
-        <header>
+        <div class=header>
             <button class=update>
                 <?php echo $page ? "Update" : "Create"; ?>
             </button>
             <a class=task href="/<?=$name?>">Cancel</a>
-        </header>
+        </div>
     </form>
 </div>
 
-<nav>
-</nav>
+<div class=nav>
+</div>
 
 <script>
 function $(i){return document.getElementById(i)};

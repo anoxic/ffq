@@ -4,18 +4,17 @@ a                 { color: #419CB9; }
 .redlink          { color: #C44545; }
 em                { color: #B2B4B4; }
 strong            { color: #1D374E; }
-nav               { background: #F7F7F7; }
+.nav              { background: #F7F7F7; }
 .msg              { background: #E2E2E2; }
 
 h1,h2,h3,h4,h5,h6 { margin: 0; font-weight: normal; }
 ul, ol            { padding: 0 0 0 1.5em; }
-nav ul, ul.list   { list-style: none; padding: 0; }
+.nav ul, ul.list  { list-style: none; padding: 0; }
 a                 { text-decoration: none; }
 a:hover           { border-bottom: 1px dotted; }
 time:hover        { cursor: n-resize; }
-nav h1            { font-weight: bold; font-size: inherit; }
-nav ul            { margin: .5em 0; padding: 0; }
-aside             { margin: 1em 0; }
+.nav h1           { font-weight: bold; font-size: inherit; }
+.nav ul           { margin: .5em 0; padding: 0; }
 label             { display: block; margin-right: 6%; }
 label input, 
 textarea          { display: block; width: 100%; }
@@ -27,12 +26,13 @@ textarea          { min-height: 30em;  padding: 2% 3%; }
 a.task            { margin: 0 3%; }
 
 body      { line-height: 1.4; margin: 0; padding-left: 12%; }  
-nav       { font-family: sans-serif; font-size: 80%; line-height: 1.3em;
+.nav      { font-family: sans-serif; font-size: 80%; line-height: 1.3em;
             width: 12%; padding: 2%; overflow: auto; 
             position: fixed; left: 0; top: 0; bottom: 0; }
-header    { margin: 5% 0 4%; }
-header h1 { display: inline; }
-footer    { border-top: 1px dotted #D4DEE2; 
+.recent   { margin: 1em 0; }
+.header   { margin: 5% 0 4%; }
+.header h1{ display: inline; }
+.footer   { border-top: 1px dotted #D4DEE2; 
             padding: 2% 0; margin: 4% 0 0; }
 .msg      { font-style: italic; text-align: center;
             padding: 2.5%; margin: 0; }
@@ -41,7 +41,7 @@ footer    { border-top: 1px dotted #D4DEE2;
 
 @media all and (max-width: 60em){
   body { padding-left: 0; }
-  nav { position: static; width: auto; }
+  .nav { position: static; width: auto; }
   .recent { display: none; visibility: hidden; }
 }
 @media all and (max-width: 50em){

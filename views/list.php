@@ -12,17 +12,17 @@
         <p class=msg> <?= $error ?> <?= $alert ?> <?= $notice ?> </p>
     <? endif; ?>
 
-    <nav>
+    <div class=nav>
         <?php if (empty($all)): ?> 
             <a href=/ class=back>&larr; all pages</a>
         <?php endif; ?>
-    </nav>
+    </div>
 
     <div class=wrapper>
-        <header>
+        <div class=header>
             <h1> <?=$name?> </h1>
             <a href=javascript:window.location='/:'+prompt()> new</a>
-        </header>
+        </div>
 
         <ul class=list>
         <?php foreach ($list as $i): ?>

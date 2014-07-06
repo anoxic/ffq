@@ -12,10 +12,10 @@
 <p class=msg> <?= $error ?> <?= $alert ?> <?= $notice ?> </p>
 <? endif; ?>
 
-<nav>
+<div class=nav>
     <a href=/>&larr; all pages</a>
 
-    <aside class=recent>
+    <div class=recent>
         <h1>Recently Visited</h1>
         <ul>
             <?php if (isset($stack)) foreach ($stack as $i=>$s): ?>
@@ -26,19 +26,19 @@
                 </li>
             <?php endforeach; ?>
         </ul>
-    </aside>
-</nav>
+    </div>
+</div>
 
 <div class=wrapper>
-    <header>
+    <div class=header>
         <h1> <?=$name?> </h1>
         <a href="/:<?=$name?>">Edit</a>
-    </header>
+    </div>
 
     <?php echo markdown($file->text); ?>
 </div>
 
-<footer>
+<div class=footer>
     <div class=wrapper>
         <?php if ($file->version > 0): ?>
             <a href="/<?=$name?>~<?=$file->version-1?>">&lt;</a>
@@ -53,7 +53,7 @@
         | <time datetime="<?=$file->time?>" type="relative"><?=rtime($file->time)?></time>
         | <a class=edit href="/:<?=$name?>">Edit</a>
     </div>
-</footer>
+</div>
 
 <script src="/src/moment.min.js"></script>
 <script>
