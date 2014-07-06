@@ -28,7 +28,7 @@
             <button class=update>
                 <?php echo $page ? "Update" : "Create"; ?>
             </button>
-            <a href="/<?=$name?>">Cancel</a>
+            <a class=task href="/<?=$name?>">Cancel</a>
         </header>
     </form>
 </div>
