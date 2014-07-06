@@ -33,8 +33,7 @@ footer    { border-top: 1px dotted #D4DEE2;
 .msg      { font-style: italic; text-align: center;
             padding: 2.5%; margin: 0; }
 .wrapper  { width: 40em; margin: auto; }
-.list li  { display: block; border-bottom: 1px dotted #D4DEE2;
-            padding: 5px 0 6px; }
+.list li  { border-bottom: 1px dotted #D4DEE2; padding: 2% 0; }
 
 @media all and (max-width: 60em){
   body { padding-left: 0; }
