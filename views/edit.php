@@ -13,18 +13,24 @@
 <? endif; ?>
 
 <div class=wrapper>
-<form method=post>
-    <header>
-        <h1> <a href="/<?=$name?>"><?=$name?></a> </h1>
-        <label>Update Summary <input name=summary size=50 length=50></label>
-    </header>
+    <form method=post>
+        <?= csrf_field() ?>
 
-	<?= csrf_field() ?>
-	<textarea name=content id=content><?=$text?></textarea>
-	<button class=update>
-		<?php echo $page ? "Update" : "Create"; ?>
-	</button>
-</form>
+        <header>
+            <label>Title <input name=title size=50 length=50 value="<?=$name?>"></label>
+        </header>
+
+        <label>Body <textarea name=content id=content><?=$text?></textarea></label>
+
+        <label>Update Summary <input name=summary size=50 length=50></label>
+
+        <header>
+            <button class=update>
+                <?php echo $page ? "Update" : "Create"; ?>
+            </button>
+            <a href="/<?=$name?>">Cancel</a>
+        </header>
+    </form>
 </div>
 
 <nav>
@@ -32,17 +38,13 @@
 
 <script>
 function $(i){return document.getElementById(i)};
-
-var editor  = $("editor"),
-    content = $("content");
-
-
-// textarea resize
-
 function resizeTextarea (e) {
     e.style.height = 'auto';
     e.style.height = e.scrollHeight+'px';
 }
+
+var content = $("content");
+
 resizeTextarea(content);
 //content.onkeyup = function(){resizeTextarea(this)};
 //http://www.impressivewebs.com/textarea-auto-resize/

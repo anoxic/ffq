@@ -77,11 +77,11 @@ form('/:<*:page>', function($_) {
     auth();
 
     if (request_method('POST')) {
-        if (Page::store($_, g("content"),
+        if (Page::store(g("title"), g("content"),
            ['summary'=>g('summary'), 'author'=>session('user')])) 
         {
             flash("alert", "Nice update!");
-            redirect("/".$_);
+            redirect("/".g("title"));
         } else {
             flash("alert", "Something went wrong here... :-(");
             flash("text", g("content"));
