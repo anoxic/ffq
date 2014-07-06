@@ -18,11 +18,10 @@ time:hover        { cursor: n-resize; }
 label             { display: block; margin-right: 6%; }
 label input, 
 textarea          { display: block; width: 100%; }
-input, button,
-textarea          { border: 1px solid #419CB9; padding: 1.5% 3%; outline: 0; margin: 0; font-size: inherit; }
-input, textarea   { font-family: monospace; }
-button            { background: #419CB9; color: #fff; }
-textarea          { min-height: 30em;  padding: 2% 3%; }
+input, textarea   { border: 1px solid #419CB9; padding: 1.5% 3%;
+                    outline: 0; margin: 0; font: inherit; }
+input[type=submit]{ background: #419CB9; color: #fff; }
+textarea          { min-height: 30em; padding: 2% 3%; }
 a.task            { margin: 0 3%; }
 
 body      { line-height: 1.4; margin: 0; padding-left: 12%; }  

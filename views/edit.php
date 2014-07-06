@@ -25,9 +25,7 @@
         <label>Update Summary <input name=summary size=50 length=50></label>
 
         <div class=header>
-            <button class=update>
-                <?php echo $page ? "Update" : "Create"; ?>
-            </button>
+            <input type=submit class=update value=<?=$page ? "Update" : "Create"?>>
             <a class=task href="/<?=$name?>">Cancel</a>
         </div>
     </form>
