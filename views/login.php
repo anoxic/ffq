@@ -1,3 +1,4 @@
+<title>Login</title>
 <style>
 body {
     margin: 0;
