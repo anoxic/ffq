@@ -9,6 +9,8 @@ ini_set('display_errors', 1);
 require 'vendor/bento.php';
 require 'vendor/Michelf/MarkdownExtra.inc.php';
 
+require 'lib/getfirst.php';          // get first line of a file
+
 require 'lib/http/g.php';            // fetch get/post variables
 require 'lib/http/session.php';      // get and set session variables
 
@@ -29,6 +31,11 @@ require 'lib/user/auth.php';         // verify a user is logged in, or log them 
  */
 
 define('RECENT_VISITS', 10);
+
+if (file_exists("sitename"))
+    define("SITE_NAME", getfirst("sitename"));
+else
+    define("SITE_NAME", "Zicki");
 
 if (!file_exists("pages")) mkdir("pages");
 if (!file_exists("pages/v")) mkdir("pages/v");
