@@ -1,54 +1,43 @@
-body              { color: #737A79; }
-h1,h2,h3,h4,h5,h6 { color: #1D374E; }
-a                 { color: #419CB9; }
-.redlink          { color: #C44545; }
-em                { color: #B2B4B4; }
-strong            { color: #1D374E; }
-.nav              { background: #F7F7F7; }
-.msg              { background: #F1D2BD; color: #8B5871;}
+body,input,textarea,.msg { margin: 0; }
+body                { color: #737A79; line-height: 1.4; padding-left: 12%; } 
+h1,h2,h3,h4,h5,h6   { color: #1D374E; line-height: 1em; font-weight: 400; margin: 2% 0; } 
+.nav h1             { font-size: inherit; font-weight: 700; } 
+.header h1          { display: inline; } 
+ul,ol,blockquote    { padding: 0 0 0 1.5em; } 
+.nav ul             { margin: .5em 0; padding: 0; } 
+.nav ul,.list       { list-style: none; padding: 0; } 
+.list li            { border-bottom: 1px dotted #D4DEE2; padding: 1.5% 0; } 
+label               { display: block; margin-right: 6%; } 
+textarea,label input{ display: block; width: 100%; } 
+textarea            { min-height: 30em; padding: 2% 3%; } 
+input,textarea      { border: 1px solid #419CB9; font: inherit; outline: 0; padding: 1.5% 3%; } 
+input[type=submit]  { background: #419CB9; color: #fff; } 
+em                  { color: #B2B4B4; } 
+strong              { color: #1D374E; } 
+a                   { color: #419CB9; text-decoration: none; } 
+a:hover             { border-bottom: 1px dotted; } 
+time:hover          { cursor: n-resize; } 
+.task               { margin: 0 3%; } 
+.redlink            { color: #C44545; } 
+.msg                { background: #F1D2BD; color: #8B5871; font-style: italic; padding: 2.5%; text-align: center; } 
+.nav                { background: #F7F7F7; bottom: 0; font-family: sans-serif; font-size: 80%; 
+                      left: 0; line-height: 1.3em; overflow: auto; padding: 2%; position: fixed; top: 0; width: 12%; } 
+.header             { margin: 5% 0 4%; } 
+.wrapper            { margin: auto; width: 40em; } 
+.recent             { margin: 1em 0; } 
+.footer             { margin: 4% 0 0; border-top: 1px dotted #D4DEE2; padding: 2% 0; } 
 
-h1,h2,h3,h4,h5,h6 { margin: 2% 0; font-weight: normal; line-height: 1em; }
-ul, ol            { padding: 0 0 0 1.5em; }
-.nav ul, ul.list  { list-style: none; padding: 0; }
-a                 { text-decoration: none; }
-a:hover           { border-bottom: 1px dotted; }
-time:hover        { cursor: n-resize; }
-.nav h1           { font-weight: bold; font-size: inherit; }
-.nav ul           { margin: .5em 0; padding: 0; }
-label             { display: block; margin-right: 6%; }
-label input, 
-textarea          { display: block; width: 100%; }
-input, textarea   { border: 1px solid #419CB9; padding: 1.5% 3%;
-                    outline: 0; margin: 0; font: inherit; }
-input[type=submit]{ background: #419CB9; color: #fff; }
-textarea          { min-height: 30em; padding: 2% 3%; }
-a.task            { margin: 0 3%; }
-
-body      { line-height: 1.4; margin: 0; padding-left: 12%; }  
-.nav      { font-family: sans-serif; font-size: 80%; line-height: 1.3em;
-            width: 12%; padding: 2%; overflow: auto; 
-            position: fixed; left: 0; top: 0; bottom: 0; }
-.recent   { margin: 1em 0; }
-.header   { margin: 5% 0 4%; }
-.header h1{ display: inline; }
-.footer   { border-top: 1px dotted #D4DEE2; 
-            padding: 2% 0; margin: 4% 0 0; }
-.msg      { font-style: italic; text-align: center;
-            padding: 2.5%; margin: 0; }
-.wrapper  { width: 40em; margin: auto; }
-.list li  { border-bottom: 1px dotted #D4DEE2; padding: 1.5% 0; }
-
-@media all and (max-width: 60em){
+@media (max-width: 60em){
   body { padding-left: 0; }
   .nav { position: static; width: auto; }
   .recent { display: none; visibility: hidden; }
 }
-@media all and (max-width: 50em){
+@media (max-width: 50em){
   .wrapper { padding: 0 10%; width: auto; }
 }
-@media all and (max-width: 15em){
+@media (max-width: 15em){
   .wrapper { padding: 0 3%; }
-  ul, ol, p { margin: .75em 0; }
-  h1,h2,h3,h4,h5,h6  { margin: 6% 0; }
+  ul,ol,p { margin: .75em 0; }
+  h1,h2,h3,h4,h5,h6 { margin: 6% 0; }
 }
 
