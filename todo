@@ -1,0 +1,38 @@
+
+====
+====
+====
+
+proper user storage
+
+====
+====
+====
+
+Functionality
+    default user generator
+    dropdown with last 20 revisions
+    signup page
+
+Parser
+    user signatures ~<username>
+    user callouts   @<username>
+    hashtags
+
+Metainfo
+    warning while editing if someone else starts editing a file
+    last viewed on
+    view count
+    what links here
+
+404s
+    fuzzy suggest on 404
+        similar_text()
+        levenshtein()
+        soundex()
+        pspell_suggest()
+    check if previous revision exists
+    more friendly 404 wording
+
+Maybe never
+    mouse tracking
