@@ -10,6 +10,7 @@ proper user storage
 ====
 
 Functionality
+    use includes for common elements (like notices, sidebar)
     default user generator
     dropdown with last 20 revisions
     signup page
@@ -17,7 +18,7 @@ Functionality
 Parser
     user signatures ~<username>
     user callouts   @<username>
-    hashtags
+                    #<hashtags>
 
 Metainfo
     warning while editing if someone else starts editing a file
