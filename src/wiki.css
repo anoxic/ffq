@@ -6,7 +6,7 @@ h1,h2,h3,h4,h5,h6   { color: #1D374E; line-height: 1em; font-weight: 400; margin
 ul,ol,blockquote    { padding: 0 0 0 1.5em; } 
 .nav ul             { margin: .5em 0; padding: 0; } 
 .nav ul,.list       { list-style: none; padding: 0; } 
-.list li            { border-bottom: 1px dotted #D4DEE2; padding: 1.5% 0; } 
+.list li            { border-bottom: 1px dotted #F0F4F8; padding: 1.5% 0; } 
 label               { display: block; margin-right: 6%; } 
 textarea,label input{ display: block; width: 100%; } 
 textarea            { min-height: 30em; padding: 2% 3%; } 
@@ -20,12 +20,12 @@ time:hover          { cursor: n-resize; }
 .task               { margin: 0 3%; } 
 .redlink            { color: #C44545; } 
 .msg                { background: #F1D2BD; color: #8B5871; font-style: italic; padding: 2.5%; text-align: center; } 
-.nav                { background: #F7F7F7; bottom: 0; font-family: sans-serif; font-size: 80%; 
+.nav                { background: #F0F4F8; bottom: 0; font-family: sans-serif; font-size: 80%; 
                       left: 0; line-height: 1.3em; overflow: auto; padding: 2%; position: fixed; top: 0; width: 12%; } 
 .header             { margin: 5% 0 4%; } 
 .wrapper            { margin: auto; width: 40em; } 
 .recent             { margin: 1em 0; } 
-.footer             { margin: 4% 0 0; border-top: 1px dotted #D4DEE2; padding: 2% 0; } 
+.footer             { margin: 4% 0 0; border-top: 1px solid #F0F4F8; padding: 2% 0; } 
 
 @media (max-width: 60em){
   body { padding-left: 0; }
