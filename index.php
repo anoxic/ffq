@@ -23,7 +23,8 @@ require 'lib/template/markdown.php'; // compile an extended markdown to html
 require 'lib/template/render.php';   // render a php template
 require 'lib/template/rtime.php';    // filter unix time into a relative format
 
-require 'lib/user/auth.php';         // verify a user is logged in, or log them in
+require 'lib/user/user.php';         // ::create, ::store, ::fetch, and ::listall wiki pages
+require 'lib/user/auth.php';         // verify a user is logged in, or prompt login
 
 
 /**
@@ -39,6 +40,7 @@ else
 
 if (!file_exists("pages")) mkdir("pages");
 if (!file_exists("pages/v")) mkdir("pages/v");
+if (!file_exists("users")) mkdir("users");
 
 if (file_exists('private') && !in_array(substr(request_path(),1,1), ['=','-']))
     auth();
@@ -79,6 +81,35 @@ function login_page($_ = "") {
 form('/=', 'login_page');
 form('/=<*:page>', 'login_page');
 
+form('/register', function() {
+    if (request_method('POST')) {
+        if (g('pw') != g('pw_'))
+            flash_redirect(g()+['error'=>'Passwords must match!']);
+
+        $fields = ['uname'=>'Username','mail'=>'Email Address','bio'=>'Bio'];
+
+        foreach ($fields as $u=>$n) {
+            if (empty($_POST[$u]))
+                flash_redirect(g()+['error'=>"$n is required"]);
+        }
+
+        $user = User::create([
+            'uname' => g('uname'), // probably we need to impose limits on usernames
+            'email' => g('email'),
+            'pw'    => g('pw'),
+        ]);
+
+        if (User::store($user)) {
+            Page::store('~'.g('uname'), g("bio"));
+            flash_redirect(['alert'=>'User added!'],'/registered');
+        } else
+
+        flash('error', 'Something went wrong');
+        redirect();
+    }
+
+    render('register.php');
+});
 
 form('/:<*:page>', function($_) {
     auth();
