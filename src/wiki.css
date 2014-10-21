@@ -17,10 +17,10 @@ strong              { color: #1D374E; }
 a                   { color: #419CB9; text-decoration: none; } 
 a:hover             { border-bottom: 1px dotted; } 
 time:hover          { cursor: n-resize; } 
-.msg a              { color: #FFFAE0; }
+.msg a              { color: #C36346; }
 .task               { margin: 0 3%; } 
 .redlink            { color: #C44545; } 
-.msg                { background: #FF9147; color: #744955; font-style: italic; padding: 2.5%; text-align: center; } 
+.msg                { background: #F48A5D; color: #744955; font-style: italic; padding: 2.5%; text-align: center; } 
 .nav                { background: #F0F4F8; bottom: 0; font-family: sans-serif; font-size: 80%; 
                       left: 0; line-height: 1.3em; overflow: auto; padding: 2%; position: fixed; top: 0; width: 12%; } 
 .header             { margin: 5% 0 4%; } 
