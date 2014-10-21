@@ -1,6 +1,7 @@
 *.swp
 *.swo
 pages/
+users/
 passwords
 private
 sitename
