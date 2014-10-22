@@ -1,5 +1,6 @@
 <?php
 // functions for storing, fetching, and listing pages
+
 class Page {
     public static function listall($dir = "/") {
         $dir  = "|^".filename($dir,'')."*|";
@@ -11,6 +12,27 @@ class Page {
         }
 
         return count($list)>0 ? $list : null;
+    }
+
+    public static function versions($name) {
+        $versions = [];
+
+        foreach (scandir('pages/v') as $i) {
+            $n1 = filename($name,'')."~";
+            $n2 = substr($i,0,strlen($n1));
+
+            if ($n1 == $n2) {
+                preg_match("/\d+$/", $i, $match);
+                $versions[] = reset($match);
+            }
+        }
+        natcasesort($versions);
+
+        return $versions;
+    }
+
+    public static function latest($name) {
+        return end(self::versions($name));
     }
 
     public static function fetch($_, $v = null) {
