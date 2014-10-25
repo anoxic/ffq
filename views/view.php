@@ -33,7 +33,7 @@
     <div class=header>
         <h1> <?=$name?> </h1>
         <a href="/:<?=$name?>">Edit</a>
-        <select name=versions onclick="window.location=this.value">
+        <select name=versions onchange="window.location=this.value">
         <?php foreach ($versions as $v): ?>
         <?php $current = $v == $file->version ? " selected" : null; ?>
             <option value="/<?=$name?>~<?=$v?>"<?=$current?>> v<?=$v?> </option>
