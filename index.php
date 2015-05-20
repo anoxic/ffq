@@ -65,7 +65,7 @@ get('/-', function() {
 function login_page($_ = "") {
     if (request_method('POST')) {
         foreach (file("passwords") as $u) {
-            if (trim($u) == g('user')." ".g('pass')) {
+            if (trim($u) == trim(g('user'))." ".trim(g('pass'))) {
                 session('user', g('user'));
                 redirect("/".$_);
             }
