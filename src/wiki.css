@@ -1,6 +1,6 @@
 body,input,textarea,.msg { margin: 0; }
 body                { color: #737A79; line-height: 1.4; padding-left: 12%; } 
-h1,h2,h3,h4,h5,h6   { color: #1D374E; line-height: 1em; font-weight: 400; margin: 2% 0; } 
+h1,h2,h3,h4,h5,h6   { color: #1D374E; line-height: 1em; font-weight: 400; margin: 4% 0 1%; font-family: lucida grande, sans-serif; } 
 .nav h1             { font-size: inherit; font-weight: 700; } 
 .header h1          { display: inline; } 
 ul,ol,blockquote    { padding: 0 0 0 1.5em; } 
@@ -17,6 +17,7 @@ em                  { color: #B2B4B4; }
 strong              { color: #1D374E; } 
 a                   { color: #419CB9; text-decoration: none; } 
 a:hover             { border-bottom: 1px dotted; } 
+code                { font-size: 110%; }
 time:hover          { cursor: n-resize; } 
 .msg a              { color: #C36346; }
 .task               { margin: 0 3%; } 
