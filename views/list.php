@@ -10,7 +10,7 @@
 <body>
     <?php if ($error || $alert || $notice): ?>
         <p class=msg> <?= $error ?> <?= $alert ?> <?= $notice ?> </p>
-    <? endif; ?>
+    <?php endif; ?>
 
     <div class=nav>
         <?php if (empty($all)): ?> 

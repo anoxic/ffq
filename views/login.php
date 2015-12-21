@@ -27,7 +27,7 @@ input[type=submit] {
 
 <?php if ($error || $alert || $notice): ?>
 <p class=msg> <?= $error ?> <?= $alert ?> <?= $notice ?> </p>
-<? endif; ?>
+<?php endif; ?>
 
 <form method=post class=wrapper>
 	<?= $csrf_field ?>
@@ -35,4 +35,5 @@ input[type=submit] {
 	<input class=g placeholder=Password name=pass type=password>
 	<input type=submit value=Login>
 </form>
+
 

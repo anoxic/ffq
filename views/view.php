@@ -10,7 +10,7 @@
 <body>
 <?php if ($error || $alert || $notice): ?>
 <p class=msg> <?= $error ?> <?= $alert ?> <?= $notice ?> <a href="#" onclick="this.parentNode.parentNode.removeChild(this.parentNode); return false">(dismiss this notice)</a> </p>
-<? endif; ?>
+<?php endif; ?>
 
 <div class=nav>
     <a href=/>&larr; all pages</a>
