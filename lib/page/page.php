@@ -11,7 +11,7 @@ class Page {
                 $list[] = pagename($entry);
         }
 
-        return count($list)>0 ? $list : null;
+        return count($list)>0 ? $list : [];
     }
 
     public static function versions($name) {
