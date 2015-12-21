@@ -37,7 +37,7 @@ class Page {
 
     public static function fetch($_, $v = null) {
         if     ($v !== null)           $v = filename($_, "pages/v/")."~".$v;
-        elseif (is_link(filename($_))) $v = readlink(filename($_));
+        elseif (file_exists(filename($_))) $v = trim(file_get_contents(filename($_)));
 
         if (file_exists($v)) {
             $page = new self;
@@ -57,9 +57,7 @@ class Page {
     public static function store($name, $contents, $header) {
         $link = filename($name);
 
-        if (file_exists($link)) unlink($link);
-        
-        if (is_link($link) && $last = readlink($link)) {
+        if (file_exists($link) && $last = trim(file_get_contents($link))) {
             preg_match("/~\d+/", $last, $next);
             $next = filename($name, "pages/v/")
                   ."~". (substr(reset($next), 1) + 1);
@@ -71,8 +69,8 @@ class Page {
 
         $contents = "\0:". http_build_query($header) ."\n". $contents;
 
-        if (@file_put_contents($next, $contents))
-            return symlink($next, $link);
+        if (file_put_contents($next, $contents))
+            return file_put_contents($link, $next);
     }
 }
 
