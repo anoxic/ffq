@@ -1,0 +1,16 @@
+
+*                { color: #615555; line-height: 1.6; font-family: lucida grande,segoe ui,roboto,sans-serif }
+body             { background: #FEFFFA; margin: 0 }
+.wrapper         { margin: 0 auto 2em; padding: 1em; max-width: 40em; min-width: 50% }
+h1,h2,h3,h4,h5,h6{ font-weight: 400; line-height: 1em; margin: 8% 0 3%; color: #504a4a } 
+ul,ol,blockquote { padding: 0 0 0 1.5em } 
+p                { margin: 3% 0 }
+a                { text-decoration: none; border-bottom: 4px solid #ADADAD } 
+a:hover          { border-color: currentColor } 
+code             { font-family: consolas, menlo, monaco, monospace }
+[name=versions]  { border: none; background: inherit; margin: 0.6em 0 0; -webkit-appearance: inherit; font: inherit; }
+[role=notice]    { background: #F48A5D; color: #744955; padding: 2.5%; text-align: center; margin: 0 } 
+[role=notice] a  { color: #C36346; border: 0 }
+[role=title]     { margin-bottom: 5% }
+.redlink         { color: #C44545 } 
+.edit            { margin-left: .5em }
