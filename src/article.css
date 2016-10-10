@@ -8,6 +8,7 @@ p                { margin: 3% 0 }
 a                { text-decoration: none; border-bottom: 4px solid #ADADAD } 
 a:hover          { border-color: currentColor } 
 code             { font-family: consolas, menlo, monaco, monospace }
+time:hover       { cursor: n-resize; color: #504a4a } 
 [name=versions]  { border: none; background: inherit; margin: 0.6em 0 0; -webkit-appearance: inherit; font: inherit; }
 [role=notice]    { background: #F48A5D; color: #744955; padding: 2.5%; text-align: center; margin: 0 } 
 [role=notice] a  { color: #C36346; border: 0 }
