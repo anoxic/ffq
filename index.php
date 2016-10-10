@@ -22,7 +22,6 @@ require 'lib/template/redlinks.php'; // highlight broken links
 require 'lib/template/markdown.php'; // compile an extended markdown to html
 require 'lib/template/render.php';   // render a php template
 require 'lib/template/rtime.php';    // filter unix time into a relative format
-require 'lib/template/stack.php';    // list visited pages using session and request
 
 require 'lib/user/user.php';         // ::create, ::store, ::fetch, and ::listall wiki pages
 require 'lib/user/auth.php';         // verify a user is logged in, or prompt login
@@ -159,12 +158,10 @@ form('/!<*:page>', function($_) {
 });
 
 get('/<*:page>~<#:version>', function($_, $v) {
-    if ($f = Page::fetch($_, $v)) {
-        list($pos, $stack) = stack($_);
-
+    if ($f = Page::fetch($_, $v))
         render('view.php', 
-            ['file'=>$f, 'name'=>e($_), 'pos'=>$pos, 'stack'=>$stack, 'newer'=>false, 'versions'=>Page::versions($_)]);
-    } else
+            ['file'=>$f, 'name'=>e($_), 'newer'=>false, 'versions'=>Page::versions($_)]);
+    else
         halt(404);
 });
 
@@ -172,12 +169,10 @@ get('/<*:page>', function($_) {
     if (substr($_, -1) == "/" && $list = Page::listall($_))
         render('list.php', ['name'=>$_,'list'=>$list,'all'=>$_=='/']);
 
-    elseif ($f = Page::fetch($_)) {
-        list($pos, $stack) = stack($_);
-
+    elseif ($f = Page::fetch($_))
         render('view.php', 
-            ['file'=>$f, 'name'=>e($_), 'pos'=>$pos, 'stack'=>$stack, 'newer'=>false, 'versions'=>Page::versions($_)]);
-    } else
+            ['file'=>$f, 'name'=>e($_), 'newer'=>false, 'versions'=>Page::versions($_)]);
+    else
         halt(404);
 });
 
