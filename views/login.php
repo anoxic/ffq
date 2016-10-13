@@ -1,38 +1,28 @@
+<!doctype html>
+<html lang=en>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width, initial-scale=1">
 <title>Login</title>
 <style>
-body {
-    margin: 0;
-    text-align: center;
-}
-input {
-    border: 1px solid #419CB9;
-    padding: 1.5% 3%;
-    outline: 0;
-}
-input[type=submit] {
-    background: #419CB9;
-    color: #fff;
-}
-.msg {
-    background: #E2E2E2;
-    font-style: italic;
-    padding: 2.5%;
-}
-.wrapper {
-     margin: 7%;
-}
+*                  { color:#615555; line-height:1.6; font-family:lucida grande,segoe ui,roboto,sans-serif }
+body               { background:#FEFFFA; margin:0; text-align:center }
+input              { color:#444; border:2px solid #989e9a; padding:1.3% 3%; font:inherit }
+input:focus        { outline:0; border-color:#333 }
+[type=submit]      { background:#f48a5d; color:#865642; border-color:#f48a5d; display:inline-block }
+[type=submit]:hover{ cursor:pointer }
+[role=notice]      { background:#F48A5D; color:#744955; padding:2.5%; text-align:center; margin:0 } 
+[role=notice] a    { color:#C36346; border:0 }
+.wrapper           { margin: 7%; }
 </style>
 
 <?php if ($error || $alert || $notice): ?>
-<p class=msg> <?= $error ?> <?= $alert ?> <?= $notice ?> </p>
+<p role=notice> <?= $error ?> <?= $alert ?> <?= $notice ?> </p>
 <?php endif; ?>
 
 <form method=post class=wrapper>
 	<?= $csrf_field ?>
-	<input class=u placeholder=Username autofocus name=user value="<?=$user?>">
-	<input class=g placeholder=Password name=pass type=password>
+	<input placeholder=Username name=user value="<?=$user?>" autofocus>
+	<input placeholder=Password name=pass type=password>
 	<input type=submit value=Login>
 </form>
 
