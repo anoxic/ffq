@@ -5,9 +5,7 @@
 <title><?=$name?> on <?=SITE_NAME?></title>
 <style><?php require("src/article.css"); ?></style>
 
-<?php if ($error || $alert || $notice): ?>
-<p role=notice> <?= $error ?> <?= $alert ?> <?= $notice ?> <a href="#" onclick="this.parentNode.parentNode.removeChild(this.parentNode); return false">(dismiss this notice)</a> </p>
-<?php endif; ?>
+<?php require("views/partials/alert.php"); ?>
 
 <div class=wrapper>
 <h1 role=title><?=$name?></h1>
@@ -60,5 +58,3 @@ x.onclick = function() {
 }
 </script>
 
-</body>
-</html>

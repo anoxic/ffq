@@ -16,3 +16,7 @@ time:hover       { cursor: n-resize; color: #504a4a }
 [role=title]     { margin-bottom: 5% }
 .redlink         { color: #C44545 } 
 .edit            { margin-left: .5em }
+.list            { padding: 0; list-style: none; }
+.list a          { line-height: 5vh; display: block; padding: 0 5%; margin: 0 -5%; border: 0; border-radius: 2px; }
+.list li:nth-child(odd) a { background: #f6f6f3; }
+.list li a:hover { background: #acd0d7; }
