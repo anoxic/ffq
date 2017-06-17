@@ -7,7 +7,7 @@ ul,ol,blockquote { padding: 0 0 0 1.5em }
 p                { margin: 3% 0 }
 a                { text-decoration: none; border-bottom: 4px solid #ADADAD } 
 a:hover          { border-color: currentColor } 
-code             { font-family: consolas, menlo, monaco, monospace }
+code             { color: #9E9E9E; font-family: consolas, menlo, monaco, monospace }
 time:hover       { cursor: n-resize; color: #504a4a } 
 [type=checkbox]  { margin: 0 .5em 0 -1.8em }
 [name=versions]  { border: none; background: inherit; margin: 0.6em 0 0; -webkit-appearance: inherit; font: inherit; }
