@@ -16,7 +16,7 @@ Here is the planned URL structure, where implemented segments
 are marked with an asterisk.
 
 *normal pages  /<page-name>
-*versions      /<page-name>~<version-number>
+*by version    /<page-name>~<version-number>
 *user pages    /~<user-name>(/<pagename>)
 
 *listing       /<blob>/
@@ -25,6 +25,7 @@ are marked with an asterisk.
 
 *editing       /:<page-name>
 *deleting      /!<page-name>
+*revisions     /*<page-name>
 reverting      /@<page-name>~<version-number>
 moving         /@<page-name>@<new-name>
 
