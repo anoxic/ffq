@@ -6,6 +6,14 @@
 list of revisions
 separate title from url
 make a public folder for index.php and assets
+use this folder structure 
+   app/ for configuration
+   bin/ for scripts
+   src/ for code (src/views for templates)
+   var/ for object storage, etc
+   web/ for public, css, other assets
+   vendor/ for external libraries
+   spec/ for tests (might never do this)
 proper user storage
 
 ====

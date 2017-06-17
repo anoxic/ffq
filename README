@@ -29,10 +29,9 @@ are marked with an asterisk.
 reverting      /@<page-name>~<version-number>
 moving         /@<page-name>@<new-name>
 
-icing          /!!<page-name|~user-name>
-
 *login         /=<redirect-url>
 *logout        /-
+icing          /!!<page-name|~user-name>
 signup         /+
 settings       /:
 
@@ -57,6 +56,7 @@ or from creating a page for a nonexistent user.
 user pages are simply named like this for convention
 
 locks or "ices" are kept in pages/i/<page-name> as empty files
+or contain a list of allowed users and allow the page to be locked
 
 
 == Access, editing
