@@ -13,18 +13,19 @@
 </div>
 
 <div class=wrapper>
-Published
+<select name=versions onchange="window.location=this.value">
+<?php foreach ($versions as $v): ?>
+    <?php $current = $v == $file->version ? " selected" : null; ?>
+    <option value="/<?=$name?>~<?=$v?>"<?=$current?>> v<?=$v?> </option>
+<?php endforeach; ?>
+</select>
+    (<a href="/*<?=$name?>">log</a>)
+published
 <time datetime="<?=$file->time?>" type="relative"><?=rtime($file->time)?></time>
 <?php if (!empty($file->header['author'])): ?>
     by
     <?=$file->header['author']?><?php if (!empty($file->header['summary'])): ?>: <?=$file->header['summary']?> <?php endif; ?> 
 <?php endif; ?>
-(<select name=versions onchange="window.location=this.value">
-<?php foreach ($versions as $v): ?>
-    <?php $current = $v == $file->version ? " selected" : null; ?>
-    <option value="/<?=$name?>~<?=$v?>"<?=$current?>> v<?=$v?> </option>
-<?php endforeach; ?>
-</select>)
 <a class=edit href="/:<?=$name?>">Edit</a>
 </div>
 
