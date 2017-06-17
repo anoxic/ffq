@@ -165,6 +165,26 @@ get('/<*:page>~<#:version>', function($_, $v) {
         halt(404);
 });
 
+get('/\\*<*:page>', function($_) {
+    if ($f = Page::fetch($_)) {
+        $v = $f->version;
+        $list = [];
+        do {
+            $f = Page::fetch($_, $v);
+            $list[$v] = [
+                "author" => $f->header['author'],
+                "time" => $f->time,
+                "summary" => $f->header['summary'],
+                "size" => $s = strlen($f->text),
+                "delta" => $s - (isset($list[$v+1]) ? $list[$v+1]['size'] : 0),
+            ];
+        } while ($v--);
+        render('revisions.php', ['list'=>$list, 'name'=>e($_)]);
+    } else {
+        halt(404);
+    }
+});
+
 get('/<*:page>', function($_) {
     if (substr($_, -1) == "/" && $list = Page::listall($_))
         render('list.php', ['name'=>$_,'list'=>$list,'all'=>$_=='/']);
