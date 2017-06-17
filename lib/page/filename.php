@@ -1,9 +1,16 @@
 <?php
 // filename creates the pathname of a wiki page
 function filename($n = "", $prefix = "pages/") {
-    if (empty($n)) $n = substr(request_path(), 1);
+    if (empty($n)) {
+        $n = substr(request_path(), 1);
+    }
 
-    return $prefix . preg_replace("; +;", " ", preg_replace(";/;", ".", 
-        preg_replace(";[^a-z0-9.];", "-", strtolower($n))));
+    $n = strtolower($n);
+    $n = preg_replace(";/;", ".", $n);
+    $n = preg_replace(";[^a-z0-9.];", "-", $n);
+    $n = preg_replace("; +;", " ", $n);
+    $n = $prefix . $n;
+
+    return $n;
 }
 
