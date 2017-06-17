@@ -142,7 +142,7 @@ form('/!<*:page>', function($_) {
 
     $file = filename($_);
 
-    if ( !is_link($file))
+    if (!file_exists($file))
         halt(404);
 
     if (request_method('POST')) {
