@@ -1,27 +1,27 @@
 <?php
 // rtime filters a timestamp and outputs the date in relative format
 function rtime($time) {
-    define("SECOND", 1);
-    define("MINUTE", 60 * SECOND);
-    define("HOUR", 60 * MINUTE);
-    define("DAY", 24 * HOUR);
-    define("MONTH", 30 * DAY);
+    $SECOND = 1;
+    $MINUTE = 60 * $SECOND;
+    $HOUR   = 60 * $MINUTE;
+    $DAY    = 24 * $HOUR;
+    $MONTH  = 30 * $DAY;
 
     $delta = time() - $time;
 
-    if ($delta < 1 * MINUTE)  return $delta == 1 ? "one second ago" : $delta . " seconds ago";
-    if ($delta < 2 * MINUTE)  return "a minute ago";
-    if ($delta < 45 * MINUTE) return floor($delta / MINUTE) . " minutes ago";
-    if ($delta < 90 * MINUTE) return "an hour ago";
-    if ($delta < 24 * HOUR)   return floor($delta / HOUR) . " hours ago";
-    if ($delta < 48 * HOUR)   return "yesterday";
-    if ($delta < 30 * DAY)    return floor($delta / DAY) . " days ago";
+    if ($delta < 1  * $MINUTE) return $delta == 1 ? "one second ago" : $delta . " seconds ago";
+    if ($delta < 2  * $MINUTE) return "a minute ago";
+    if ($delta < 45 * $MINUTE) return floor($delta / $MINUTE) . " minutes ago";
+    if ($delta < 90 * $MINUTE) return "an hour ago";
+    if ($delta < 24 * $HOUR)   return floor($delta / $HOUR) . " hours ago";
+    if ($delta < 48 * $HOUR)   return "yesterday";
+    if ($delta < 30 * $DAY)    return floor($delta / $DAY) . " days ago";
 
-    if ($delta < 12 * MONTH) {
-        $months = floor($delta / DAY / 30);
+    if ($delta < 12 * $MONTH) {
+        $months = floor($delta / $DAY / 30);
         return $months <= 1 ? "one month ago" : $months . " months ago";
     } else {
-        $years = floor($delta / DAY / 365);
+        $years = floor($delta / $DAY / 365);
         return $years <= 1 ? "one year ago" : $years . " years ago";
     }
 }
