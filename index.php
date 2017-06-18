@@ -115,14 +115,14 @@ form('/:<*:page>', function($_) {
     auth();
 
     if (request_method('POST')) {
-        if (Page::store(g("title"), g("content"),
-           ['summary'=>g('summary'), 'author'=>session('user')])) 
+        if (Page::store(g("slug"), g("content"),
+           ['summary'=>g('summary'), 'title'=>g('title'), 'author'=>session('user')])) 
         {
-            if (g("title") != $_)
+            if (g("slug") != $_)
                 unlink(filename($_));
 
             flash("alert", "Nice update!");
-            redirect("/".g("title"));
+            redirect("/".g("slug"));
         } else {
             flash("alert", "Something went wrong here... :-(");
             flash("text", g("content"));
@@ -131,10 +131,20 @@ form('/:<*:page>', function($_) {
     }
 
     $page = Page::fetch($_);
-    $text = g("text")? g("text") : ($page)? $page->text : "";
+    $text = g("text") ? g("text") : ($page) ? $page->text : "";
+    $title = g("title") ? g("title") : isset($page->header['title'])
+        ? $page->header['title'] : e($_);
 
-    render('edit.php', 
-        ['csrf_field'=>csrf_field(), 'text'=>$text, 'page'=>$page, 'name'=>e($_)]);
+    render(
+        'edit.php', 
+        [
+            'csrf_field'=>csrf_field(),
+            'text'=>$text,
+            'page'=>$page,
+            'slug'=>e($_),
+            'title'=>$title,
+        ]
+    );
 });
 
 form('/!<*:page>', function($_) {
@@ -158,11 +168,14 @@ form('/!<*:page>', function($_) {
 });
 
 get('/<*:page>~<#:version>', function($_, $v) {
-    if ($f = Page::fetch($_, $v))
+    if ($f = Page::fetch($_, $v)) {
+        $title = g("title") ? g("title") : isset($f->header['title'])
+            ? $f->header['title'] : e($_);
         render('view.php', 
-            ['file'=>$f, 'name'=>e($_), 'newer'=>false, 'versions'=>Page::versions($_)]);
-    else
+            ['file'=>$f, 'slug'=>e($_), 'title'=>$title, 'newer'=>false, 'versions'=>Page::versions($_)]);
+    } else {
         halt(404);
+    }
 });
 
 get('/\\*<*:page>', function($_) {
@@ -186,14 +199,16 @@ get('/\\*<*:page>', function($_) {
 });
 
 get('/<*:page>', function($_) {
-    if (substr($_, -1) == "/" && $list = Page::listall($_))
+    if (substr($_, -1) == "/" && $list = Page::listall($_)) {
         render('list.php', ['name'=>$_,'list'=>$list,'all'=>$_=='/']);
-
-    elseif ($f = Page::fetch($_))
+    } elseif ($f = Page::fetch($_)) {
+        $title = g("title") ? g("title") : isset($f->header['title'])
+            ? $f->header['title'] : e($_);
         render('view.php', 
-            ['file'=>$f, 'name'=>e($_), 'newer'=>false, 'versions'=>Page::versions($_)]);
-    else
+            ['file'=>$f, 'slug'=>e($_), 'title'=>$title, 'newer'=>false, 'versions'=>Page::versions($_)]);
+    } else {
         halt(404);
+    }
 });
 
 return run(__FILE__);

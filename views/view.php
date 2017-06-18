@@ -2,13 +2,13 @@
 <html lang=en>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width, initial-scale=1">
-<title><?=$name?> on <?=SITE_NAME?></title>
+<title><?=$slug?> on <?=SITE_NAME?></title>
 <style><?php require("src/article.css"); ?></style>
 
 <?php require("views/partials/alert.php"); ?>
 
 <div class=wrapper>
-<h1 role=title><?=$name?></h1>
+<h1 role=title><?=$title?></h1>
 <?php echo markdown($file->text); ?>
 </div>
 
@@ -16,17 +16,17 @@
 <select name=versions onchange="window.location=this.value">
 <?php foreach ($versions as $v): ?>
     <?php $current = $v == $file->version ? " selected" : null; ?>
-    <option value="/<?=$name?>~<?=$v?>"<?=$current?>> v<?=$v?> </option>
+    <option value="/<?=$slug?>~<?=$v?>"<?=$current?>> v<?=$v?> </option>
 <?php endforeach; ?>
 </select>
-    (<a href="/*<?=$name?>">log</a>)
+    (<a href="/*<?=$slug?>">log</a>)
 published
 <time datetime="<?=$file->time?>" type="relative"><?=rtime($file->time)?></time>
 <?php if (!empty($file->header['author'])): ?>
     by
     <?=$file->header['author']?><?php if (!empty($file->header['summary'])): ?>: <?=$file->header['summary']?> <?php endif; ?> 
 <?php endif; ?>
-<a class=edit href="/:<?=$name?>">Edit</a>
+<a class=edit href="/:<?=$slug?>">Edit</a>
 </div>
 
 <script src="/src/moment.min.js"></script>

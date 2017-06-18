@@ -3,7 +3,7 @@
 <head>
 	<meta charset=utf-8>
     <meta name=viewport content="width=device-width, initial-scale=1">
-    <title>Edit <?=$name?> * <?=SITE_NAME?></title>
+    <title>Edit <?=$slug?> * <?=SITE_NAME?></title>
     <style><?php require("src/wiki.css"); ?></style>
 </head>
 
@@ -17,7 +17,8 @@
         <?= csrf_field() ?>
 
         <div class=header>
-            <label>Title <input name=title size=50 length=50 value="<?=$name?>"></label>
+            <label>Title <input name=title size=50 length=50 value="<?=$title?>"></label>
+            <label>URL Slug <input name=slug size=50 length=50 value="<?=$slug?>"></label>
         </div>
 
         <label>Body <textarea name=content id=content><?=$text?></textarea></label>
