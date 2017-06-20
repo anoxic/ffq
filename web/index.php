@@ -9,24 +9,24 @@ ini_set('display_errors', 1);
 require '../vendor/bento.php';
 require '../vendor/Michelf/MarkdownExtra.inc.php';
 
-require '../lib/getfirst.php';          // get first line of a file
+require '../src/getfirst.php';          // get first line of a file
 
-require '../lib/http/g.php';            // fetch get/post variables
-require '../lib/http/session.php';      // get and set session variables
+require '../src/http/g.php';            // fetch get/post variables
+require '../src/http/session.php';      // get and set session variables
 
-require '../lib/page/filename.php';     // generate the relative path of a wiki page
-require '../lib/page/pagename.php';     // format a pretty page name
-require '../lib/page/page.php';         // ::store, ::fetch, and ::listall wiki pages
+require '../src/page/filename.php';     // generate the relative path of a wiki page
+require '../src/page/pagename.php';     // format a pretty page name
+require '../src/page/page.php';         // ::store, ::fetch, and ::listall wiki pages
 
-require '../lib/template/asset.php';    // load an asset
-require '../lib/template/markdown.php'; // compile an extended markdown to html
-require '../lib/template/partial.php';  // load a partial
-require '../lib/template/redlinks.php'; // highlight broken links
-require '../lib/template/render.php';   // render a php template
-require '../lib/template/rtime.php';    // filter unix time into a relative format
+require '../src/template/asset.php';    // load an asset
+require '../src/template/markdown.php'; // compile an extended markdown to html
+require '../src/template/partial.php';  // load a partial
+require '../src/template/redlinks.php'; // highlight broken links
+require '../src/template/render.php';   // render a php template
+require '../src/template/rtime.php';    // filter unix time into a relative format
 
-require '../lib/user/user.php';         // ::create, ::store, ::fetch, and ::listall wiki pages
-require '../lib/user/auth.php';         // verify a user is logged in, or prompt login
+require '../src/user/user.php';         // ::create, ::store, ::fetch, and ::listall wiki pages
+require '../src/user/auth.php';         // verify a user is logged in, or prompt login
 
 
 /**
