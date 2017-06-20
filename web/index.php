@@ -35,8 +35,8 @@ require '../src/user/auth.php';         // verify a user is logged in, or prompt
 
 define('RECENT_VISITS', 10);
 
-if (file_exists("sitename"))
-    define("SITE_NAME", getfirst("sitename"));
+if (file_exists("../sitename"))
+    define("SITE_NAME", getfirst("../sitename"));
 else
     define("SITE_NAME", "Zicki");
 
