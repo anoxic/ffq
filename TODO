@@ -3,9 +3,6 @@
 ====
 ====
 
-list of revisions
-separate title from url
-make a public folder for index.php and assets
 use this folder structure 
    app/ for configuration
    bin/ for scripts
@@ -14,17 +11,29 @@ use this folder structure
    web/ for public, css, other assets
    vendor/ for external libraries
    spec/ for tests (might never do this)
-proper user storage
+
+user storage a little more permanant than a two-col password file
 
 ====
 ====
 ====
+
+Internal Storage
+    new storage using git, maybe (also allow for different organization buckets)
+    * var/storage/<org>/                   - initialized git repository
+    * var/storage/<org>/pages/<hash>       - git versioned page, hash of some initial values
+    * var/storage/<org>/slugs/<slug>       - git versioned slug, contains page hash
+    * var/storage/<org>/tags/<tag>/<pages> - just an idea, could store tagged things here
+    git author would be "username" <org:userid>
+
+For the heck of it
+    switch router from bento to nikic/fastroute
 
 Functionality
-    use includes for common elements (like notices, sidebar)
     default user generator
-    dropdown with last 20 revisions
     signup page
+    add "meta template" abilities for more customized use
+    add ability to set a page as "public" and to specify an allowed domain and slug
 
 Parser
     user signatures ~<username>
@@ -43,8 +52,12 @@ Metainfo
         levenshtein()
         soundex()
         pspell_suggest()
-    check if previous revision exists
+    check if previous revision exists (git can track what slugs existed for pages)
     more friendly 404 wording
 
 Maybe never
-    mouse tracking
+    federated wiki support http://ward.fed.wiki.org/view/json-schema
+      (would really just need to make sure we store the journal 
+       and action information required to build the json for a page)
+    mouse tracking (to display what a co-author is doing)
+    rss feed for updates to specific pages, or for new items in a tag
