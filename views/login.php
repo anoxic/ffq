@@ -15,9 +15,7 @@ input:focus        { outline:0; border-color:#333 }
 .wrapper           { margin: 7%; }
 </style>
 
-<?php if ($error || $alert || $notice): ?>
-<p role=notice> <?= $error ?> <?= $alert ?> <?= $notice ?> </p>
-<?php endif; ?>
+<?php partial("alert.php", get_defined_vars()); ?>
 
 <form method=post class=wrapper>
 	<?= $csrf_field ?>

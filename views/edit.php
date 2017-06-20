@@ -4,13 +4,11 @@
 	<meta charset=utf-8>
     <meta name=viewport content="width=device-width, initial-scale=1">
     <title>Edit <?=$slug?> * <?=SITE_NAME?></title>
-    <style><?php require("src/wiki.css"); ?></style>
+    <style><?php asset("wiki.css"); ?></style>
 </head>
 
 <body>
-<?php if ($error || $alert || $notice): ?>
-    <p class=msg> <?= $error ?> <?= $alert ?> <?= $notice ?> </p>
-<?php endif; ?>
+<?php partial("alert.php", get_defined_vars()); ?>
 
 <div class=wrapper>
     <form method=post>

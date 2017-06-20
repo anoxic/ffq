@@ -3,9 +3,9 @@
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width, initial-scale=1">
 <title>revisions for <?=$name?> on <?=SITE_NAME?></title>
-<style><?php require("src/article.css"); ?></style>
+<style><?php asset("article.css"); ?></style>
 
-<?php require("views/partials/alert.php"); ?>
+<?php partial("alert.php", get_defined_vars()); ?>
 
 <div class=wrapper>
     <a href="/<?=$name?>")>back to <?=$name?></a>

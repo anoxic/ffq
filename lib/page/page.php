@@ -6,8 +6,8 @@ class Page {
         $dir  = "|^".filename($dir,'')."*|";
         $list = [];
 
-        foreach (scandir('pages') as $entry) {
-            if (!is_dir("pages/$entry") && preg_match($dir, $entry))
+        foreach (scandir('../pages') as $entry) {
+            if (!is_dir("../pages/$entry") && preg_match($dir, $entry))
                 $list[] = pagename($entry);
         }
 
@@ -17,7 +17,7 @@ class Page {
     public static function versions($name) {
         $versions = [];
 
-        foreach (scandir('pages/v') as $i) {
+        foreach (scandir('../pages/v') as $i) {
             $n1 = filename($name,'')."~";
             $n2 = substr($i,0,strlen($n1));
 
@@ -36,8 +36,8 @@ class Page {
     }
 
     public static function fetch($_, $v = null) {
-        if     ($v !== null)           $v = filename($_, "pages/v/")."~".$v;
-        elseif (file_exists(filename($_))) $v = trim(file_get_contents(filename($_)));
+        if     ($v !== null)           $v = filename($_, "../pages/v/")."~".$v;
+        elseif (file_exists(filename($_))) $v = trim("../".file_get_contents(filename($_)));
 
         if (file_exists($v)) {
             $page = new self;
@@ -56,21 +56,33 @@ class Page {
 
     public static function store($name, $contents, $header) {
         $link = filename($name);
+        $next = self::get_next($name);
+
+        $contents = "\0:". http_build_query($header) ."\n". $contents;
+
+        if (file_put_contents("../" . $next, $contents)) {
+            if (file_exists($link)) {
+                unlink($link);
+            }
+            return file_put_contents($link, $next);
+        }
+    }
+
+    public static function get_next($name)
+    {
+        $link = filename($name);
 
         if (file_exists($link) && $last = trim(file_get_contents($link))) {
             preg_match("/~\d+/", $last, $next);
             $next = filename($name, "pages/v/")
                   ."~". (substr(reset($next), 1) + 1);
-            unlink($link);
         }
 
-        if (empty($next)) 
+        if (empty($next)) {
             $next = filename($name, "pages/v/") ."~0";
+        }
 
-        $contents = "\0:". http_build_query($header) ."\n". $contents;
-
-        if (file_put_contents($next, $contents))
-            return file_put_contents($link, $next);
+        return $next;
     }
 }
 

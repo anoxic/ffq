@@ -3,9 +3,9 @@
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width, initial-scale=1">
 <title><?=$slug?> on <?=SITE_NAME?></title>
-<style><?php require("src/article.css"); ?></style>
+<style><?php asset("article.css"); ?></style>
 
-<?php require("views/partials/alert.php"); ?>
+<?php partial("alert.php", get_defined_vars()); ?>
 
 <div class=wrapper>
 <h1 role=title><?=$title?></h1>
@@ -29,7 +29,7 @@ published
 <a class=edit href="/:<?=$slug?>">Edit</a>
 </div>
 
-<script src="/src/moment.min.js"></script>
+<script src="/assets/moment.min.js"></script>
 <script>
 var x = document.getElementsByTagName('time')[0],
     d = moment.unix(x.getAttribute('datetime'));

@@ -1,6 +1,6 @@
 <?php
 // filename creates the pathname of a wiki page
-function filename($n = "", $prefix = "pages/") {
+function filename($n = "", $prefix = "../pages/") {
     if (empty($n)) {
         $n = substr(request_path(), 1);
     }

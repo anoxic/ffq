@@ -6,25 +6,27 @@ ini_set('display_errors', 1);
  * You can call all of these "requires" a table of contents
  */
 
-require 'vendor/bento.php';
-require 'vendor/Michelf/MarkdownExtra.inc.php';
+require '../vendor/bento.php';
+require '../vendor/Michelf/MarkdownExtra.inc.php';
 
-require 'lib/getfirst.php';          // get first line of a file
+require '../lib/getfirst.php';          // get first line of a file
 
-require 'lib/http/g.php';            // fetch get/post variables
-require 'lib/http/session.php';      // get and set session variables
+require '../lib/http/g.php';            // fetch get/post variables
+require '../lib/http/session.php';      // get and set session variables
 
-require 'lib/page/filename.php';     // generate the relative path of a wiki page
-require 'lib/page/pagename.php';     // format a pretty page name
-require 'lib/page/page.php';         // ::store, ::fetch, and ::listall wiki pages
+require '../lib/page/filename.php';     // generate the relative path of a wiki page
+require '../lib/page/pagename.php';     // format a pretty page name
+require '../lib/page/page.php';         // ::store, ::fetch, and ::listall wiki pages
 
-require 'lib/template/redlinks.php'; // highlight broken links
-require 'lib/template/markdown.php'; // compile an extended markdown to html
-require 'lib/template/render.php';   // render a php template
-require 'lib/template/rtime.php';    // filter unix time into a relative format
+require '../lib/template/asset.php';    // load an asset
+require '../lib/template/markdown.php'; // compile an extended markdown to html
+require '../lib/template/partial.php';  // load a partial
+require '../lib/template/redlinks.php'; // highlight broken links
+require '../lib/template/render.php';   // render a php template
+require '../lib/template/rtime.php';    // filter unix time into a relative format
 
-require 'lib/user/user.php';         // ::create, ::store, ::fetch, and ::listall wiki pages
-require 'lib/user/auth.php';         // verify a user is logged in, or prompt login
+require '../lib/user/user.php';         // ::create, ::store, ::fetch, and ::listall wiki pages
+require '../lib/user/auth.php';         // verify a user is logged in, or prompt login
 
 
 /**
@@ -38,11 +40,11 @@ if (file_exists("sitename"))
 else
     define("SITE_NAME", "Zicki");
 
-if (!file_exists("pages")) mkdir("pages");
-if (!file_exists("pages/v")) mkdir("pages/v");
-if (!file_exists("users")) mkdir("users");
+if (!file_exists("../pages"))   mkdir("../pages");
+if (!file_exists("../pages/v")) mkdir("../pages/v");
+if (!file_exists("../users"))   mkdir("../users");
 
-if (file_exists('private') && !in_array(substr(request_path(),1,1), ['=','-']))
+if (file_exists('../private') && !in_array(substr(request_path(),1,1), ['=','-']))
     auth();
 
 
@@ -63,7 +65,7 @@ get('/-', function() {
 
 function login_page($_ = "") {
     if (request_method('POST')) {
-        foreach (file("passwords") as $u) {
+        foreach (file("../passwords") as $u) {
             if (trim($u) == trim(g('user'))." ".trim(g('pass'))) {
                 session('user', g('user'));
                 redirect("/".$_);
