@@ -14,9 +14,10 @@ require '../src/getfirst.php';          // get first line of a file
 require '../src/http/g.php';            // fetch get/post variables
 require '../src/http/session.php';      // get and set session variables
 
+require '../src/page/page.php';         // ::store, ::fetch, and ::listall wiki pages
 require '../src/page/filename.php';     // generate the relative path of a wiki page
 require '../src/page/pagename.php';     // format a pretty page name
-require '../src/page/page.php';         // ::store, ::fetch, and ::listall wiki pages
+require '../src/page/pagefilter.php';   // format a pretty page name
 
 require '../src/template/asset.php';    // load an asset
 require '../src/template/markdown.php'; // compile an extended markdown to html
@@ -82,6 +83,10 @@ function login_page($_ = "") {
 }
 form('/=', 'login_page');
 form('/=<*:page>', 'login_page');
+
+get('/filter', function() {
+    echo json_encode(Page::filter(g("q")));
+});
 
 form('/register', function() {
     if (request_method('POST')) {

@@ -14,6 +14,11 @@ class Page {
         return count($list)>0 ? $list : [];
     }
 
+    public static function filter($filter = "/") {
+        $list = PageFilter::exact($filter);
+        return $list;
+    }
+
     public static function versions($name) {
         $versions = [];
 
