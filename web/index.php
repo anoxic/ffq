@@ -85,7 +85,13 @@ form('/=', 'login_page');
 form('/=<*:page>', 'login_page');
 
 get('/filter', function() {
-    echo json_encode(Page::filter(g("q")));
+    $list = Page::filter(g("q"));
+
+    if (strpos($_SERVER['HTTP_ACCEPT'],'json') !== false) {
+        echo json_encode($list);
+    } else {
+        render('filter.php', compact('list'));
+    }
 });
 
 form('/register', function() {

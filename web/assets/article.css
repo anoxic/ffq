@@ -14,9 +14,11 @@ time:hover       { cursor: n-resize; color: #504a4a }
 [role=notice]    { background: #F48A5D; color: #744955; padding: 2.5%; text-align: center; margin: 0 } 
 [role=notice] a  { color: #C36346; border: 0 }
 [role=title]     { margin-bottom: 5% }
+[role=title] input{ font: inherit; background: transparent; border: none; width: 100% }
 .redlink         { color: #C44545 } 
 .edit            { margin-left: .5em }
 .list            { padding: 0; list-style: none; }
 .list a          { line-height: 1.5em; display: block; padding: 1.5vh 5%; margin: 0 -5%; border: 0; border-radius: 2px; }
 .list li:nth-child(odd) a { background: #f6f6f3; }
 .list li a:hover { background: #acd0d7; }
+.list b { color: #796262; background: #FFF4A6; border-radius: 2px; padding: 0 2px; margin: -2px; font-weight: normal; }
