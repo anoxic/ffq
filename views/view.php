@@ -5,6 +5,13 @@
 <title><?=$slug?> on <?=SITE_NAME?></title>
 <style><?php asset("article.css"); ?></style>
 
+<div class=toolbar>
+<div class=wrapper>
+<a href=/ title=root>⇧</a>
+<a href=<?=partial("new_page.php")?> title=new>+</a>
+</div>
+</div>
+
 <?php partial("alert.php", get_defined_vars()); ?>
 
 <div class=wrapper>
