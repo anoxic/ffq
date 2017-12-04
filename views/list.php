@@ -8,7 +8,7 @@
 <?php partial("alert.php", get_defined_vars()); ?>
 
 <div class=wrapper>
-    <a href=javascript:window.location='/:'+prompt()>create new page</a>
+    <a href=<?=partial("new_page.php")?>>create new page</a>
 
     <h1 role=title> <input name=filter value="<?=$name?>" x-value="<?=$name?>"> </h1>
 
