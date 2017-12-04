@@ -5,11 +5,10 @@
 <title><?=$name?> on <?=SITE_NAME?></title>
 <style><?php asset("article.css"); ?></style>
 
+<?php partial("toolbar.php"); ?>
 <?php partial("alert.php", get_defined_vars()); ?>
 
 <div class=wrapper>
-    <a href=<?=partial("new_page.php")?>>create new page</a>
-
     <h1 role=title> <input name=filter value="<?=$name?>" x-value="<?=$name?>"> </h1>
 
     <ul class=list>
