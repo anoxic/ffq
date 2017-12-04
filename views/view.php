@@ -2,7 +2,7 @@
 <html lang=en>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width, initial-scale=1">
-<title><?=$slug?> on <?=SITE_NAME?></title>
+<title><?=$title?> on <?=SITE_NAME?></title>
 <style><?php asset("article.css"); ?></style>
 
 <?php partial("toolbar.php"); ?>
