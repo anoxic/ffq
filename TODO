@@ -18,13 +18,26 @@ user storage a little more permanant than a two-col password file
 ====
 ====
 
+Organizations
+    * for now, just add an "org id" column at the beginning of "passwords"
+
+Tasks
+    * var/store/<org>/segment/<hash>/task.<int>
+    * var/store/<org>/task/<hash> - contains priority type title desc done
+    * var/store/<org>/slug/task.<int>
+    * var/store/<org>/slug/<slug>
+
+Color groups (for folders)
+    * a simple way to store these - var/store/color/<prefix> (contains hex, hsb, etc)
+    * an interface that displays the folders with a color input next it
+
 Internal Storage
     new storage using git, maybe (also allow for different organization buckets)
-    * var/storage/<org>/                   - initialized git repository
-    * var/storage/<org>/pages/<hash>       - git versioned page, hash of some initial values
-    * var/storage/<org>/slugs/<slug>       - git versioned slug, contains page hash
-    * var/storage/<org>/tags/<tag>/<pages> - just an idea, could store tagged things here
-    git author would be "username" <org:userid>
+    * var/store/<org>/                   - initialized git repository
+    * var/store/<org>/pages/<hash>       - git versioned page, hash of some initial values
+    * var/store/<org>/slugs/<slug>       - git versioned slug, contains page hash
+    * var/store/<org>/tags/<tag>/<pages> - just an idea, could store tagged things here
+    git author would be: "username" <org:userid>
 
 For the heck of it
     switch router from bento to nikic/fastroute
@@ -46,8 +59,12 @@ Metainfo
     view count
     what links here
 
+Theming
+    ability to specify colors and fonts
+    for this, use either an .ini or css var() http://www.myth.io
+
 404s
-    fuzzy suggest on 404
+    fuzzy suggest on 404 ("did you mean")
         similar_text()
         levenshtein()
         soundex()
