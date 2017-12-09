@@ -15,7 +15,10 @@ class Page {
     }
 
     public static function filter($filter = "/") {
-        $list = PageFilter::exact($filter);
+        $list = PageFilter::mergeList(
+            PageFilter::prefix($filter),
+            PageFilter::exact($filter)
+        );
         return $list;
     }
 
