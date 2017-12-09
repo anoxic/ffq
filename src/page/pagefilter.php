@@ -10,7 +10,7 @@ class PageFilter {
             $merged = self::mergeListInner(array_pop($lists), $merged);
         }
 
-        return self::weightedSort($merged);
+        return self::listApplyMask(self::weightedSort($merged));
     }
 
     public static function prefix($name) {
@@ -21,15 +21,12 @@ class PageFilter {
         });
 
         $list = array_map(function($n) use ($name) {
+            $mask = str_repeat('*', strlen($name)) .
+                str_repeat('.', strlen($n) - strlen($name));
             return [
                 1,
                 pagename($n),
-                pagename(
-                    '<b>' .
-                    substr($n, 0, strlen($name)) .
-                    "</b>" .
-                    substr($n, strlen($name))
-                ),
+                $mask,
             ];
         }, $list);
 
@@ -39,15 +36,21 @@ class PageFilter {
     public static function exact($name) {
         $list   = [];
         $filter = $name ? filename($name,'') : ".*";
-        $regex  = "|(.*)($filter)(.*)|";
+        $regex  = "|$filter|";
         foreach (self::all() as $entry) {
             $matches = [];
             if (preg_match($regex, $entry, $matches)) {
-                $replace = $name ? preg_replace($regex, '$1<b>$2</b>$3', $entry) : $entry;
+                if ($name) {
+                    $replace = str_repeat('*', strlen($name));
+                    $mask = preg_replace($regex, $replace, $entry);
+                    $mask = preg_replace('|[^*]|', '.', $mask);
+                } else {
+                    $mask = $entry;
+                }
                 $list[] = [
                     1,
                     pagename($entry),
-                    pagename($replace)
+                    $mask
                 ];
             }
         }
@@ -89,6 +92,7 @@ class PageFilter {
         foreach ($l1 as $sha => $i) {
             if (isset($l2[$sha])) {
                 $i[0] += $l2[$sha][0] ?: 0;
+                $i[2] = self::mergeMask($i[2], $l2[$sha][2]);
             }
             $merged[$sha] = $i;
         }
@@ -100,6 +104,51 @@ class PageFilter {
         }
 
         return $merged;
+    }
+
+    private static function mergeMask($m1, $m2) {
+        $m1 = strtr($m1, '.*', '01');
+        $m2 = strtr($m2, '.*', '01');
+        return strtr($m1 | $m2, '01', '.*');
+    }
+
+    private static function listApplyMask($list) {
+        foreach ($list as &$i) {
+            $i[2] = self::applyMask($i[2], $i[1]);
+        }
+        return $list;
+    }
+
+    private static function applyMask($mask, $str) {
+        $positive = false;
+        $edges = [];
+
+        foreach (str_split($mask) as $k => $v) {
+            if ($positive) {
+                if ($v == '.') {
+                    $positive = false;
+                    $edges[] = $k;
+                }
+            } else {
+                if ($v == '*') {
+                    $positive = true;
+                    $edges[] = $k;
+                }
+            }
+        }
+
+        if (count($edges) & 1) {
+            $edges[] = strlen($str);
+        }
+
+        while (count($edges)) {
+            $stop  = array_pop($edges);
+            $start = array_pop($edges);
+            $str = substr($str, 0, $stop) . "</b>" . substr($str, $stop);
+            $str = substr($str, 0, $start) . "<b>" . substr($str, $start);
+        }
+
+        return $str;
     }
 
     private static function weightedSort($l) {
