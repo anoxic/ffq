@@ -2,9 +2,10 @@
 *                { color: #615555; line-height: 1.6; font-family: lucida grande,segoe ui,roboto,sans-serif }
 body             { background: #FEFFFA; margin: 0 }
 .wrapper         { margin: 0 auto 2em; padding: 1em; max-width: 40em; min-width: 50% }
-h1,h2,h3,h4,h5,h6{ font-weight: 400; line-height: 1em; margin: 8% 0 3%; color: #504a4a } 
+h1,h2,h3,h4,h5,h6{ font-family: -apple-system,lucida grande,segoe ui,roboto,sans-serif; font-weight: 400; line-height: 1em; margin: 8% 0 3%; color: #504a4a } 
 ul,ol,blockquote { padding: 0 0 0 1.5em } 
 p                { margin: 3% 0 }
+hr               { border: 1px solid; }
 a                { text-decoration: none; border-bottom: 4px solid #ADADAD } 
 a:hover          { border-color: currentColor } 
 code             { color: #9E9E9E; font-family: consolas, menlo, monaco, monospace }
