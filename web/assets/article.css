@@ -24,7 +24,7 @@ time:hover       { cursor: n-resize; color: #504a4a }
 .list li:nth-child(odd) a { background: #f6f6f3; }
 .list li a:hover { background: #acd0d7; }
 .list b { color: #796262; background: #FFF4A6; border-radius: 2px; padding: 0 2px; margin: -2px; font-weight: normal; }
-.toolbar, .toolbar * { background: #504d4d; color: #FEFFFA; border: none; }
+.toolbar, .toolbar * { background: #504d4d; color: #FEFFFA; border: none; height: 4.5vh }
 .toolbar .wrapper { margin-bottom: 0; padding: 0 1em 0; line-height: 4.5vh; }
-.toolbar a { padding: .8vh; }
+.toolbar a { padding: 0 1vh; line-height: 4.5vh; display: inline-block }
 .toolbar a:hover { background: #2d2b2b; }
