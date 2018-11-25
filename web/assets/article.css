@@ -27,4 +27,4 @@ time:hover       { cursor: n-resize; color: #504a4a }
 .toolbar, .toolbar * { background: #504d4d; color: #FEFFFA; border: none; }
 .toolbar .wrapper { margin-bottom: 0; padding: 0 1em 0; line-height: 4.5vh; }
 .toolbar a { padding: .8vh; }
-.toolbar a:hover { background: #464444; }
+.toolbar a:hover { background: #2d2b2b; }
