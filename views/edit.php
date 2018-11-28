@@ -8,7 +8,6 @@
 </head>
 
 <body class=edit-view>
-<?php partial("toolbar.php", ["edit"=>1]); ?>
 <?php partial("alert.php", get_defined_vars()); ?>
 
 <div class=wrapper>
