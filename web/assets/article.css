@@ -28,3 +28,6 @@ time:hover       { cursor: n-resize; color: #504a4a }
 .toolbar .wrapper { margin-bottom: 0; padding: 0 1em 0; line-height: 4.5vh; }
 .toolbar a { padding: 0 1vh; line-height: 4.5vh; display: inline-block }
 .toolbar a:hover { background: #2d2b2b; }
+
+.edit-view input, .edit-view textarea { width: 100%; font: inherit; padding: 0; margin: -.15em 0 0 }
+.edit-view textarea { border: 0; }

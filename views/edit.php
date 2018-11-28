@@ -4,10 +4,11 @@
 	<meta charset=utf-8>
     <meta name=viewport content="width=device-width, initial-scale=1">
     <title>Edit <?=$slug?> * <?=SITE_NAME?></title>
-    <style><?php asset("wiki.css"); ?></style>
+    <style><?php asset("article.css"); ?></style>
 </head>
 
-<body>
+<body class=edit-view>
+<?php partial("toolbar.php", ["edit"=>1]); ?>
 <?php partial("alert.php", get_defined_vars()); ?>
 
 <div class=wrapper>
@@ -15,12 +16,12 @@
         <?= csrf_field() ?>
 
         <div class=header>
-            <label>Title <input name=title size=50 length=50 value="<?=$title?>"></label>
-            <label>URL Slug <input name=slug size=50 length=50 value="<?=$slug?>"></label>
+            <h1 role=title><input name=title size=50 length=50 value="<?=$title?>"></h1>
         </div>
 
-        <label>Body <textarea name=content id=content><?=$text?></textarea></label>
+        <textarea name=content id=content><?=$text?></textarea>
 
+        <label>URL Slug <input name=slug size=50 length=50 value="<?=$slug?>"></label>
         <label>Update Summary <input name=summary size=50 length=50></label>
 
         <div class=header>
