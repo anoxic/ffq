@@ -62,6 +62,7 @@ get('/-', function() {
     session_start();
     $_SESSION = [];
     session_destroy();
+    redirect('/');
 });
 
 function login_page($_ = "") {
