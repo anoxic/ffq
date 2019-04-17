@@ -55,7 +55,7 @@ if (file_exists('../private') && !in_array(substr(request_path(),1,1), ['=','-']
 
 get('/', function() {
     render('list.php',
-        ['name'=>"All Pages",'list'=>Page::listall(),'all'=>true]);
+        ['name'=>"All Pages",'list'=>Page::listall('/', session('user')),'all'=>true]);
 });
 
 get('/-', function() {
@@ -66,8 +66,10 @@ get('/-', function() {
 
 function login_page($_ = "") {
     if (request_method('POST')) {
+        $hash = password_hash(g('pass'), PASSWORD_BCRYPT, ['salt' => sha1(g('user'))]);
+        $test = trim(g('user'))."\t".$hash;
         foreach (file("../passwords") as $u) {
-            if (trim($u) == trim(g('user'))." ".trim(g('pass'))) {
+            if (substr(trim($u), 0, strlen($test)) == $test) {
                 session('user', g('user'));
                 redirect("/".$_);
             }
@@ -85,6 +87,8 @@ form('/=', 'login_page');
 form('/=<*:page>', 'login_page');
 
 get('/filter', function() {
+    auth("filter");
+
     $list = Page::filter(g("q"));
 
     if (strpos($_SERVER['HTTP_ACCEPT'],'json') !== false) {
@@ -125,7 +129,7 @@ form('/register', function() {
 });
 
 form('/:<*:page>', function($_) {
-    auth();
+    auth($_);
 
     if (request_method('POST')) {
         if (Page::store(g("slug"), g("content"),
@@ -161,7 +165,7 @@ form('/:<*:page>', function($_) {
 });
 
 form('/!<*:page>', function($_) {
-    auth();
+    auth($_);
 
     $file = filename($_);
 
@@ -181,6 +185,8 @@ form('/!<*:page>', function($_) {
 });
 
 get('/<*:page>~<#:version>', function($_, $v) {
+    auth($_);
+
     if ($f = Page::fetch($_, $v)) {
         $title = g("title") ? g("title") : isset($f->header['title'])
             ? $f->header['title'] : e($_);
@@ -192,6 +198,8 @@ get('/<*:page>~<#:version>', function($_, $v) {
 });
 
 get('/\\*<*:page>', function($_) {
+    auth($_);
+
     if ($f = Page::fetch($_)) {
         $v = $f->version;
         $list = [];
@@ -212,6 +220,8 @@ get('/\\*<*:page>', function($_) {
 });
 
 get('/<*:page>', function($_) {
+    auth($_);
+
     if (substr($_, -1) == "/" && $list = Page::listall($_)) {
         render('list.php', ['name'=>$_,'list'=>$list,'all'=>$_=='/']);
     } elseif ($f = Page::fetch($_)) {

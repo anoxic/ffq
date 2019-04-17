@@ -2,9 +2,18 @@
 // functions for storing, fetching, and listing pages
 
 class Page {
-    public static function listall($dir = "/") {
+    public static function listall($dir = "/", $user = false) {
         $dir  = "|^".filename($dir,'')."*|";
         $list = [];
+
+        if ($user) {
+            $h = fopen('../passwords', 'r');
+            while ($u = fscanf($h, "%s\t%s\t%s\n")) {
+                if ($u[0] == $user) {
+                    return array_map('pagename', explode(",", $u[2]));
+                }
+            }
+        }
 
         foreach (scandir('../pages') as $entry) {
             if (!is_dir("../pages/$entry") && preg_match($dir, $entry))
