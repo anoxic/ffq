@@ -9,7 +9,7 @@ class Page {
         if ($user) {
             $h = fopen('../passwords', 'r');
             while ($u = fscanf($h, "%s\t%s\t%s\n")) {
-                if ($u[0] == $user) {
+                if ($u[0] == $user && $u[2]) {
                     return array_map('pagename', explode(",", $u[2]));
                 }
             }
