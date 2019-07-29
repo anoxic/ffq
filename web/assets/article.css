@@ -16,7 +16,7 @@ time:hover       { cursor: n-resize; color: #504a4a }
 [name=versions]  { border: none; background: inherit; margin: 0.6em 0 0; -webkit-appearance: inherit; font: inherit; }
 [role=notice]    { background: #F48A5D; color: #744955; padding: 2.5%; text-align: center; margin: 0 } 
 [role=notice] a  { color: #C36346; border: 0 }
-[role=title]     { margin-bottom: 5%; color: inherit; font-family: charter,georgia,serif; }
+[role=title]     { margin-bottom: 5%; color: inherit; font-family: georgia,serif; }
 [role=title] input{ font: inherit; background: transparent; border: none; width: 100% }
 .redlink         { color: #C44545 } 
 .edit            { margin-left: .5em }
