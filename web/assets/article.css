@@ -17,7 +17,7 @@ time:hover       { cursor: n-resize; color: #504a4a }
 [role=notice]    { background: #F48A5D; color: #744955; padding: 2.5%; text-align: center; margin: 0 } 
 [role=notice] a  { color: #C36346; border: 0 }
 [role=title]     { margin-bottom: 5%; color: inherit; font-family: liberation serif,century schoolbook l,charter,georgia,serif; }
-[role=title] input{ font: inherit; background: transparent; border: none; width: 100% }
+[role=title] input{ font: inherit; background: transparent; border: none; width: 100%; padding: 0 0 .1em; }
 .redlink         { color: #C44545 } 
 .edit            { margin-left: .5em }
 .list            { padding: 0; list-style: none; }
@@ -33,5 +33,5 @@ time:hover       { cursor: n-resize; color: #504a4a }
 .toolbar [title=root] { font-size: 1.6em; line-height: 3.6vh }
 
 .edit-view { border-top: 4.5vh solid }
-.edit-view input, .edit-view textarea { width: 100%; font: inherit; padding: 0; margin: -.15em 0 0 }
+.edit-view input, .edit-view textarea { width: 100%; font: inherit; padding: 0 0 .1em; margin: -.15em 0 0 }
 .edit-view textarea { border: 0; }
