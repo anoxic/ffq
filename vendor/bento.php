@@ -915,14 +915,14 @@ function p($string, $force = false)
 /**
  * Displays a PHP template. Throws a RuntimeException on invalid files.
  *
- * @param string $file PHP template file
+ * @param string $_the_file PHP template file
  * @param array  $data Array of key-value template data
  */
-function display_template($file, $data = array())
+function display_template($_the_file, $data = array())
 {
-    if (!is_readable($file)) {
+    if (!is_readable($_the_file)) {
         throw new \RuntimeException(sprintf(
-            'template file %s is not readable', $file
+            'template file %s is not readable', $_the_file
         ));
     }
     extract($data);
