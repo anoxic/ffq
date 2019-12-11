@@ -1,3 +1,4 @@
+:root            { color-scheme: light dark; }
 *                { color: #393232; line-height: 1.6; font-family: lucida grande,segoe ui,roboto,sans-serif }
 body             { background: #FEFFFA; margin: 0 }
 .wrapper         { margin: 0 auto 2em; padding: 1em; max-width: 40em; min-width: 50% }
@@ -35,3 +36,14 @@ time:hover       { cursor: n-resize; color: #504a4a }
 .edit-view { border-top: 4.5vh solid }
 .edit-view input, .edit-view textarea { width: 100%; font: inherit; padding: 0; margin: -.15em 0 0 }
 .edit-view textarea { border: 0; }
+
+@media (prefers-color-scheme: dark) {
+  *                { color: rgb(210, 207, 211); }
+  body             { background: rgb(22, 23, 22); }
+  h1,h2,h3,h4,h5,h6{ color: rgb(146,139,150); }
+  a                { border-bottom-color: #353733 } 
+  a:hover          { border-color: #5c3b44 } 
+  .list li:nth-child(odd) a { background: rgb(29, 31, 33); }
+  .list li a:hover,.toolbar a:hover { background: #6a2d3a; }
+  .toolbar,.toolbar * { background: rgb(13, 14, 13); }
+}
