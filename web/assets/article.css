@@ -22,11 +22,11 @@ time:hover       { cursor: n-resize; color: #504a4a }
 [todo]           { list-style: none }
 .redlink         { color: #C44545 } 
 .edit            { margin-left: .5em }
-.list            { padding: 0; list-style: none }
-.list a          { line-height: 1.5em; display: block; padding: 1.5vh 5%; margin: 0 -5%; border: 0; border-radius: 2px }
-.list li:nth-child(odd) a { background: #f6f6f3 }
-.list li a:hover { background: #acd0d7 }
-.list b { color: #796262; background: #FFF4A6; border-radius: 2px; padding: 0 2px; margin: -2px; font-weight: normal }
+menu             { padding: 0 }
+mi:nth-child(odd) a { background: #f6f6f3 }
+mi a             { line-height: 1.5em; display: block; padding: 1.5vh 5%; margin: 0 -5%; border: 0; border-radius: 2px }
+mi a:hover       { background: #acd0d7 }
+mi b             { color: #796262; background: #FFF4A6; border-radius: 2px; padding: 0 1px; margin: -1px; font-weight: normal }
 .toolbar, .toolbar * { background: #504d4d; color: #FEFFFA; border: none; height: 4.5vh }
 .toolbar .wrapper { margin-bottom: 0; padding: 0 1em 0 }
 .toolbar a { padding: 0 1vh; line-height: 4.4vh; float: left }
@@ -44,8 +44,8 @@ time:hover       { cursor: n-resize; color: #504a4a }
   h1,h2,h3,h4,h5,h6{ color: rgb(146,139,150) }
   a                { border-bottom-color: #353733 } 
   a:hover          { border-color: #5c3b44 } 
-  .list li:nth-child(odd) a { background: rgb(29, 31, 33) }
-  .list li a:hover,.toolbar a:hover { background: #6a2d3a }
+  mi:nth-child(odd) a { background: rgb(29, 31, 33) }
+  mi a:hover,.toolbar a:hover { background: #6a2d3a }
   .toolbar,.toolbar * { background: rgb(13, 14, 13) }
   .edit-view       { border-top-color: rgb(13, 14, 13) }
 }
