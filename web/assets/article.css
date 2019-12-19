@@ -47,4 +47,5 @@ time:hover       { cursor: n-resize; color: #504a4a }
   .list li:nth-child(odd) a { background: rgb(29, 31, 33); }
   .list li a:hover,.toolbar a:hover { background: #6a2d3a; }
   .toolbar,.toolbar * { background: rgb(13, 14, 13); }
+  .edit-view       { border-top-color: rgb(13, 14, 13) }
 }
