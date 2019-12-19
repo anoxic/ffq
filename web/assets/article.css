@@ -19,6 +19,7 @@ time:hover       { cursor: n-resize; color: #504a4a }
 [role=notice] a  { color: #C36346; border: 0 }
 [role=title]     { margin-bottom: 5%; color: inherit; font-family: liberation serif,century schoolbook l,charter,georgia,serif; }
 [role=title] input{ font: inherit; background: transparent; border: none; width: 100%; padding: 0 0 .1em; }
+[todo]           { list-style: none }
 .redlink         { color: #C44545 } 
 .edit            { margin-left: .5em }
 .list            { padding: 0; list-style: none; }
