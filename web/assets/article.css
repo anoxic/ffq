@@ -47,6 +47,8 @@ mi b             { color: #796262; background: #FFF4A6; border-radius: 2px; padd
   a:hover          { border-color: #5c3b44 } 
   mi:nth-child(odd) a { background: rgb(29, 31, 33) }
   mi a:hover,.toolbar a:hover { background: #6a2d3a }
+  [role=notice]    { background: #5c3b44; color: inherit }
+  [role=notice] a  { color: #a36670 }
   .toolbar,.toolbar * { background: rgb(13, 14, 13) }
   .edit-view       { border-top-color: rgb(13, 14, 13) }
 }
