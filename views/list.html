@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang=en>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width, initial-scale=1">
+<title>{{.Title}} on {{with .WikiName}}{{.}}{{end}}</title>
+<style>{{template "ffq.css" .}}</style>
+
+{{template "toolbar.html" .}}
+{{template "alert.html" .}}
+
+<div class=wrapper>
+    <menu>
+        {{range .Items}} <mi><a href="/{{ . }}">{{ . }}</a></mi> {{else}} <mi>no items</mi> {{end}}
+    </menu>
+</div>

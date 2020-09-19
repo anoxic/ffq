@@ -2,6 +2,7 @@
 *.swo
 pages/
 users/
+rev/
 passwords
 private
 sitename

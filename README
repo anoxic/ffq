@@ -1,80 +1,121 @@
-"fast fast quick": personal versioned wiki web
+"fast fast quick": a personal wiki
+wiki web with editing history
 
 
-== URLs 
 
-URL patterns are made to be fairly easy to type,
-for power users to be able to quickly perform any of the operations.
-In this way the address acts as a simplified command language.
-
-Instead of the usual "RESTful" urls, we prefix little "sigils".
-This might make the urls less easy to remember or see what's going on if you're unfamiliar,
-but I think it might be refreshingly different.
-
-Here is the planned URL structure, where implemented segments
-are marked with an asterisk.
-
-*normal pages  /<page-name>
-*by version    /<page-name>~<version-number>
-*user pages    /~<user-name>(/<pagename>)
-
-*listing       /<blob>/
-*list all      //
-*user pages    /~/
-
-*editing       /:<page-name>
-*deleting      /!<page-name>
-*revisions     /*<page-name>
-reverting      /@<page-name>~<version-number>
-moving         /@<page-name>@<new-name>
-
-*login         /=<redirect-url>
-*logout        /-
-icing          /!!<page-name|~user-name>
-signup         /+
-settings       /:
-
-stats/admin    /::
-    
-
-Internally, pages are stores in a simple data structure.
-
-pages  
-pages/v
-
-When /test-page is accessed, we will look for a soft link under pages/test-page.
-This link should point to the latest revision, which may look like pages/v/test-page~1.
-If no page is found in this way a 404 Not Found is returned.
-We know only about ascii letters, others are replaced with `-`, and for directory structures, we use "." internally to represent hierarchy, and "/" externally.
-
-versions are iterated up from 0  
-
-user pages are kept as pages/~username.pagename  
-nothing is designed to keep someone else from editing a user's page,  
-or from creating a page for a nonexistent user.
-user pages are simply named like this for convention
-
-locks or "ices" are kept in pages/i/<page-name> as empty files
-or contain a list of allowed users and allow the page to be locked
+~ uri interface ~
 
 
-== Access, editing
+The address paths are designed to be
+easy to type, and after a minimal amount
+of acclimation, easy to remember. To
+this end, I use ``sigil'' prefixes
+instead of the ``pretty'' or ``rest''
+like paths common today.
 
-user names are kept in a file called passwd  
-before being allowed to edit, users are prompted for a password  
+/         list all pages
+/folder/  list pages in a folder
+/page     view a page
+/page~10  view a revision
+/page~    list all revisions
+/:page    edit a page
+/!page    delete a page
+/=        login
+/=page    login, redirecting to a page
+/-        logout
 
-alternatively, if a file called "private" exists, access is disallowed until the user authenticates
-
-edit pages are just a textarea and submit button  
-admins are users with a score of 1000 or more and can edit locked pages or create locks
+Adding users is done with the
+``add_user'' tool.
 
 
-== files
 
-keep a header in each file that summarizes the modification time, user, title, score of modification, and up/down voters
+~ folder structure ~
 
 
-== users
+Internally, we have a simple way to
+store pages and their revisions.  If a
+page called ``test'' is saved, and it is
+the 4th revision, we first look in
+``pages/test'', which contains the
+revision number 4, and then use that to
+form the path ``revs/test~4''
 
-get a profile of their own that stores some personal data,
-and their score, as well as all changes and updates they have made
+pages/test --> revs/test~4
+
+And so, this is the folder structure
+used to house pages.
+
+pages/
+revs/
+
+The rest of the internal folder
+structure is the following, and mostly
+explains itself.
+
+templates/
+conf/
+  private - all pages require login if exists
+  host - domain and port for http
+  title - human-readable title for the wiki
+  user.bob - user password/access
+bin/
+
+
+
+~ data format ~
+
+
+Pages are formatted using markdown, with
+``github-style'' checkboxes/todos added.
+Metadata and user format aren't worth
+documented here. They are both very
+simple, and at the same time "internal"
+enough that, if you really need to know,
+just look at the files or the source.
+
+
+
+~ possible future additions ~
+
+
+I have considered making todos or tasks
+first-class citizens in ffq, and making
+it so that you can list and sort them
+separately from the pages they inhabit,
+in a way similar to OmniFocus or
+Remember The Milk, since I tend to use
+ffq as an personal organizer. Another
+additions could be image or attachment
+support / management. Not for full
+``photo library'' use but just as
+support for the wiki pages.
+
+
+
+~ current tasks to be completed ~
+
+
+-   ------------------------------------
+
+x   basic page listing
+o   list pages under a prefix
+o   render a basic page/revision
+o   utility functions for
+    - ToPathName (like php ``filename()'')
+    - ToTitle (like php ``pagename()'')
+o   edit a page
+o   delete a page
+o   use markdown for the rendering
+o   list all revisions
+o   add_user utility
+o   user login (a cookie consisting of
+    login id and an hmac)
+o   logout
+o   config for wiki name, host, and
+    privacy settings
+o   checkbox support (template, xmlhttprequest)
+o   search (xmlhttprequest)
+o   new ui with left sidebar
+   
+
+-   ------------------------------------
