@@ -101,7 +101,7 @@ support for the wiki pages.
 -   ------------------------------------
 
 x   basic page listing
-o   list pages under a prefix
+x   list pages under a prefix
 o   render a basic page/revision
 x   utility functions for
     - toFilePath (like php ``filename()'')

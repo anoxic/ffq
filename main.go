@@ -4,6 +4,7 @@ import (
 	//"time"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 type Page struct {
@@ -45,6 +46,11 @@ func handler() http.HandlerFunc {
 			var files2 []ListedPage
 
 			for _, file := range files {
+				if r.URL.String() != "/" {
+					if !strings.HasPrefix(toSlugPath(file.Name()), r.URL.String()[1:]) {
+						continue
+					}
+				}
 				files2 = append(files2, ListedPage{toHumanPath(file.Name()), toSlugPath(file.Name())})
 			}
 
