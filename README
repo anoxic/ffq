@@ -115,6 +115,7 @@ o   add_user utility
 o   user login (a cookie consisting of
     login id and an hmac)
 o   logout
+o   make the error page actually nice
 o   config for wiki name, host, and
     privacy settings
 o   checkbox support (template, xmlhttprequest)
