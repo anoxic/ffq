@@ -25,6 +25,7 @@ type ListedPage struct {
 func main() {
 	host := ":8080"
 	handler := handler()
+	logf("http listener binding to %s", host)
 	err := http.ListenAndServe(host, handler)
 	if err != nil {
 		dief("http listener unable to bind to %s", host)
