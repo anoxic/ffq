@@ -37,41 +37,45 @@ func handler() http.HandlerFunc {
 		logf("http %v", r.URL.String())
 
 		if r.URL.String()[len(r.URL.String())-1:] == "/" {
-			dirname := "pages"
-
-			files, err := ioutil.ReadDir(dirname)
-			if err != nil {
-				webError(w, err)
-				return
-			}
-
-			var files2 []ListedPage
-
-			for _, file := range files {
-				if r.URL.String() != "/" {
-					if !strings.HasPrefix(toSlugPath(file.Name()), r.URL.String()[1:]) {
-						continue
-					}
-				}
-				files2 = append(files2, ListedPage{toHumanPath(file.Name()), toSlugPath(file.Name())})
-			}
-
-			data := struct {
-				Title    string
-				Items    []ListedPage
-				WikiName string
-				Notice   string
-				Page     Page
-			}{
-				Title:    "My page",
-				Items:    files2,
-				WikiName: "Notes",
-			}
-			webRender(w, "list", data)
+			listingHandler(w, r)
 		} else {
 			webError(w, "NotFound")
 		}
 	})
+}
+
+func listingHandler(w http.ResponseWriter, r *http.Request) {
+	dirname := "pages"
+
+	files, err := ioutil.ReadDir(dirname)
+	if err != nil {
+		webError(w, err)
+		return
+	}
+
+	var files2 []ListedPage
+
+	for _, file := range files {
+		if r.URL.String() != "/" {
+			if !strings.HasPrefix(toSlugPath(file.Name()), r.URL.String()[1:]) {
+				continue
+			}
+		}
+		files2 = append(files2, ListedPage{toHumanPath(file.Name()), toSlugPath(file.Name())})
+	}
+
+	data := struct {
+		Title    string
+		Items    []ListedPage
+		WikiName string
+		Notice   string
+		Page     Page
+	}{
+		Title:    "My page",
+		Items:    files2,
+		WikiName: "Notes",
+	}
+	webRender(w, "list", data)
 }
 
 func loadPage(title string) (*Page, error) {
