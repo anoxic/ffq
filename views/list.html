@@ -10,6 +10,6 @@
 
 <div class=wrapper>
     <menu>
-        {{range .Items}} <mi><a href="/{{ . }}">{{ . }}</a></mi> {{else}} <mi>no items</mi> {{end}}
+        {{range .Items}} <mi><a href="/{{ .SlugPath }}">{{ .HumanPath }}</a></mi> {{else}} <mi>no items</mi> {{end}}
     </menu>
 </div>

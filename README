@@ -66,12 +66,15 @@ bin/
 
 
 Pages are formatted using markdown, with
-``github-style'' checkboxes/todos added.
+``github style'' checkboxes/todos added.
 Metadata and user format aren't worth
 documented here. They are both very
-simple, and at the same time "internal"
+simple, and at the same time ``internal''
 enough that, if you really need to know,
 just look at the files or the source.
+
+You can ``star'' a page by making it's 
+path start with #
 
 
 
@@ -100,9 +103,10 @@ support for the wiki pages.
 x   basic page listing
 o   list pages under a prefix
 o   render a basic page/revision
-o   utility functions for
-    - ToPathName (like php ``filename()'')
-    - ToTitle (like php ``pagename()'')
+x   utility functions for
+    - toFilePath (like php ``filename()'')
+    - toHumanPath (like php ``pagename()'')
+    - toSlugPath
 o   edit a page
 o   delete a page
 o   use markdown for the rendering

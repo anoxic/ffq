@@ -16,6 +16,11 @@ type Page struct {
 	Body []byte
 }
 
+type ListedPage struct {
+	HumanPath string
+	SlugPath  string
+}
+
 func main() {
 	host := ":8080"
 	handler := handler()
@@ -37,15 +42,15 @@ func handler() http.HandlerFunc {
 				webError(w, err)
 			}
 
-			var files2 []string
+			var files2 []ListedPage
 
 			for _, file := range files {
-				files2 = append(files2, file.Name())
+				files2 = append(files2, ListedPage{toHumanPath(file.Name()), toSlugPath(file.Name())})
 			}
 
 			data := struct {
 				Title    string
-				Items    []string
+				Items    []ListedPage
 				WikiName string
 				Notice   string
 				Page     Page
