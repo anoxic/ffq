@@ -42,6 +42,7 @@ func handler() http.HandlerFunc {
 			files, err := ioutil.ReadDir(dirname)
 			if err != nil {
 				webError(w, err)
+				return
 			}
 
 			var files2 []ListedPage

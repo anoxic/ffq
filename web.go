@@ -21,10 +21,10 @@ func dief(f string, a ...interface{}) {
 	os.Exit(1)
 }
 
-func webError(w http.ResponseWriter, data interface{}) {
+func webError(w http.ResponseWriter, err interface{}) {
 	w.WriteHeader(http.StatusInternalServerError)
 	t := template.Must(template.ParseFiles("views/error.html"))
-	t.Execute(w, data)
+	t.Execute(w, struct{ Error interface{} }{err})
 }
 
 func webRender(w http.ResponseWriter, tmpl string, data interface{}) {
