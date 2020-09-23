@@ -7,10 +7,11 @@ h1,h2,h3,h4,h5,h6{ font-weight: 400; line-height: 1em; margin: 8% 0 3%; color: #
 ul,ol,blockquote { padding: 0 0 0 1.6em }
 p                { margin: 3% 0 }
 hr               { border: 1px solid }
-a                { text-decoration: none; border-bottom: 4px solid #ADADAD }
+a                { text-decoration: none; border-bottom: 4px solid #b9a8a8 }
 a:hover          { border-color: currentColor }
 author::before   { content: "— " }
 author           { color: #877575 }
+author a         { color: inherit }
 code,input,textarea { color: #9e9e9e; font-family: consolas, menlo, monaco, monospace }
 time:hover       { cursor: n-resize; color: #504a4a }
 input,textarea   { font-size: inherit }
