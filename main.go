@@ -2,19 +2,23 @@ package main
 
 import (
 	//"time"
+	"bufio"
+	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strings"
 )
 
 type Page struct {
 	Path       string
-	Rev        int
 	Title      string
+	Rev        string
 	RevSummary string
 	RevAuthor  string
-	//RevTime    Time
-	Body []byte
+	Body       string
+	RevTime    string
 }
 
 type ListedPage struct {
@@ -34,12 +38,15 @@ func main() {
 
 func handler() http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		logf("http %v", r.URL.String())
+		path := r.URL.String()
 
-		if r.URL.String()[len(r.URL.String())-1:] == "/" {
+		logf("http %v", path)
+
+		if path[len(path)-1:] == "/" {
 			listingHandler(w, r)
 		} else {
-			webError(w, "NotFound")
+			page, err := loadPage(path)
+			webRender(w, "view", map[string]interface{}{"page": page, "err": err})
 		}
 	})
 }
@@ -78,13 +85,75 @@ func listingHandler(w http.ResponseWriter, r *http.Request) {
 	webRender(w, "list", data)
 }
 
-func loadPage(title string) (*Page, error) {
-	filename := title + ".txt"
-	body, err := ioutil.ReadFile(filename)
+func attemptOpen(path string) (*os.File, error) {
+	file, err := os.Open(path)
+
+	if os.IsNotExist(err) {
+		return nil, errors.New(fmt.Sprintf("NotFound: %s", path))
+	}
+
 	if err != nil {
 		return nil, err
 	}
-	return &Page{Title: title, Body: body}, nil
+
+	return file, nil
+}
+
+func loadPage(path string) (*Page, error) {
+	filename := "pages/" + toFilePath(path)
+
+	file, err := attemptOpen(filename)
+	if err != nil {
+		return nil, err
+	}
+	b1 := make([]byte, 8)
+	n1, err := file.Read(b1)
+	if err != nil {
+		return nil, err
+	}
+	file.Close()
+	//return &Page{Path: path, Body: string(b1[0:n1]), Title: string(n1)}, nil
+
+	filename = "rev/" + toFilePath(path) + "~" + string(b1[0:n1-1])
+	file, err = attemptOpen(filename)
+
+	if err != nil {
+		return nil, err
+	}
+
+	page := &Page{}
+
+	scanner := bufio.NewScanner(file)
+
+	find := func(haystack string, needle string, i *string) {
+		needle = needle + " "
+		if strings.Index(haystack, needle) != -1 {
+			*i = haystack[len(needle):]
+		}
+	}
+
+	for scanner.Scan() {
+		logf(scanner.Text())
+
+		find(scanner.Text(), `path`, &page.Path)
+		find(scanner.Text(), `title`, &page.Title)
+		find(scanner.Text(), `rev`, &page.Rev)
+		find(scanner.Text(), `rev_summary`, &page.RevSummary)
+		find(scanner.Text(), `rev_author`, &page.RevAuthor)
+		find(scanner.Text(), `rev_time`, &page.RevTime)
+	}
+
+	logf("%s", page)
+
+	for scanner.Scan() {
+		//load into a bytes.Buffer
+	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, err
+	}
+
+	return &Page{Path: path}, nil
 }
 
 // p := &Page{Title: title, Body: []byte(body)}
