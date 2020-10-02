@@ -162,6 +162,3 @@ func (p *Page) save() error {
 	filename := p.Title + ".txt"
 	return ioutil.WriteFile(filename, p.Body, 0600)
 }
-
-// TODO
-// - make a "check" function to see if an error happened, if so log + w.Exec something
