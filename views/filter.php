@@ -1,3 +1,3 @@
 <?php foreach ($list as $i): ?>
-    <mi><a href="/<?=$i[1]?>"><?=$i[2]?></a></mi>
+    <li><a href="/<?=$i[1]?>"><?=$i[2]?></a></li>
 <?php endforeach; ?>

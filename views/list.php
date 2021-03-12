@@ -11,11 +11,11 @@
 <div class=wrapper>
     <h1 role=title> <input name=filter value="<?=$name?>" x-value="<?=$name?>"> </h1>
 
-    <menu>
+    <ol class=list>
     <?php foreach ($list as $i): ?>
-        <mi><a href="/<?=$i?>"><?=$i?></a></mi>
+        <li><a href="/<?=$i?>"><?=$i?></a></li>
     <?php endforeach; ?>
-    </menu>
+    </ol>
 </div>
 
 <script>
@@ -52,7 +52,7 @@ filter.onblur = function() {
 filter.onkeyup = function() {
     rpc("/filter", this.value, function() {
         if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-            document.querySelector("menu").innerHTML = this.responseText
+            document.querySelector("ol").innerHTML = this.responseText
         }
     })
 }
