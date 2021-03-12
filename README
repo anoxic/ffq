@@ -68,12 +68,12 @@ bin/
 Pages are formatted using markdown, with
 ``github style'' checkboxes/todos added.
 Metadata and user format aren't worth
-documented here. They are both very
+documenting here. They are both very
 simple, and at the same time ``internal''
 enough that, if you really need to know,
 just look at the files or the source.
 
-You can ``star'' a page by making it's 
+You can ``fave'' a page by making it's 
 path start with #
 
 
