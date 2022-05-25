@@ -1,0 +1,12 @@
+{
+    "name": "anoxic/ffq",
+    "autoload": {
+        "psr-4": {
+            "Ffq\\": "src/"
+        },
+        "files": [
+            "src/routes.php"
+        ]
+    },
+    "require": {}
+}
