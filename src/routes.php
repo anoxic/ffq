@@ -4,7 +4,6 @@ const WK = '.well-known/';
 function route(string $method, string $uri)
 {
     [$code, $body] = match (true) {
-        suffix($uri, '/') => handle('listing', $uri),
         prefix($uri, ':') => handle('edit', $uri),
         prefix($uri, '!') => handle('delete', $uri),
         prefix($uri, '=') => handle('login', $uri),
@@ -19,11 +18,6 @@ function route(string $method, string $uri)
 function prefix(string $uri, string $sigil)
 {
     return substr($uri, 1, strlen($sigil)) == $sigil;
-}
-
-function suffix(string $uri, string $sigil)
-{
-    return substr($uri, -strlen($sigil)) == $sigil;
 }
 
 function handle(string $view)
