@@ -5,7 +5,8 @@
             "Ffq\\": "src/"
         },
         "files": [
-            "src/routes.php"
+            "src/routes.php",
+            "src/file.php"
         ]
     },
     "require": {}
