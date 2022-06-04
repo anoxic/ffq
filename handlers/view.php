@@ -1,3 +1,12 @@
+<style>
+nav {
+ width: 100%;
+ float: left;
+ border-bottom: 2px groove gray;
+ margin-bottom: 1em;
+}
+.bread { list-style: none; float: left; padding: 0 1em 0 0; }
+</style>
 <?php
 
 $found = 0;
