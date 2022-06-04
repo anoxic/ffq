@@ -17,3 +17,17 @@ function firstln($file) {
     fclose($f);
     return trim($line);
 }
+
+// make current items bolded in a listing
+function breadcrumb(array $listing, string $current = ""): array
+{
+    foreach ($listing as &$l) {
+        $_l = str_replace('.txt', '', basename($l));
+        if ($l == $current) {
+            $l = "<b>$_l</b>";
+        } else {
+            $l = $_l;
+        }
+    }
+    return array_reverse($listing);
+}
