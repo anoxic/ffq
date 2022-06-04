@@ -22,11 +22,12 @@ function firstln($file) {
 function breadcrumb(array $listing, string $current = ""): array
 {
     foreach ($listing as &$l) {
-        $_l = str_replace('.txt', '', basename($l));
+        $display = str_replace('.txt', '', basename($l));
+        $href = str_replace(['wiki/', '.txt'], ['/', ''], $l);
         if ($l == $current) {
-            $l = "<b>$_l</b>";
+            $l = "<a href=\"$href\"><b>$display</b></a>";
         } else {
-            $l = $_l;
+            $l = "<a href=\"$href\">$display</a>";
         }
     }
     return array_reverse($listing);
