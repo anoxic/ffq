@@ -2,22 +2,63 @@
 
 $found = 0;
 $path = filename($uri);
+$listing = [];
 
 if (file_exists($i = filename($uri, "aka/") . ".txt")) {
     $found++;
-    $path = "wiki/" . firstln($i);
+    $path = filename(firstln($i));
 }
 
 if (file_exists($i = "$path.txt")) {
     $found++;
-    echo nl2br(file_get_contents($i));
+    $file = $i;
 }
 
 if (is_dir($path)) {
     $found++;
-    if (file_exists($i = "$path/index.txt")) {
-        echo nl2br(file_get_contents($i));
+
+    $children = glob("$path/*");
+    foreach ($children as $k => $c) {
+        if (basename($c) == 'index.txt') {
+            unset($children[$k]);
+        }
     }
+    
+    if (file_exists($i = "$path/index.txt")) {
+        $file = $i;
+    }
+}
+
+
+$p  = dirname($path);
+$gp = dirname($p);
+
+if ($gp != '.') {
+    $listing[] = breadcrumb(glob("$gp/*"), $p);
+}
+
+if ($p != '.') {
+    $listing[] = breadcrumb(glob("$p/*"), $path);
+}
+
+if (count($children ?? [])) {
+    $listing[] = breadcrumb($children);
+}
+
+if (isset($listing)) {
+    echo "<nav>";
+    foreach ($listing as $col) {
+        echo "<ol class=\"bread\">";
+        foreach ($col as $item) {
+            echo "<li>$item</li>";
+        }
+        echo "</ol>";
+    }
+    echo "</nav>";
+}
+
+if (isset($file)) {
+    echo nl2br(file_get_contents($file));
 }
 
 if (!$found) {
