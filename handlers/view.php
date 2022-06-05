@@ -62,7 +62,9 @@ if (isset($listing)) {
 }
 
 if (isset($file)) {
-    echo nl2br(file_get_contents($file));
+    [$meta, $htm] = render($file);
+    echo "<h1>$meta[title]</h1>";
+    echo $htm;
 }
 
 if (!$found) {

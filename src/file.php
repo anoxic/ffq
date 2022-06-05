@@ -44,3 +44,77 @@ function globl(string $pattern)
     }
     return $files;
 }
+
+// parse / render gemtext-ish files
+function render(string $path)
+{
+    $h    = fopen($path, 'r');
+    $meta = [];
+    $htm  = '';
+    $mode = 'meta'; // values = meta | text | pre
+    $pre  = false;  // whether we've written "<pre>" or not
+
+    $link = function($l) {
+        $href = strtok($l, " \t");
+        $text = trim(substr($l, strlen($href) + 1));
+        return "<li><a href=\"$href\">$text</a>";
+    };
+
+    while ($l = fgets($h)) {
+        if ($mode == 'meta') {
+            $l = trim($l);
+            $key = strtok($l, " \t");
+
+            if ($key) {
+                $meta[$key] = trim(substr($l, strlen($key) + 1));
+            } else {
+                $mode = 'text';
+                continue;
+            }
+        }
+
+        if ($mode == 'text') {
+            $l = trim($l);
+            $sigil = strtok($l, " \t");
+            $ln = trim(substr($l, strlen($sigil)));
+
+            if ($sigil == '```') {
+                $mode = 'pre';
+                continue;
+            }
+
+            $htm .= match($sigil) {
+                '=>'    => $link($ln),
+                '#'     => "<h1>$ln</h1>",
+                '##'    => "<h2>$ln</h2>",
+                '###'   => "<h3>$ln</h3>",
+                '>'     => "<blockquote>$ln</blockquote>",
+                '*'     => "<li>$ln</li>",
+                '['     => "<li><input type=checkbox> " . substr($ln, strpos($ln, ']') + 1),
+                '[x]'   => "<li><input type=checkbox checked> $ln",
+                default => "<p>$l</p>",
+            };
+
+            $htm .= "\n";
+        }
+
+        if ($mode == 'pre') {
+            $sigil = strtok(trim($l), " \t");
+
+            if (!$pre) {
+                $htm .= "<pre>";
+                $pre = true;
+            }
+
+            if ($sigil == '```') {
+                $mode = 'text';
+                $htm .= "</pre>";
+                $pre = false;
+                continue;
+            }
+
+            $htm .= htmlentities($l);
+        }
+    }
+    return [$meta, $htm];
+}
