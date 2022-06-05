@@ -26,12 +26,7 @@ if (file_exists($i = "$path.txt")) {
 if (is_dir($path)) {
     $found++;
 
-    $children = glob("$path/*");
-    foreach ($children as $k => $c) {
-        if (basename($c) == 'index.txt') {
-            unset($children[$k]);
-        }
-    }
+    $children = globl("$path/*");
     
     if (file_exists($i = "$path/index.txt")) {
         $file = $i;
@@ -43,11 +38,11 @@ $p  = dirname($path);
 $gp = dirname($p);
 
 if ($gp != '.') {
-    $listing[] = breadcrumb(glob("$gp/*"), $p);
+    $listing[] = breadcrumb(globl("$gp/*"), $p);
 }
 
 if ($p != '.') {
-    $listing[] = breadcrumb(glob("$p/*"), $path);
+    $listing[] = breadcrumb(globl("$p/*"), $path);
 }
 
 if (count($children ?? [])) {

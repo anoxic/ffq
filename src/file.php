@@ -32,3 +32,15 @@ function breadcrumb(array $listing, string $current = ""): array
     }
     return array_reverse($listing);
 }
+
+// remove "index.txt" from listing
+function globl(string $pattern)
+{
+    $files = glob($pattern);
+    foreach ($files as $k => $c) {
+        if (basename($c) == 'index.txt') {
+            unset($files[$k]);
+        }
+    }
+    return $files;
+}
