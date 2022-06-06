@@ -24,7 +24,7 @@ function breadcrumb(array $listing, string $current = ""): array
     foreach ($listing as &$l) {
         $display = str_replace('.txt', '', basename($l));
         $href = str_replace(['wiki/', '//', '.txt'], ['/', '', ''], $l);
-        if ($l == $current) {
+        if (str_replace('.txt', '', $l) == $current) {
             $l = "<a href=\"$href\"><b>$display</b></a>";
         } else {
             $l = "<a href=\"$href\">$display</a>";
