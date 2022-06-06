@@ -63,7 +63,9 @@ if (isset($listing)) {
 
 if (isset($file)) {
     [$meta, $htm] = render($file);
-    echo "<h1>$meta[title]</h1>";
+    if (isset($meta['title'])) {
+        echo "<h1>$meta[title]</h1>";
+    }
     echo $htm;
 }
 
