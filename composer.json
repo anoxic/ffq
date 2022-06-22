@@ -6,7 +6,8 @@
         },
         "files": [
             "src/routes.php",
-            "src/file.php"
+            "src/file.php",
+            "src/login.php"
         ]
     },
     "require": {}
