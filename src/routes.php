@@ -1,7 +1,7 @@
 <?php
 const WK = '.well-known/';
 
-function route(string $method, string $uri)
+function route(string $method, string $uri, ?array $post)
 {
     $handler = match (true) {
         prefix($uri, ':') => 'edit',

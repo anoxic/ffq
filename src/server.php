@@ -21,6 +21,7 @@ function serve_handle(
     [$status, $body] = route(
         $request->server['request_method'],
         $request->server['request_uri'],
+        $request->post,
     );
     $response->status($status);
     $response->header("Content-Type", "text/html");
