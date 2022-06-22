@@ -18,11 +18,15 @@ function serve_handle(
          $request->server['request_method'] . " " .
          $request->server['request_uri'] . "\n";
 
-    [$status, $body] = route(
+    [$status, $body, $headers] = route(
         $request->server['request_method'],
         $request->server['request_uri'],
         $request->post,
     );
+
+    foreach ($headers as $h => $v) {
+        $response->header($h, $v);
+    }
 
     if ($status == 302) {
         $response->status($status);
