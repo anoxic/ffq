@@ -15,10 +15,12 @@ function route(string $method, string $uri, ?array $post)
         default           => 'view',
     };
 
-    if (file_exists($v = "handlers/$handler.php")) {
-        ob_start();
-        require $v;
-        $body = ob_get_clean();
+    if (file_exists($view = "handlers/$handler.php")) {
+        if (ob_start()) {
+            require $view;
+            $body = ob_get_clean();
+        }
+
         if (!empty($redirect)) {
             return [302, $redirect, $headers];
         } else {
