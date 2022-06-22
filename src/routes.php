@@ -8,6 +8,7 @@ function route(string $method, string $uri, ?array $post)
         prefix($uri, '!') => 'delete',
         prefix($uri, '=') => 'login',
         prefix($uri, '-') => 'logout',
+        prefix($uri, '*') => 'all',
         prefix($uri,  WK) => 'letsencrypt',
         default           => 'view',
     };
