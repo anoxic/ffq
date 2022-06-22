@@ -1,6 +1,21 @@
 <?php
-$u = '';
-$p = '';
+$u = $uf = $pf = $error = '';
+
+if ($method == 'POST') {
+    if (login($post['u'], $post['p'])) {
+        $redirect = "/" . substr($uri, 2);
+        return;
+    }
+    $error = "Try again!";
+}
+
+// refill 'u' and autofocus elem
+$u = isset($post['u']) ? htmlspecialchars($post['u'], ENT_QUOTES) : '';
+if ($u) {
+    $pf = 'autofocus';
+} else {
+    $uf = 'autofocus';
+}
 ?>
 <!doctype html>
 <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,shrink-to-fit=n,viewport-fit=cover">
@@ -9,10 +24,12 @@ $p = '';
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#872e4e">
 
+<?=$error?>
+
 <form method=post>
     <div class=login>
-        <input name=u value="<?=$u?>" autofocus autocomplete=username placeholder=Username tabindex=1>
-        <input name=p value="<?=$p?>" type=password autocomplete=current-password placeholder=Password tabindex=2>
+        <input name=u <?=$uf?> value="<?=$u?>" autocomplete=username placeholder=Username tabindex=1>
+        <input name=p <?=$pf?> type=password autocomplete=current-password placeholder=Password tabindex=2>
     </div>
     <input type=submit>
 </form>
