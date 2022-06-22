@@ -14,6 +14,10 @@ function serve_handle(
     Swoole\Http\Response $response,
 )
 {
+    echo "[" . date('c', $request->server['request_time']) . "] " .
+         $request->server['request_method'] . " " .
+         $request->server['request_uri'] . "\n";
+
     [$status, $body] = route(
         $request->server['request_method'],
         $request->server['request_uri'],
