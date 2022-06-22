@@ -23,6 +23,13 @@ function serve_handle(
         $request->server['request_uri'],
         $request->post,
     );
+
+    if ($status == 302) {
+        $response->status($status);
+        $response->header("Location", $body);
+        $response->end();
+        return;
+    }
     $response->status($status);
     $response->header("Content-Type", "text/html");
     $response->end($body);
