@@ -11,10 +11,14 @@ function filename(string $n, $prefix = "wiki/"): string
     return $n;
 }
 
-function firstln($file) {
+function firstln(string $file, string $prefix = "title "): string
+{
     $f = fopen($file, 'r');
     $line = fgets($f);
     fclose($f);
+    if (substr($line, 0, strlen($prefix)) == $prefix) {
+        $line = substr($line, strlen($prefix));
+    }
     return trim($line);
 }
 
