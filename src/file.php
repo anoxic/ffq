@@ -11,6 +11,7 @@ function filename(string $n, $prefix = "wiki/"): string
     return $n;
 }
 
+// gets first line of file, optionally removeing a prefix
 function firstln(string $file, string $prefix = "title "): string
 {
     $f = fopen($file, 'r');
