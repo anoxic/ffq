@@ -37,6 +37,6 @@ function serve_handle(
 
 function serve_begin(Swoole\Http\Server $server)
 {
-    echo sprintf("listing on %s:%s\n", IP, PORT);
+    echo sprintf("listening on %s:%s\n", IP, PORT);
 }
 

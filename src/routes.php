@@ -3,6 +3,8 @@ const WK = '.well-known/';
 
 function route(string $method, string $uri, ?array $post)
 {
+    $headers = [];
+
     $handler = match (true) {
         prefix($uri, ':') => 'edit',
         prefix($uri, '!') => 'delete',
@@ -18,12 +20,12 @@ function route(string $method, string $uri, ?array $post)
         require $v;
         $body = ob_get_clean();
         if (!empty($redirect)) {
-            return [302, $redirect];
+            return [302, $redirect, $headers];
         } else {
-            return [$code ?? 200, $body];
+            return [$code ?? 200, $body, $headers];
         }
     }
-    return [404, "<h1 title=\"$v\">404</h1>"];
+    return [404, "<h1 title=\"$v\">404</h1>", $headers];
 }
 
 function prefix(string $uri, string $sigil)
