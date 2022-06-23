@@ -9,6 +9,7 @@ if ($method == 'POST') {
         return;
     }
     $error = "Try again!";
+    $code = 401;
 }
 
 // refill 'u' and autofocus elem
