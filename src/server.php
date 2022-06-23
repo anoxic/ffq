@@ -12,9 +12,11 @@ $server->start();
 
 function serve_handle(Request $request, Response $response)
 {
-    echo "[" . date('c', $request->server['request_time']) . "] " .
+    $post = $request->post ? ' post=' . implode(',', array_keys($request->post)) : '';
+    $cookie = $request->cookie ? ' cookie=' . implode(',', array_keys($request->cookie)) : '';
+    echo "I " . date('c', $request->server['request_time']) . " " .
          $request->server['request_method'] . " " .
-         $request->server['request_uri'] . "\n";
+         $request->server['request_uri'] . "$post$cookie\n";
 
     [$status, $body, $headers] = route(
         $request->server['request_method'],
