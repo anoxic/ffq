@@ -51,7 +51,7 @@ function globl(string $pattern)
 }
 
 // parse / render gemtext-ish files
-function render(string $path)
+function render(string $path): array
 {
     $h    = fopen($path, 'r');
     $meta = [];
