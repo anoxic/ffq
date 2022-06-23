@@ -1,5 +1,6 @@
 <?php
 require "vendor/autoload.php";
+use Swoole\Http\{Request,Response};
 
 const IP   = "0.0.0.0";
 const PORT = "9001";
@@ -9,10 +10,7 @@ $server->on("start", "serve_begin");
 $server->on("request", "serve_handle");
 $server->start();
 
-function serve_handle(
-    Swoole\Http\Request  $request,
-    Swoole\Http\Response $response,
-)
+function serve_handle(Request $request, Response $response)
 {
     echo "[" . date('c', $request->server['request_time']) . "] " .
          $request->server['request_method'] . " " .
