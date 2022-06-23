@@ -90,9 +90,9 @@ function render(string $path): array
 
             $htm .= match($sigil) {
                 '=>'    => $link($ln),
-                '#'     => "<h1>$ln</h1>",
-                '##'    => "<h2>$ln</h2>",
-                '###'   => "<h3>$ln</h3>",
+                '#'     => "<h2>$ln</h2>",
+                '##'    => "<h3>$ln</h3>",
+                '###'   => "<h4>$ln</h4>",
                 '>'     => "<blockquote>$ln</blockquote>",
                 '*'     => "<li>$ln</li>",
                 '['     => "<li><input type=checkbox> " . substr($ln, strpos($ln, ']') + 1),
