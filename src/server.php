@@ -34,6 +34,7 @@ function serve_handle(
         $response->end();
         return;
     }
+
     $response->status($status);
     $response->header("Content-Type", "text/html");
     $response->end($body);
