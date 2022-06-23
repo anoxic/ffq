@@ -12,12 +12,6 @@ $server->start();
 
 function serve_handle(Request $request, Response $response)
 {
-    $post = $request->post ? ' post=' . implode(',', array_keys($request->post)) : '';
-    $cookie = $request->cookie ? ' cookie=' . implode(',', array_keys($request->cookie)) : '';
-    echo "I " . date('c', $request->server['request_time']) . " " .
-         $request->server['request_method'] . " " .
-         $request->server['request_uri'] . "$post$cookie\n";
-
     [$status, $body, $headers] = route(
         $request->server['request_method'],
         $request->server['request_uri'],
@@ -38,6 +32,13 @@ function serve_handle(Request $request, Response $response)
     $response->status($status);
     $response->header("Content-Type", "text/html");
     $response->end($body);
+
+    $post = $request->post ? ' post=' . implode(',', array_keys($request->post)) : '';
+    $cookie = $request->cookie ? ' cookie=' . implode(',', array_keys($request->cookie)) : '';
+    echo "I " . date('c', $request->server['request_time']) . " " .
+         $request->server['request_method'] . " " .
+         $request->server['request_uri'] . " $status$post$cookie\n";
+
 }
 
 function serve_begin(Swoole\Http\Server $server)
