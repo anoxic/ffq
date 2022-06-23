@@ -4,8 +4,8 @@ $u = $uf = $pf = $error = '';
 if ($method == 'POST') {
     if (login($post['u'], $post['p'])) {
         $redirect = "/" . substr($uri, 2);
-        $headers['Set-Cookie']  = 'wiki_user=' . filename($post['u'], '');
-        $headers['Set-Cookie '] = 'wiki_session=' . random_int(PHP_INT_MIN, PHP_INT_MAX);
+        $headers['Set-Cookie']  = 'wiki_user=' . filename($post['u'], '') . '; path=/';
+        $headers['Set-Cookie '] = 'wiki_session=' . random_int(PHP_INT_MIN, PHP_INT_MAX) . '; path=/';
         return;
     }
     $error = "Try again!";
