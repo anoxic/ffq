@@ -2,10 +2,10 @@
 require "vendor/autoload.php";
 use Swoole\Http\{Request,Response};
 
-const IP   = "0.0.0.0";
-const PORT = "9001";
+$ip   = $argv[1] ?? "0.0.0.0";
+$port = $argv[2] ?? "9001";
 
-$server = new Swoole\HTTP\Server(IP, PORT);
+$server = new Swoole\HTTP\Server($ip, $port);
 $server->on("start", "serve_begin");
 $server->on("request", "serve_handle");
 $server->start();
