@@ -43,6 +43,6 @@ function serve_handle(Request $request, Response $response)
 
 function serve_begin(Swoole\Http\Server $server)
 {
-    echo sprintf("listening on %s:%s\n", IP, PORT);
+    echo sprintf("listening on %s:%s\n", $server->host, $server->port);
 }
 
