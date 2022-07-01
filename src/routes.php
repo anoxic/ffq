@@ -1,7 +1,7 @@
 <?php
 const WK = '.well-known/';
 
-function route(string $method, string $uri, ?array $post)
+function route(string $method, string $uri, ?array $post, ?Closure $session)
 {
     $headers = [];
 
