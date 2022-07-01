@@ -36,9 +36,10 @@ function serve_handle(Request $request, Response $response)
 
     $post = $request->post ? ' post=' . implode(',', array_keys($request->post)) : '';
     $cookie = $request->cookie ? ' cookie=' . implode(',', array_keys($request->cookie)) : '';
+    $session = $s() ? ' sess.count=' . count($s()) : '';
     echo "I " . date('c', $request->server['request_time']) . " " .
          $request->server['request_method'] . " " .
-         $request->server['request_uri'] . " $status$post$cookie\n";
+         $request->server['request_uri'] . " $status$post$cookie$session\n";
 
 }
 
