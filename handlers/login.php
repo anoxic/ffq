@@ -24,6 +24,7 @@ if ($u) {
 }
 ?>
 <!doctype html>
+<meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,shrink-to-fit=n,viewport-fit=cover">
 <meta name=apple-mobile-web-app-capable content=yes>
 <meta name=mobile-web-app-capable content=yes>
