@@ -50,6 +50,11 @@ if (count($children ?? [])) {
     $listing[] = breadcrumb($children);
 }
 
+if (isset($file)) {
+    [$meta, $htm] = render($file);
+    echo "<title>$meta[title]</title>";
+}
+
 if (isset($listing)) {
     echo "<nav>";
     foreach ($listing as $col) {
@@ -63,7 +68,6 @@ if (isset($listing)) {
 }
 
 if (isset($file)) {
-    [$meta, $htm] = render($file);
     if (isset($meta['title'])) {
         echo "<h1>$meta[title]</h1>";
     }
