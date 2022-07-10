@@ -10,7 +10,8 @@ nav {
 </style>
 <?php
 
-[$found, $file, $path, $children] = tryfind($uri);
+$children = [];
+[$found, $file, $path] = tryfind($uri, $children);
 
 $list = [];
 $p    = dirname($path);

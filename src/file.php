@@ -24,12 +24,11 @@ function firstln(string $file, string $prefix = "title "): string
 }
 
 // attempt to find the wiki file
-function tryfind(string $uri)
+function tryfind(string $uri, &$children = null)
 {
-    $found    = 0;
-    $path     = filename($uri);
-    $file     = null;
-    $children = null;
+    $found = 0;
+    $path  = filename($uri);
+    $file  = null;
 
     if (file_exists($i = filename($uri, "aka/") . ".txt")) {
         $found++;
@@ -44,14 +43,16 @@ function tryfind(string $uri)
     if (is_dir($path)) {
         $found++;
 
-        $children = globl("$path/*");
+        if (is_array($children)) {
+            $children = globl("$path/*");
+        }
 
         if (file_exists($i = "$path/index.txt")) {
             $file = $i;
         }
     }
 
-    return [$found, $file, $path, $children];
+    return [$found, $file, $path];
 }
 
 // make current items bolded in a listing
