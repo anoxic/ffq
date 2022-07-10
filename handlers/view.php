@@ -13,9 +13,8 @@ nav {
 [$found, $file, $path, $children] = tryfind($uri);
 
 $list = [];
-
-$p  = dirname($path);
-$gp = dirname($p);
+$p    = dirname($path);
+$gp   = dirname($p);
 
 if ($gp != '.') {
     $list[] = breadcrumb(globl("$gp/*"), $p);
