@@ -12,21 +12,21 @@ nav {
 
 [$found, $file, $path, $children] = tryfind($uri);
 
-$listing = [];
+$list = [];
 
 $p  = dirname($path);
 $gp = dirname($p);
 
 if ($gp != '.') {
-    $listing[] = breadcrumb(globl("$gp/*"), $p);
+    $list[] = breadcrumb(globl("$gp/*"), $p);
 }
 
 if ($p != '.') {
-    $listing[] = breadcrumb(globl("$p/*"), $path);
+    $list[] = breadcrumb(globl("$p/*"), $path);
 }
 
 if (count($children ?? [])) {
-    $listing[] = breadcrumb($children);
+    $list[] = breadcrumb($children);
 }
 
 if (isset($file)) {
@@ -34,9 +34,9 @@ if (isset($file)) {
     echo "<title>$meta[title]</title>";
 }
 
-if (isset($listing)) {
+if (isset($list)) {
     echo "<nav>";
-    foreach ($listing as $col) {
+    foreach ($list as $col) {
         echo "<ol class=\"bread\">";
         foreach ($col as $item) {
             echo "<li>$item</li>";
