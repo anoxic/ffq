@@ -24,7 +24,7 @@ function firstln(string $file, string $prefix = "title "): string
 }
 
 // attempt to find the wiki file
-function tryfind(string $uri, &$children = null)
+function tryfind(string $uri, ?array &$children)
 {
     $found = 0;
     $path  = filename($uri);
