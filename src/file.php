@@ -23,6 +23,37 @@ function firstln(string $file, string $prefix = "title "): string
     return trim($line);
 }
 
+// attempt to find the wiki file
+function tryfind(string $uri)
+{
+    $found    = 0;
+    $path     = filename($uri);
+    $file     = null;
+    $children = null;
+
+    if (file_exists($i = filename($uri, "aka/") . ".txt")) {
+        $found++;
+        $path = filename(firstln($i));
+    }
+
+    if (file_exists($i = "$path.txt")) {
+        $found++;
+        $file = $i;
+    }
+
+    if (is_dir($path)) {
+        $found++;
+
+        $children = globl("$path/*");
+
+        if (file_exists($i = "$path/index.txt")) {
+            $file = $i;
+        }
+    }
+
+    return [$found, $file, $path, $children];
+}
+
 // make current items bolded in a listing
 function breadcrumb(array $listing, string $current = ""): array
 {

@@ -10,30 +10,9 @@ nav {
 </style>
 <?php
 
-$found = 0;
-$path = filename($uri);
+[$found, $file, $path, $children] = tryfind($uri);
+
 $listing = [];
-
-if (file_exists($i = filename($uri, "aka/") . ".txt")) {
-    $found++;
-    $path = filename(firstln($i));
-}
-
-if (file_exists($i = "$path.txt")) {
-    $found++;
-    $file = $i;
-}
-
-if (is_dir($path)) {
-    $found++;
-
-    $children = globl("$path/*");
-    
-    if (file_exists($i = "$path/index.txt")) {
-        $file = $i;
-    }
-}
-
 
 $p  = dirname($path);
 $gp = dirname($p);
