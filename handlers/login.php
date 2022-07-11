@@ -26,7 +26,7 @@ if ($u) {
 <!doctype html>
 <html lang=en>
 <head>
-    <?=require('src/meta.php')?>
+    <?php require('src/meta.php')?>
     <title>Login</title>
     <style>
     *             { text-align: center; margin: 0; padding: 0; outline: none; font: inherit; background: inherit }
