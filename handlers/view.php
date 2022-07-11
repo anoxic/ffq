@@ -25,7 +25,7 @@ if (isset($file)) {
 <!doctype html>
 <html lang=en>
 <head>
-    <?=require('src/meta.php')?>
+    <?php require('src/meta.php')?>
     <title><?=$meta['title'] ?? 'Not Found'?></title>
     <style>
     nav {
