@@ -1,15 +1,4 @@
-<meta charset=utf-8>
-<style>
-nav {
- width: 100%;
- float: left;
- border-bottom: 2px groove gray;
- margin-bottom: 1em;
-}
-.bread { list-style: none; float: left; padding: 0 1em 0 0; }
-</style>
 <?php
-
 $children = [];
 [$found, $file, $path] = tryfind($uri, $children);
 
@@ -31,29 +20,48 @@ if (count($children ?? [])) {
 
 if (isset($file)) {
     [$meta, $htm] = render($file);
-    echo "<title>$meta[title]</title>";
 }
-
-if (isset($list)) {
-    echo "<nav>";
-    foreach ($list as $col) {
-        echo "<ol class=\"bread\">";
-        foreach ($col as $item) {
-            echo "<li>$item</li>";
+?>
+<!doctype html>
+<html lang=en>
+<head>
+    <?=require('src/meta.php')?>
+    <title><?=$meta['title'] ?? 'Not Found'?></title>
+    <style>
+    nav {
+     width: 100%;
+     float: left;
+     border-bottom: 2px groove gray;
+     margin-bottom: 1em;
+    }
+    .bread { list-style: none; float: left; padding: 0 1em 0 0; }
+    </style>
+</head>
+<body>
+    <?php
+    if (isset($list)) {
+        echo "<nav>";
+        foreach ($list as $col) {
+            echo "<ol class=\"bread\">";
+            foreach ($col as $item) {
+                echo "<li>$item</li>";
+            }
+            echo "</ol>";
         }
-        echo "</ol>";
+        echo "</nav>";
     }
-    echo "</nav>";
-}
 
-if (isset($file)) {
-    if (isset($meta['title'])) {
-        echo "<h1>$meta[title]</h1>";
+    if (isset($file)) {
+        if (isset($meta['title'])) {
+            echo "<h1>$meta[title]</h1>";
+        }
+        echo $htm;
     }
-    echo $htm;
-}
 
-if (!$found) {
-    $code = 404;
-    echo "<h1 title=$path>404</h1>";
-}
+    if (!$found) {
+        $code = 404;
+        echo "<h1 title=$path>404</h1>";
+    }
+    ?>
+</body>
+</html>
