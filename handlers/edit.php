@@ -1,7 +1,6 @@
 <?php
 
-if ($session('wiki_user')) {
-} else {
+if (!$session('wiki_user')) {
     echo "access denied (not logged in)";
     $code = 401;
     return;
